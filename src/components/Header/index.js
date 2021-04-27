@@ -15,17 +15,17 @@ import {
   MobileIcon,
   NavbarMobile,
 } from "./NavbarElements";
-import { Menu, Dropdown, Space, Button } from "antd";
+
+import { Button } from "../../styles/button";
 import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import logo from "../../images/logo-coral.svg";
 
-// import { Button } from "@material-ui/core";
 const Header = () => {
   return (
     <>
       <Nav>
         <NavbarMobile>
-          {/* <MobileIcon></MobileIcon>
+          <MobileIcon></MobileIcon>
           <LinkNav to="/">
             <ImgLogo src={logo} alt="ude-logo" />
           </LinkNav>
@@ -36,7 +36,7 @@ const Header = () => {
             <StyledButton>
               <ShoppingCartOutlined style={{ fontSize: "2rem" }} />
             </StyledButton>
-          </Link> */}
+          </Link>
         </NavbarMobile>
         <NavbarContainer>
           <LinkNav to="/">
@@ -70,12 +70,16 @@ const Header = () => {
               </StyledButton>
             </Link>
           </PopupHover>
-          <ButtonAuth>
-            <LinkAuth className="log-in">Log in</LinkAuth>
-          </ButtonAuth>
-          <ButtonAuth>
-            <LinkAuth className="sign-up">Sign up</LinkAuth>
-          </ButtonAuth>
+          <Button primary bd color>
+            {" "}
+            Log in
+            {/* <LinkAuth className="log-in">Log in</LinkAuth> */}
+          </Button>
+          <Button color>
+            {" "}
+            Sign up
+            {/* <LinkAuth className="sign-up">Sign up</LinkAuth> */}
+          </Button>
         </NavbarContainer>
       </Nav>
     </>
