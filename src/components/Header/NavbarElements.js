@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link as LinkRouter } from "react-router-dom";
-// import {Link as LinkScroll} from 'react-scroll'
-import { Button, Input, Form } from "antd";
+
 export const Nav = styled.nav`
   display: flex;
   font-size: 1.4rem;
@@ -18,7 +17,6 @@ export const Nav = styled.nav`
 `;
 
 export const MobileIcon = styled.div`
-  display: none;
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
@@ -31,8 +29,11 @@ export const MobileIcon = styled.div`
 `;
 
 export const NavbarMobile = styled.div`
+  display: none;
   @media screen and (max-width: 768px) {
-    display: block;
+    display: flex;
+    justify-content:center;
+    align-items:center;
   }
 `;
 
@@ -60,7 +61,7 @@ export const ImgLogo = styled.img`
   width: 110px;
 `;
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled.button`
   background-color: #fff;
   color: #73726c;
   border: none;
@@ -82,7 +83,7 @@ export const StyledButton = styled(Button)`
   }
 `;
 
-export const SearchBar = styled(Form)`
+export const SearchBar = styled.form`
   max-width: none;
   display: flex;
   flex-grow: 1;
@@ -93,7 +94,7 @@ export const SearchBar = styled(Form)`
   margin: 0 1.2rem;
 `;
 
-export const StyledInput = styled(Input)`
+export const StyledInput = styled.input`
   display: block;
   width: 100%;
   background-color: transparent;
