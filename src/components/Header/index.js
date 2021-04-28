@@ -70,13 +70,13 @@ const Header = () => {
               </StyledButton>
             </Link>
           </PopupHover>
-          <Button primary bd color>
-            {" "}
+          <Button primary bd colorHover>
+            
             Log in
             {/* <LinkAuth className="log-in">Log in</LinkAuth> */}
           </Button>
           <Button color>
-            {" "}
+            
             Sign up
             {/* <LinkAuth className="sign-up">Sign up</LinkAuth> */}
           </Button>
