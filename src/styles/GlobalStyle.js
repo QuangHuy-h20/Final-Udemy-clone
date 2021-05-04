@@ -300,7 +300,6 @@ button,
 textarea,
 select {
     outline: none;
-    font-family: "Poppins", sans-serif;
     font-size: 14px;
     line-height: 1;
 }
