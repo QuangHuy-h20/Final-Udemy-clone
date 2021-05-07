@@ -21,12 +21,12 @@ import {
 const schema = yup.object().shape({
   taiKhoan: yup
     .string()
-    .required("Username is not empty")
+    .required("Username is required")
     .min(5, "Username must have 5 to 20 characters")
     .max(20, "Username must have 5 to 20 characters"),
   matKhau: yup
     .string()
-    .required("Password is not empty")
+    .required("Password is required")
     .min(5, "Password must have 5 to 20 characters")
     .max(20, "Password must have 5 to 20 characters"),
 });
@@ -87,7 +87,7 @@ export default function Login() {
               control={control}
               defaultValue=""
               rules={{
-                required: { value: true, message: "Password is not empty" },
+                required: { value: true, message: "Password is required" },
                 minLength: {
                   value: 5,
                   message: "Password must have 5 to 20 characters",

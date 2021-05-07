@@ -4,7 +4,7 @@ const authAPI = {
   login: (values) => {
     return axiosClient.post("/QuanLyNguoiDung/DangNhap", values);
   },
-  register: (values) => {
+  registerAccount: (values) => {
     return axiosClient.post("/QuanLyNguoiDung/DangKy", values);
   },
   

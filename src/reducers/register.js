@@ -4,36 +4,43 @@ import {
   REGISTER_FAILURE,
 } from "../constants/auth";
 
-const userRegis = {
+const userRegister = {
   taiKhoan: "",
   matKhau: "",
   hoTen: "",
-  email: "h@123",
   soDT: "0123456789",
   maNhom: "GP01",
+  email: "h@123",
 };
 
-// localStorage.getItem("userRegis")
-//   ? JSON.parse(localStorage.getItem("userRegis"))
-//   : null;
-
 const initialState = {
-  userRegis,
+  userRegister,
   isLoading: false,
   error: null,
+  registered: false,
 };
 
 function registerReducer(state = initialState, action) {
   switch (action.type) {
     case REGISTER_REQUEST:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: null, registered: null };
     case REGISTER_SUCCESS:
-      return { ...state, isLoading: false, userRegis: action.payload.data };
+      return {
+        ...state,
+        isLoading: false,
+        userRegis: action.payload.data,
+        registered: true,
+      };
     case REGISTER_FAILURE:
-      return { ...state, isLoading: true, error: action.payload.error };
+      return {
+        ...state,
+        isLoading: true,
+        error: action.payload.error,
+        registered: false,
+      };
 
     default:
-      return { ...state };
+      return state;
   }
 }
 

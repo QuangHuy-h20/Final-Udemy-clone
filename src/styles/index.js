@@ -65,7 +65,6 @@ export const ButtonCart = styled.button`
   align-items: center;
   border-radius: 4px;
   border: none;
-  cursor: pointer;
   display: flex;
   min-width: 10rem;
   padding: 0 1.2rem;
@@ -90,12 +89,12 @@ export const SmallButton = styled(Link)`
   align-self: center;
   padding: 0 1.2rem;
   margin: 1.2rem 0;
-  cursor: pointer;
   user-select: none;
   vertical-align: bottom;
   white-space: nowrap;
   min-width: auto;
   height: 4.8rem;
+
   &:hover {
     color: #0f7c90;
   }
@@ -122,7 +121,10 @@ export const Card = styled.div`
     padding: 1.4rem;
     width: 100%;
     h3 {
-      padding: 1rem 0;
+      display: -webkit-box;
+      margin-bottom: 0.8rem;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
       font-size: 1.6rem;
       font-weight: 700;
       overflow: hidden;
@@ -219,5 +221,28 @@ export const StyledFooterLogin = styled.div`
   a {
     margin-left: 0.5rem;
     font-weight: 700;
+  }
+`;
+
+export const StyledMain = styled.main`
+  max-width: 134rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2.4rem;
+`;
+
+export const CoursesSection = styled.section`
+  width: 100%;
+  margin: 4.2rem 0;
+  .inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.6rem;
+    @media screen and (max-width: 980px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media screen and (max-width: 700px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 `;

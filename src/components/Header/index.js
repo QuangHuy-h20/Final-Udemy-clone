@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -11,10 +11,11 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
   MenuOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
-
+import { getCategory } from "../../actions/category";
 import logo from "../../images/logo-coral.svg";
 import { Link } from "react-router-dom";
 
@@ -80,9 +81,14 @@ const Navbar = styled.nav`
   .trigger {
     position: relative;
     display: flex;
-    &.trigger {
-      @media screen and (max-width: 1100px) {
-        display: none;
+    transition: all 2s;
+
+    @media screen and (max-width: 1100px) {
+      display: none;
+    }
+    &:hover {
+      .dropdown {
+        display: block;
       }
     }
   }
@@ -103,13 +109,54 @@ const SearchForm = styled.div`
   margin: 0 1.2rem;
 `;
 
+const DropdownList = styled.div`
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 10%;
+  opacity: 1;
+  animation: .5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  .wrapper {
+    min-height: 40rem;
+    width: 26rem;
+    margin-top: 0.4rem;
+    position: relative;
+    background: #fff;
+    border: 1px solid #dcdacb;
+    border-radius: 0.4rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 8%), 0 4px 12px rgba(0, 0, 0, 8%);
+    color: #3c3b37;
+    z-index: 1;
+
+    li {
+      padding: 1rem 0;
+      height: auto;
+      a {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.4rem;
+        padding: 0.8rem 1.6rem;
+      }
+    }
+  }
+`;
+
 const Header = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
+  const { category, isLoading, error } = useSelector((state) => state.category);
+
+  useEffect(() => {
+    dispatch(getCategory());
+  }, []);
+
+  console.log(category);
+
   const handleLogout = (data) => {
     localStorage.clear();
     dispatch(logout(data));
   };
+
   return (
     <>
       <HeaderSection>
@@ -136,6 +183,20 @@ const Header = () => {
             <SmallButton>
               <span>Categories</span>
             </SmallButton>
+            <DropdownList className="dropdown">
+              <div className="wrapper">
+                <ul>
+                  {category.map((item) => (
+                    <li key={item.maDanhMuc}>
+                      <Link to={`/courses/${item.maDanhMuc}`}>
+                        {item.tenDanhMuc}
+                        <RightOutlined />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </DropdownList>
           </div>
           <SearchForm>
             <StyledForm>
@@ -160,7 +221,7 @@ const Header = () => {
           </SmallButton>
           {userInfo ? (
             <>
-              <Link to="/user">Hi, {userInfo.hoTen}</Link>
+              <Link to="/user/profile">Hi, {userInfo.hoTen}</Link>
               <Button primary bd colorHover to="/" onClick={handleLogout}>
                 Logout
               </Button>

@@ -32,13 +32,12 @@ export function logout() {
   };
 }
 
-export function register(values) {
+export function registerAccount(values) {
   return async (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
     try {
-      const { data } = await authAPI.register(values);
-      localStorage.setItem("userRegis", JSON.stringify(data));
-
+      const { data } = await authAPI.registerAccount(values);
+      // localStorage.setItem("userRegis", JSON.stringify(data));
       dispatch({ type: REGISTER_SUCCESS, payload: { data } });
     } catch (error) {
       dispatch({

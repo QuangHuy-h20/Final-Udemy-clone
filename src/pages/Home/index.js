@@ -2,15 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import Courses from "../Home/Courses";
-import { SmallButton, StyledForm } from "../../styles/";
+import { SmallButton, StyledForm, StyledMain } from "../../styles/";
 import img from "../../images/8a5d045c-2dd2-4a4d-bb0e-a487af8a5aa0.jpg";
 
-const StyledMain = styled.main`
-  max-width: 134rem;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 2.4rem;
-`;
+
 const Billboard = styled.section`
   margin: 0 auto 6.4rem;
   position: relative;
@@ -81,11 +76,23 @@ const Box = styled.div`
   }
 `;
 
+const Headline = styled.div`
+  margin-bottom: 2rem;
+  h1{
+    font-size:2.4rem;
+    font-weight:700;
+  }
+  p{
+    font-size:1.6rem;
+    margin-top: .8rem;
+  }
+`
+
 export default function Home() {
   return (
     <StyledMain>
       <Billboard>
-        <img src={img} alt="" />
+        <img src={img} alt="img-billboard" />
         <Box>
           <h1>Dream up</h1>
           <p>
@@ -102,6 +109,10 @@ export default function Home() {
           </div>
         </Box>
       </Billboard>
+      <Headline>
+        <h1>The world's largest selection of courses</h1>
+        <p>Choose from 130,000 online video courses with new additions published every month</p>
+      </Headline>
       <Courses />
     </StyledMain>
   );

@@ -5,6 +5,12 @@ const coursesAPI = {
     return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc");
   },
 
+  getCategory: (category) => {
+    const params = {
+      maDanhMuc: category,
+    };
+    return axiosClient.get("/QuanLyKhoaHoc/LayDanhMucKhoaHoc", { params });
+  },
   getCoursesByCategory: (category) => {
     const params = {
       maDanhMuc: category,

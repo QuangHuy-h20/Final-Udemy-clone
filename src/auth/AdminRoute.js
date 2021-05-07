@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const AdminRoute = ({ children, ...props }) => {
+export default function AdminRoute({ children, ...props }) {
   const { userInfo } = useSelector((state) => state.auth);
 
   //Not login
@@ -15,6 +15,4 @@ const AdminRoute = ({ children, ...props }) => {
     return <Redirect to="/" />;
   }
   return <Route {...props}>{children}</Route>;
-};
-
-export default AdminRoute;
+}

@@ -1,25 +1,39 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { lazy, Suspense } from "react";
+
+//Layouts
 import AdminLayout from "./layouts/Admin";
-import AdminRoute from "./auth/AdminRoute";
 import AppLayout from "./layouts/App";
 
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Courses from "./pages/CoursesByCategory";
+//Custom Route
+import AdminRoute from "./auth/AdminRoute";
+
+//Pages w LazyLoad
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Courses = lazy(() => import("./pages/CoursesByCategory"));
+const Course = lazy(() => import("./pages/Course"));
+const UserProfile = lazy(() => import("./pages/UserProfile"));
+const AdminCourses = lazy(() => import("./pages/AdminCourses"));
+const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 
 function App() {
   return (
     <>
-      <Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter>
           <Switch>
             <Route path="/admin">
               <AdminLayout>
                 <Switch>
-                  <Redirect exact from="/admin/courses" />
-                  <AdminRoute path="/admin/courses"></AdminRoute>
+                  <Redirect exact from="/admin" to="/admin/courses"/>
+                  <AdminRoute path="/admin/courses">
+                    <AdminCourses/>
+                  </AdminRoute>
+                  <AdminRoute path="/admin/users">
+                    <AdminUsers/>
+                  </AdminRoute>
                 </Switch>
               </AdminLayout>
             </Route>
@@ -32,8 +46,8 @@ function App() {
                   <Route path="/courses/:category">
                     <Courses />
                   </Route>
-                  <Route path="/courses/:courseId">
-                    <Courses />
+                  <Route path="/course/:courseId">
+                    <Course />
                   </Route>
                   <Route path="/login">
                     <Login />
@@ -41,7 +55,9 @@ function App() {
                   <Route path="/signup">
                     <Register />
                   </Route>
-                  <Route path="/user">{/* <User /> */}</Route>
+                  <Route path="/user/profile">
+                    <UserProfile />
+                  </Route>
                 </Switch>
               </AppLayout>
             </Route>
