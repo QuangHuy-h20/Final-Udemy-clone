@@ -159,6 +159,9 @@ export const AuthForm = styled.form`
       border: none;
     }
   }
+  .select{
+    padding: 0;
+  }
 `;
 
 export const ActionForm = styled.div`

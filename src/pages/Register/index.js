@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
 import qs from "qs";
-import { registerAccount } from "../../actions/auth";
+import { signUp } from "../../actions/auth";
 
 import { MailFilled, LockFilled, UserOutlined } from "@ant-design/icons";
 import {
@@ -28,7 +28,13 @@ const schema = yup.object().shape({
     .required("Password is required")
     .min(5, "Password must have 5 to 20 characters")
     .max(20, "Password must have 5 to 20 characters"),
-  hoTen: yup.string().required("Full name is required"),
+  // hoTen: yup.string().required("Full name is required"),
+  // soDt: yup
+  //   .number()
+  //   .required("Number is required")
+  //   .min(9, "Phone number must have 9 or 11 characters")
+  //   .max(11, "Phone number must have 9 or 11 characters"),
+  // email: yup.string().required("Email is required"),
 });
 
 export default function Register() {
@@ -48,10 +54,10 @@ export default function Register() {
 
   const handleRegister = (data) => {
     console.log(data);
-    dispatch(registerAccount(data));
+    dispatch(signUp(data));
   };
 
-  // if (userRegister.registered) {
+  // if (!userRegister) {
   //   const { redirectTo } = qs.parse(location.search, {
   //     ignoreQueryPrefix: true,
   //   });
@@ -114,9 +120,20 @@ export default function Register() {
           {errors.hoTen && (
             <Alert style={{ color: "#ec5252" }}>{errors.hoTen.message}</Alert>
           )}
+          <div className="form-field-container">
+            <input type="text" placeholder="Phone number" {...register("soDT")} />
+          </div>
+        
+          <div className="form-field-container">
+            <input type="text" placeholder="Group ID" {...register("maNhom")} />
+          </div>
+          <div className="form-field-container">
+            <input type="text" placeholder="Email" {...register("email")} />
+          </div>
+    
           <ActionForm>
             <div className="btn-submit">
-              <button type="submit" handleRegister>
+              <button type="submit" handleRegister userRegister>
                 Sign Up
               </button>
             </div>

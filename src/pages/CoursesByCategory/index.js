@@ -21,7 +21,6 @@ export default function Courses() {
     <StyledMain>
       <CoursesSection>
         <div className="content">
-          {/* <h1>{danhMucKhoaHoc.tenDanhMucKhoaHoc}</h1> */}
           <div className="inner">
             {courses.map((item) => (
               <Card key={item.maKhoaHoc}>
