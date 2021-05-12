@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 const courseDetailAPI = {
-  getCourseDetail: (values) => {
+  getCourseDetail: (courseId) => {
     const params = {
-      maKhoaHoc: values,
+      maKhoaHoc: courseId,
     };
     return axiosClient.get("/QuanLyKhoaHoc/LayThongTinKhoaHoc", { params });
   },

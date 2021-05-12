@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 //============FORM===============
+
 export const StyledForm = styled.form`
   display: flex;
   align-items: center;
@@ -60,7 +61,7 @@ export const Button = styled(Link)`
   }
 `;
 
-export const ButtonCart = styled.button`
+export const ButtonRed = styled.button`
   position: relative;
   align-items: center;
   border-radius: 4px;
@@ -213,7 +214,7 @@ export const Alert = styled.div`
   margin: 0.8rem 0 0.8rem 0;
   padding: 1.6rem;
   background: #faebeb;
-  color: #521822;
+  color: #ec5252;
   border: 1px solid transparent;
   text-align: left;
 `;

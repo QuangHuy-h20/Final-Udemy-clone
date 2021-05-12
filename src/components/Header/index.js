@@ -200,7 +200,7 @@ const Header = () => {
           </div>
           <SearchForm>
             <StyledForm>
-              <SmallButton to="/">
+              <SmallButton to={`/search/${0}`}>
                 <SearchOutlined />
               </SmallButton>
               <input placeholder="Search for anything" />

@@ -4,6 +4,7 @@ import category from "./category";
 import auth from "./auth";
 import register from "./register";
 import courseDetail from "./courseDetail";
+import user from "./user";
 const rootReducer = combineReducers({
   //Declare child reducers
   courseDetail,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   category,
   auth,
   register,
+  user,
 });
 
 export default rootReducer;

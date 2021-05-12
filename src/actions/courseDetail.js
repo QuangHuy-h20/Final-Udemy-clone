@@ -6,11 +6,11 @@ import {
 
 import courseDetailAPI from "../services/courseDetailAPI";
 
-export function getCourseDetail(values) {
+export function getCourseDetail(courseId) {
   return async (dispatch) => {
     dispatch({ type: GET_COURSE_DETAIL_REQUEST });
     try {
-      const { data } = await courseDetailAPI.getCourseDetail(values);
+      const { data } = await courseDetailAPI.getCourseDetail(courseId);
       dispatch({ type: GET_COURSE_DETAIL_SUCCESS, payload: { data } });
     } catch (error) {
       dispatch({

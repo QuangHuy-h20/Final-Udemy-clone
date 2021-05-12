@@ -4,13 +4,13 @@ import {
   GET_CATEGORY_FAILURE,
 } from "../constants/category";
 
-import courseAPI from "../services/categoryAPI";
+import categoryAPI from "../services/categoryAPI";
 
 export function getCategory() {
   return async (dispatch) => {
     dispatch({ type: GET_CATEGORY_REQUEST });
     try {
-      const { data } = await courseAPI.getCategory();
+      const { data } = await categoryAPI.getCategory();
       dispatch({ type: GET_CATEGORY_SUCCESS, payload: { data } });
     } catch (error) {
       dispatch({

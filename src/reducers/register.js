@@ -8,8 +8,8 @@ const userRegister = {
   taiKhoan: "",
   matKhau: "",
   hoTen: "",
-  soDT: "",
-  maNhom: "",
+  soDT: "0144552894",
+  maNhom: "GP01",
   email: "",
 };
 

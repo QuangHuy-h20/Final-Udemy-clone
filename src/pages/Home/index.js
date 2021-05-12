@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourses } from "../../actions/courses";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
-import Courses from "../Home/Courses";
-import { SmallButton, StyledForm, StyledMain } from "../../styles/";
+import {
+  SmallButton,
+  StyledForm,
+  StyledMain,
+  Card,
+  ButtonRed,
+  CoursesSection,
+} from "../../styles/";
 import img from "../../images/8a5d045c-2dd2-4a4d-bb0e-a487af8a5aa0.jpg";
-
 
 const Billboard = styled.section`
   margin: 0 auto 6.4rem;
@@ -78,17 +86,22 @@ const Box = styled.div`
 
 const Headline = styled.div`
   margin-bottom: 2rem;
-  h1{
-    font-size:2.4rem;
-    font-weight:700;
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
   }
-  p{
-    font-size:1.6rem;
-    margin-top: .8rem;
+  p {
+    font-size: 1.6rem;
+    margin-top: 0.8rem;
   }
-`
+`;
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const { courses, isLoading, error } = useSelector((state) => state.courses);
+  useEffect(() => {
+    dispatch(getCourses());
+  }, []);
   return (
     <StyledMain>
       <Billboard>
@@ -111,9 +124,29 @@ export default function Home() {
       </Billboard>
       <Headline>
         <h1>The world's largest selection of courses</h1>
-        <p>Choose from 130,000 online video courses with new additions published every month</p>
+        <p>
+          Choose from 130,000 online video courses with new additions published
+          every month
+        </p>
       </Headline>
-      <Courses />
+      <CoursesSection>
+        <div className="inner">
+          {courses.map((item, index) => (
+            <Card key={item.maKhoaHoc}>
+              <Link to={`/course/${item.maKhoaHoc}`}>
+                <div className="card-img">
+                  <img src={item.hinhAnh} alt="khoaHoc" />
+                </div>
+                <div className="card-content">
+                  <h3>{item.tenKhoaHoc}</h3>
+                  <p>{item.moTa}</p>
+                  <ButtonRed>Add to cart</ButtonRed>
+                </div>
+              </Link>
+            </Card>
+          ))}
+        </div>
+      </CoursesSection>
     </StyledMain>
   );
 }

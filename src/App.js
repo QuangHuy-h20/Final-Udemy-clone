@@ -8,6 +8,7 @@ import AppLayout from "./layouts/App";
 //Custom Route
 import AdminRoute from "./auth/AdminRoute";
 
+import PageNotFound from "./pages/PageNotFound";
 //Pages w LazyLoad
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -27,12 +28,12 @@ function App() {
             <Route path="/admin">
               <AdminLayout>
                 <Switch>
-                  <Redirect exact from="/admin" to="/admin/courses"/>
+                  <Redirect exact from="/admin" to="/admin/courses" />
                   <AdminRoute path="/admin/courses">
-                    <AdminCourses/>
+                    <AdminCourses />
                   </AdminRoute>
                   <AdminRoute path="/admin/users">
-                    <AdminUsers/>
+                    <AdminUsers />
                   </AdminRoute>
                 </Switch>
               </AdminLayout>
@@ -45,7 +46,7 @@ function App() {
                   </Route>
                   <Route path="/courses/:category">
                     <Courses />
-                  </Route>
+                  </Route>                  
                   <Route path="/course/:courseId">
                     <Course />
                   </Route>
@@ -58,6 +59,7 @@ function App() {
                   <Route path="/user/profile">
                     <UserProfile />
                   </Route>
+                  <Route path="" component={PageNotFound} />
                 </Switch>
               </AppLayout>
             </Route>

@@ -12,15 +12,15 @@ const initialState = {
 
 function coursesReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_COURSES_REQUEST:
+    case GET_COURSES_REQUEST: {
       return { ...state, isLoading: true, error: null };
-
-    case GET_COURSES_SUCCESS:
+    }
+    case GET_COURSES_SUCCESS: {
       return { ...state, isLoading: false, courses: action.payload.data };
-
-    case GET_COURSES_FAILURE:
+    }
+    case GET_COURSES_FAILURE: {
       return { ...state, isLoading: false, error: action.payload.error };
-
+    }
     default:
       return state;
   }

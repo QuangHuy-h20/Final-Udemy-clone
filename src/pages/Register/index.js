@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
-import qs from "qs";
+// import qs from "qs";
 import { signUp } from "../../actions/auth";
 
 import { MailFilled, LockFilled, UserOutlined } from "@ant-design/icons";
@@ -28,19 +28,13 @@ const schema = yup.object().shape({
     .required("Password is required")
     .min(5, "Password must have 5 to 20 characters")
     .max(20, "Password must have 5 to 20 characters"),
-  // hoTen: yup.string().required("Full name is required"),
-  // soDt: yup
-  //   .number()
-  //   .required("Number is required")
-  //   .min(9, "Phone number must have 9 or 11 characters")
-  //   .max(11, "Phone number must have 9 or 11 characters"),
-  // email: yup.string().required("Email is required"),
+  hoTen: yup.string().required("Full name is required"),
+  email: yup.string().required("Email is required"),
 });
 
 export default function Register() {
-  const { userRegister, isLoading, error } = useSelector(
-    (state) => state.register
-  );
+  const { userRegister, error } = useSelector((state) => state.register);
+  const [registered, setRegistered] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const {
@@ -54,18 +48,13 @@ export default function Register() {
 
   const handleRegister = (data) => {
     console.log(data);
-    dispatch(signUp(data));
+    setRegistered(true);
+    if (userRegister) {
+      dispatch(signUp(data));
+      alert("Register Succesfully!");
+    }
+    return <Redirect to="/login" />;
   };
-
-  // if (!userRegister) {
-  //   const { redirectTo } = qs.parse(location.search, {
-  //     ignoreQueryPrefix: true,
-  //   });
-  //   if (redirectTo) {
-  //     return <Redirect to={redirectTo} />;
-  //   }
-  //   return <Redirect to="/login" />;
-  // }
 
   return (
     <StyledLogin>
@@ -73,7 +62,8 @@ export default function Register() {
       <div className="content">
         <AuthForm onSubmit={handleSubmit(handleRegister)}>
           <div className="form-field-container">
-            <MailFilled />
+            <UserOutlined />
+
             <input
               type="text"
               placeholder="Username"
@@ -109,28 +99,32 @@ export default function Register() {
               }}
             />
           </div>
-          {errors.matKhau && (
-            <Alert style={{ color: "#ec5252" }}>{errors.matKhau.message}</Alert>
-          )}
-          {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
+          {errors.matKhau && <Alert>{errors.matKhau.message}</Alert>}
           <div className="form-field-container">
             <UserOutlined />
             <input type="text" placeholder="Full name" {...register("hoTen")} />
           </div>
-          {errors.hoTen && (
-            <Alert style={{ color: "#ec5252" }}>{errors.hoTen.message}</Alert>
-          )}
+          {errors.hoTen && <Alert>{errors.hoTen.message}</Alert>}
           <div className="form-field-container">
-            <input type="text" placeholder="Phone number" {...register("soDT")} />
+            <UserOutlined />
+            <input
+              type="text"
+              placeholder="Phone number"
+              {...register("soDT")}
+            />
           </div>
-        
+          {errors.hoTen && <Alert>{errors.soDT.message}</Alert>}
           <div className="form-field-container">
-            <input type="text" placeholder="Group ID" {...register("maNhom")} />
+            <UserOutlined />
+            <input type="text" placeholder="GroupID" {...register("maNhom")} />
           </div>
+          {errors.maNhom && <Alert>{errors.maNhom.message}</Alert>}
           <div className="form-field-container">
+            <MailFilled />
+
             <input type="text" placeholder="Email" {...register("email")} />
           </div>
-    
+          {errors.email && <Alert>{errors.email.message}</Alert>}
           <ActionForm>
             <div className="btn-submit">
               <button type="submit" handleRegister userRegister>

@@ -9,8 +9,7 @@ const initialState = {
   isLoading: false,
   error: null,
 };
-
-export default function courseDetailReducer(state = initialState, action) {
+ function courseDetailReducer(state = initialState, action) {
   switch (action.type) {
     case GET_COURSE_DETAIL_REQUEST: {
       return { ...state, isLoading: true, error: null };
@@ -25,3 +24,5 @@ export default function courseDetailReducer(state = initialState, action) {
       return state;
   }
 }
+
+export default courseDetailReducer;
