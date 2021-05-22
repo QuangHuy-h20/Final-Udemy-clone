@@ -1,8 +1,11 @@
 import axiosClient from "./axiosClient";
 
 const getUserAPI = {
-  getAccountInfo: (values) => {
-    return axiosClient.post("/QuanLyNguoiDung/ThongTinTaiKhoan", values);
+  getAccountInfo: (account) => {
+    // const {params} = {
+    //   taiKhoan: account
+    // }
+    return axiosClient.post("/QuanLyNguoiDung/ThongTinTaiKhoan", account);
   },
 };
 

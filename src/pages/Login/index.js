@@ -46,7 +46,7 @@ export default function Login() {
 
   const handleLogin = (data) => {
     // console.log(inpUsername.current.values)
-    console.log(data);
+    // console.log(data);
 
     //dispatch action login
     dispatch(login(data));
@@ -108,6 +108,7 @@ export default function Login() {
             <Alert style={{ color: "#ec5252" }}>{errors.matKhau.message}</Alert>
           )}
           {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
+
           <ActionForm>
             <div className="btn-submit">
               <button type="submit" handleLogin>

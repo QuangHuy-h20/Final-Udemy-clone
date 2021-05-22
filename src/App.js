@@ -7,8 +7,13 @@ import AppLayout from "./layouts/App";
 
 //Custom Route
 import AdminRoute from "./auth/AdminRoute";
+import UserRoute from "./auth/UserRoute";
 
-import PageNotFound from "./pages/PageNotFound";
+//UserLayout
+import PublicProfile from "./pages/UserProfile/PublicProfile";
+import EditProfile from "./pages/UserProfile/EditProfile";
+import CourseEnroll from "./pages/UserProfile/CourseEnroll";
+
 //Pages w LazyLoad
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,11 +23,22 @@ const Course = lazy(() => import("./pages/Course"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const AdminCourses = lazy(() => import("./pages/AdminCourses"));
 const AdminUsers = lazy(() => import("./pages/AdminUsers"));
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <lottie-player
+            autoplay
+            loop
+            mode="normal"
+            src="https://assets2.lottiefiles.com/packages/lf20_rIaq3s.json"
+            style={{ width: "100vw", height: "100vh", background: "#000" }}
+          ></lottie-player>
+        }
+      >
         <BrowserRouter>
           <Switch>
             <Route path="/admin">
@@ -46,18 +62,35 @@ function App() {
                   </Route>
                   <Route path="/courses/:category">
                     <Courses />
-                  </Route>                  
+                  </Route>
                   <Route path="/course/:courseId">
                     <Course />
                   </Route>
                   <Route path="/login">
                     <Login />
                   </Route>
-                  <Route path="/signup">
+                  <UserRoute path="/signup">
                     <Register />
-                  </Route>
-                  <Route path="/user/profile">
-                    <UserProfile />
+                  </UserRoute>
+                  <Route path="/user">
+                    <UserProfile>
+                      <Switch>
+                        <Redirect
+                          exact
+                          from="/user"
+                          to="/user/public-profile"
+                        />
+                        <Route path="/user/public-profile">
+                          <PublicProfile />
+                        </Route>
+                        <Route path="/user/edit-profile">
+                          <EditProfile />
+                        </Route>
+                        <Route path="/user/course-enroll">
+                          <CourseEnroll />
+                        </Route>
+                      </Switch>
+                    </UserProfile>
                   </Route>
                   <Route path="" component={PageNotFound} />
                 </Switch>

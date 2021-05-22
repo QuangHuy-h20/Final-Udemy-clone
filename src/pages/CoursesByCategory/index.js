@@ -13,7 +13,7 @@ export default function Courses() {
   useEffect(() => {
     //dispatch action call API get list
     dispatch(getCoursesByCategory(category));
-    console.log(category);
+    // console.log(category);
   }, [category]);
 
   return (

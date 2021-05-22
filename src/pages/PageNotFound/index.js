@@ -1,5 +1,4 @@
 import React from "react";
-import { StyledMain } from "../../styles";
 import styled from "styled-components";
 import { ButtonRed } from "../../styles";
 import { Link } from "react-router-dom";

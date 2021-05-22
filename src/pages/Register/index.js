@@ -47,13 +47,8 @@ export default function Register() {
   });
 
   const handleRegister = (data) => {
-    console.log(data);
-    setRegistered(true);
-    if (userRegister) {
-      dispatch(signUp(data));
-      alert("Register Succesfully!");
-    }
-    return <Redirect to="/login" />;
+    // console.log(data);
+    dispatch(signUp(data));
   };
 
   return (

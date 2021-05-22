@@ -6,11 +6,11 @@ import {
 
 import userAPI from "../services/userAPI";
 
-export function getUserInfo(values) {
+export function getAccountInfo(account) {
   return async (dispatch) => {
     dispatch({ type: GET_USER_REQUEST });
     try {
-      const { data } = await userAPI.getAccountInfo(values);
+      const { data } = await userAPI.getAccountInfo(account);
       dispatch({ type: GET_USER_SUCCESS, payload: { data } });
     } catch (error) {
       dispatch({

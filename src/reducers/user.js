@@ -1,3 +1,4 @@
+import { LOGOUT } from "../constants/auth";
 import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
@@ -5,7 +6,7 @@ import {
 } from "../constants/user";
 
 const initialState = {
-  user: [],
+  account:"",
   isLoading: false,
   error: null,
 };
@@ -16,11 +17,12 @@ function userReducer(state = initialState, action) {
       return { ...state, isLoading: true, error: null };
     }
     case GET_USER_SUCCESS: {
-      return { ...state, initialState: action.payload.data, isLoading: false };
+      return { ...state, account: action.payload.data, isLoading: false };
     }
     case GET_USER_FAILURE: {
       return { ...state, isLoading: false, error: action.payload.error };
     }
+ 
 
     default:
       return state;

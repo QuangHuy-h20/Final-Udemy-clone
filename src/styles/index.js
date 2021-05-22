@@ -7,6 +7,7 @@ export const StyledForm = styled.form`
   display: flex;
   align-items: center;
   height: 100%;
+  width: 100%;
 
   input {
     display: block;
@@ -160,7 +161,7 @@ export const AuthForm = styled.form`
       border: none;
     }
   }
-  .select{
+  .select {
     padding: 0;
   }
 `;

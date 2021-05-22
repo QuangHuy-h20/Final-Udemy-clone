@@ -19,9 +19,9 @@ const CourseSection = styled.section`
 const Content = styled.div`
   max-width: 70rem;
   margin-left: 1rem;
-  h3{
-    font-size:2.4rem;
-    margin-bottom:2rem;
+  h3 {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
   }
   @media screen and (max-width: 1200px) {
     max-width: 60rem;
@@ -32,7 +32,6 @@ const Content = styled.div`
   }
   @media screen and (max-width: 700px) {
     margin: 0 2.4rem;
-
   }
 `;
 const Card = styled.div`
@@ -109,7 +108,7 @@ const MobileScreen = styled.div`
 `;
 
 const BottomContainer = styled.div`
-  padding: 10rem 0;
+  padding: 8rem 0;
   @media screen and (max-width: 1200px) {
     padding: 5rem 0;
   }
@@ -130,10 +129,10 @@ export default function Course() {
     dispatch(getCourseDetail(courseId));
     console.log(courseId);
   }, [courseId]);
-  console.log(courseDetail);
+  // console.log(courseDetail);
   let result = [courseDetail].flat();
   // console.log(Array.isArray(result));
-  // console.log(result);
+  console.log(result);
 
   return (
     <CourseSection>
@@ -141,7 +140,7 @@ export default function Course() {
         <>
           <Card>
             <div className="img-content">
-              <img src={item.hinhAnh} />
+              <img src={item.hinhAnh} alt="" />
             </div>
             <div className="main-content">
               <h2>{item.tenKhoaHoc}</h2>
@@ -153,7 +152,7 @@ export default function Course() {
           </Card>
           <TopContainer>
             <MobileScreen>
-              <img src={item.hinhAnh} />
+              <img src={item.hinhAnh} alt="" />
             </MobileScreen>
             <div key={item.maKhoaHoc} className="inner ">
               <Content>
@@ -162,7 +161,7 @@ export default function Course() {
                 <p>
                   Last Updated: <time>{item.ngayTao}</time>
                 </p>
-                {console.log([item.nguoiTao].flat())}
+                {/* {console.log([item.nguoiTao].flat())} */}
                 {[item.nguoiTao].flat().map((name) => (
                   <p>Created by: {name.hoTen}</p>
                 ))}
