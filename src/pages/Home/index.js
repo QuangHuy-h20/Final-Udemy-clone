@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCourses } from "../../actions/courses";
+import { getCourses } from "src/actions/courses";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
@@ -11,8 +11,8 @@ import {
   Card,
   ButtonRed,
   CoursesSection,
-} from "../../styles/";
-import img from "../../images/8a5d045c-2dd2-4a4d-bb0e-a487af8a5aa0.jpg";
+} from "src/styles/";
+import img from "src/images/8a5d045c-2dd2-4a4d-bb0e-a487af8a5aa0.jpg";
 
 const Billboard = styled.section`
   margin: 0 auto 6.4rem;

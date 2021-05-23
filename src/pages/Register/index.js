@@ -4,9 +4,9 @@ import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+import { useLocation } from "react-router";
 // import qs from "qs";
-import { signUp } from "../../actions/auth";
+import { signUp } from "src/actions/auth";
 
 import { MailFilled, LockFilled, UserOutlined } from "@ant-design/icons";
 import {
@@ -15,7 +15,7 @@ import {
   StyledLogin,
   StyledFooterLogin,
   Alert,
-} from "../../styles";
+} from "src/styles";
 
 const schema = yup.object().shape({
   taiKhoan: yup

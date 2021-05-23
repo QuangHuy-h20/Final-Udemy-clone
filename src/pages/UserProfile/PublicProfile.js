@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountInfo } from "../../actions/user";
+import { getAccountInfo } from "src/actions/user";
 
 export default function PublicProfile() {
   const dispatch = useDispatch();

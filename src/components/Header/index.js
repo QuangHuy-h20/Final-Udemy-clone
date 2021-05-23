@@ -6,7 +6,7 @@ import {
   SmallButton,
   ButtonLogo,
   Logo,
-} from "../../styles";
+} from "src/styles";
 import {
   SearchOutlined,
   ShoppingCartOutlined,
@@ -14,9 +14,9 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../actions/auth";
-import { getCategory } from "../../actions/category";
-import logo from "../../images/logo-coral.svg";
+import { logout } from "src/actions/auth";
+import { getCategory } from "src/actions/category";
+import logo from "src/images/logo-coral.svg";
 import { Link } from "react-router-dom";
 
 const HeaderSection = styled.header`

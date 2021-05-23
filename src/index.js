@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 
 //setup middleware
 import thunk from "redux-thunk";
+
 const middleware = applyMiddleware(thunk);
 const enhancer = compose(
   middleware,

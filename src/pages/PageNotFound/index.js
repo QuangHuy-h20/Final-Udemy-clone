@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ButtonRed } from "../../styles";
+import { ButtonRed } from "src/styles";
 import { Link } from "react-router-dom";
 const Container = styled.div`
   width: 100%;

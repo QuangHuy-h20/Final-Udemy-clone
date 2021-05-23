@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCoursesByCategory } from "../../actions/courses";
-import { Card, ButtonRed, CoursesSection, StyledMain } from "../../styles";
+import { getCoursesByCategory } from "src/actions/courses";
+import { Card, ButtonRed, CoursesSection, StyledMain } from "src/styles";
 import { Link } from "react-router-dom";
 
 export default function Courses() {

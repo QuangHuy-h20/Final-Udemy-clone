@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getCourseDetail } from "../../actions/courseDetail";
+import { getCourseDetail } from "src/actions/courseDetail";
 import { useParams } from "react-router-dom";
-import { Button, ButtonRed } from "../../styles";
+import { Button, ButtonRed } from "src/styles";
 
 const CourseSection = styled.section`
   position: relative;

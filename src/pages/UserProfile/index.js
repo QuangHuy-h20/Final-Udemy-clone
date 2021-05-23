@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountInfo } from "../../actions/user";
+import { getAccountInfo } from "src/actions/user";
 import styled from "styled-components";
 import { Link, Route, Switch } from "react-router-dom";
 import EditProfile from "./EditProfile";
