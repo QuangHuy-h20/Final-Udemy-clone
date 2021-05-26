@@ -48,7 +48,7 @@ const Card = styled.div`
     display: none;
   }
   .img-content {
-    width: 34rem;
+    width: 45rem;
     z-index: 1;
     border-radius: 4px;
     img {

@@ -111,7 +111,7 @@ const FormWrapper = styled.div`
 const CourseEnroll = styled.div``;
 
 const FormContainer = styled.div`
-  box-shadow: 0 1px 0 0 #dedfe0, 0 -1px 0 0 #dedfe0;
+  box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #dedfe0;
 `;
 
 export default function UserProfile({ children }) {

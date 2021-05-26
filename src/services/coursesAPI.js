@@ -1,22 +1,29 @@
 import axiosClient from "./axiosClient";
 
 const coursesAPI = {
+
+  // const api = '/QuanLyKhoaHoc/'
+  
   getCourses: () => {
-    return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc");
+    const params = {
+      maNhom: "GP08",
+    };
+    return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc", {params});
   },
 
   getCoursesByCategory: (category) => {
     const params = {
       maDanhMuc: category,
-      maNhom: "GP01",
+      maNhom: "GP08",
     };
     return axiosClient.get("/QuanLyKhoaHoc/LayKhoaHocTheoDanhMuc", {
       params,
     });
   },
+
   getCoursesBySearchName: (name) => {
     const params = {
-      maNhom: "GP01",
+      maNhom: "GP08",
       tenKhoaHoc: name,
     };
     return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc", {

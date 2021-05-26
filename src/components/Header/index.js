@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  Button,
-  StyledForm,
-  SmallButton,
-  ButtonLogo,
-  Logo,
-} from "src/styles";
+import { Button, StyledForm, SmallButton, ButtonLogo, Logo } from "src/styles";
 import {
   SearchOutlined,
   ShoppingCartOutlined,
@@ -115,7 +109,7 @@ const DropdownList = styled.div`
   top: 100%;
   left: 10%;
   opacity: 1;
-  animation: .5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: 0.5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
   .wrapper {
     min-height: 40rem;
     width: 26rem;
@@ -156,6 +150,7 @@ const Header = () => {
     localStorage.clear();
     dispatch(logout(data));
   };
+
 
   return (
     <>
@@ -200,7 +195,7 @@ const Header = () => {
           </div>
           <SearchForm>
             <StyledForm>
-              <SmallButton to={`/search/${0}`}>
+              <SmallButton to={`/courses/search/${0}`}>
                 <SearchOutlined />
               </SmallButton>
               <input placeholder="Search for anything" />
@@ -212,7 +207,7 @@ const Header = () => {
             </SmallButton>
           </div>
           <div className="trigger">
-            <SmallButton>
+            <SmallButton to="/">
               <span>Teach on Udemy</span>
             </SmallButton>
           </div>

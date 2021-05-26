@@ -1,10 +1,9 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { lazy, Suspense } from "react";
-
+import * as LottiePlayer from "@lottiefiles/lottie-player";
 //Layouts
 import AdminLayout from "./layouts/Admin";
 import AppLayout from "./layouts/App";
-
 //Custom Route
 import AdminRoute from "./auth/AdminRoute";
 import UserRoute from "./auth/UserRoute";
@@ -13,6 +12,7 @@ import UserRoute from "./auth/UserRoute";
 import PublicProfile from "./pages/UserProfile/PublicProfile";
 import EditProfile from "./pages/UserProfile/EditProfile";
 import CourseEnroll from "./pages/UserProfile/CourseEnroll";
+import SearchPage from "./pages/SearchPage";
 
 //Pages w LazyLoad
 const Home = lazy(() => import("./pages/Home"));
@@ -34,8 +34,8 @@ function App() {
             autoplay
             loop
             mode="normal"
-            src="https://assets2.lottiefiles.com/packages/lf20_rIaq3s.json"
-            style={{ width: "100vw", height: "100vh", background: "#000" }}
+            src="https://assets10.lottiefiles.com/datafiles/ORpUnaV6z0mJ17E/data.json"
+            style={{ width: "100vw", height: "100vh" }}
           ></lottie-player>
         }
       >
@@ -63,15 +63,19 @@ function App() {
                   <Route path="/courses/:category">
                     <Courses />
                   </Route>
+                  <Route path="/courses/search/:name">
+                    <SearchPage />
+                  </Route>
                   <Route path="/course/:courseId">
                     <Course />
                   </Route>
                   <Route path="/login">
                     <Login />
                   </Route>
-                  <UserRoute path="/signup">
+                  <Route path="/signup">
                     <Register />
-                  </UserRoute>
+                  </Route>
+
                   <Route path="/user">
                     <UserProfile>
                       <Switch>

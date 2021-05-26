@@ -1,12 +1,13 @@
 import axiosClient from "./axiosClient";
 
-const getUserAPI = {
+const userAPI = {
   getAccountInfo: (account) => {
-    // const {params} = {
-    //   taiKhoan: account
-    // }
     return axiosClient.post("/QuanLyNguoiDung/ThongTinTaiKhoan", account);
+  },
+
+  updateAccountInfo: (account) => {
+    return axiosClient.put("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", account);
   },
 };
 
-export default getUserAPI;
+export default userAPI;

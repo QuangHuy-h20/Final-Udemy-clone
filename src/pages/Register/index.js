@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
+
 // import qs from "qs";
 import { signUp } from "src/actions/auth";
 
@@ -34,9 +34,8 @@ const schema = yup.object().shape({
 
 export default function Register() {
   const { userRegister, error } = useSelector((state) => state.register);
-  const [registered, setRegistered] = useState(false);
   const dispatch = useDispatch();
-  const location = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -120,6 +119,7 @@ export default function Register() {
             <input type="text" placeholder="Email" {...register("email")} />
           </div>
           {errors.email && <Alert>{errors.email.message}</Alert>}
+          {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
           <ActionForm>
             <div className="btn-submit">
               <button type="submit" handleRegister userRegister>

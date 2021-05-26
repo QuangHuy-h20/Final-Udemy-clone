@@ -1,8 +1,13 @@
-import { LOGOUT } from "../constants/auth";
 import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  GET_COURSES_ENROLL_REQUEST,
+  GET_COURSES_ENROLL_SUCCESS,
+  GET_COURSES_ENROLL_FAILURE
 } from "../constants/user";
 
 const initialState = {
