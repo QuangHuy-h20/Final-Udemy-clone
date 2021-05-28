@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function CourseEnroll() {
-  return <div>
-       {/* {courses.map((item) => (
+  const { account } = useSelector((state) => state.user);
+
+  let result = [account].flat();
+  useEffect(() => {
+    console.log(result.chiTietKhoaHocGhiDanh);
+  }, []);
+  return (
+    <div>
+      {/* {courses.map((item) => (
               <Card key={item.maKhoaHoc}>
                 <Link to={`/course/${item.maKhoaHoc}`}>
                   <div className="card-img">
@@ -16,5 +24,6 @@ export default function CourseEnroll() {
                 </Link>
               </Card>
             ))} */}
-  </div>;
+    </div>
+  );
 }

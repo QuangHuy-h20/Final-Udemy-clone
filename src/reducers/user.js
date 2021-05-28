@@ -8,7 +8,7 @@ import {
 } from "../constants/user";
 
 const initialState = {
-  account:"",
+  account:[],
   isLoading: false,
   error: null,
 };
@@ -24,7 +24,15 @@ function userReducer(state = initialState, action) {
     case GET_USER_FAILURE: {
       return { ...state, isLoading: false, error: action.payload.error };
     }
- 
+    case UPDATE_USER_REQUEST: {
+      return { ...state, isLoading: true, error: null };
+    }
+    case UPDATE_USER_SUCCESS: {
+      return { ...state, account: action.payload.data, isLoading: false };
+    }
+    case UPDATE_USER_FAILURE: {
+      return { ...state, isLoading: false, error: action.payload.error };
+    }
 
     default:
       return state;

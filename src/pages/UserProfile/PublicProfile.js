@@ -18,7 +18,7 @@ export default function PublicProfile() {
 
   let result = [account].flat();
   return (
-    <div>
+    <div style={{padding:'3rem'}}>
       {result.map((item) => (
         <>
           <h4>

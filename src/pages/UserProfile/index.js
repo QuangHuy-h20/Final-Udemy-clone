@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getAccountInfo } from "src/actions/user";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-
 
 const UserSection = styled.section`
   margin: 0 auto;
@@ -51,9 +50,9 @@ const Public = styled.div`
   .wrapper {
     border: 1px solid #524a47;
     border-radius: 50%;
-    font-size:3rem;
+    font-size: 3rem;
     margin: auto;
-    color:#524a47;
+    color: #524a47;
     width: 13rem;
     height: 13rem;
     display: flex;
@@ -82,9 +81,7 @@ const FormWrapper = styled.div`
   background: #fff;
   position: relative;
   min-height: 60rem;
-  margin: 2rem auto;
   border: 1px solid #dedfe0;
-
   h2 {
     color: #29303b;
     text-align: center;
@@ -113,10 +110,8 @@ const FormWrapper = styled.div`
   }
 `;
 
-
 const FormContainer = styled.div`
-  padding: 3rem;
-  box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #dedfe0;
+  box-shadow: 0 1px 0 0 #dedfe0, 0 -1px 0 0 #dedfe0;
 `;
 
 export default function UserProfile({ children }) {
@@ -143,7 +138,7 @@ export default function UserProfile({ children }) {
             <MenuSideBar>
               <Public>
                 <div className="wrapper">
-                <UserOutlined />
+                  <UserOutlined />
                 </div>
                 <div className="userName">
                   <h1>{item.hoTen}</h1>
@@ -164,9 +159,8 @@ export default function UserProfile({ children }) {
             <FormWrapper>
               <h2>Public profile</h2>
               <h3>Add information about yourself</h3>
-              <form>
-                <FormContainer>{children}</FormContainer>
-              </form>
+              <FormContainer>{children}</FormContainer>
+              
             </FormWrapper>
           </Content>
         ))}

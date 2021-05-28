@@ -5,8 +5,8 @@ const userAPI = {
     return axiosClient.post("/QuanLyNguoiDung/ThongTinTaiKhoan", account);
   },
 
-  updateAccountInfo: (account) => {
-    return axiosClient.put("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", account);
+  updateAccountInfo: (user) => {
+    return axiosClient.put("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", user);
   },
 };
 
