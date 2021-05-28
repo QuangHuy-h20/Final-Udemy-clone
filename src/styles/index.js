@@ -107,8 +107,9 @@ export const Card = styled.div`
   flex-direction: column;
   max-width: 37.5rem;
   min-width: 17.3rem;
-  border: 1px solid #73726c;
   border-radius: 0.3rem;
+  border-bottom: 1px solid #dcdacb;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
   .card-img {
     position: relative;
     width: 100%;
@@ -121,11 +122,12 @@ export const Card = styled.div`
 
   .card-content {
     padding: 1.4rem;
+    height:10rem;
     width: 100%;
     h3 {
       display: -webkit-box;
       margin-bottom: 0.8rem;
-      -webkit-line-clamp: 1;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       font-size: 1.6rem;
       font-weight: 700;
@@ -140,6 +142,13 @@ export const Card = styled.div`
       white-space: nowrap;
       margin-bottom: 1.6rem;
     }
+  }
+  &:hover{
+  box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 2px 4px 12px rgb(0 0 0 / 12%);
+
+  }
+  .card-action{
+    padding: 0 1.4rem 1.4rem;
   }
 `;
 
@@ -160,6 +169,9 @@ export const AuthForm = styled.form`
       font-size: 1.8rem;
       border: none;
     }
+  }
+  .disabled{
+    display:none;
   }
   .select {
     padding: 0;
@@ -242,7 +254,7 @@ export const CoursesSection = styled.section`
   .inner {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1.6rem;
+    grid-gap: 3.5rem;
     @media screen and (max-width: 980px) {
       grid-template-columns: repeat(3, 1fr);
     }

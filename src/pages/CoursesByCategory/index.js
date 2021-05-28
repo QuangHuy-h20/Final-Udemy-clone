@@ -8,14 +8,13 @@ import { Link } from "react-router-dom";
 export default function Courses() {
   const dispatch = useDispatch();
   const { category } = useParams();
-  const { courses, isLoading, error } = useSelector((state) => state.courses);
+  const { courses } = useSelector((state) => state.courses);
 
   useEffect(() => {
     //dispatch action call API get list
     dispatch(getCoursesByCategory(category));
-    // console.log(category);
+    console.log(category);
   }, [category]);
-
   return (
     <StyledMain>
       <CoursesSection>
@@ -30,6 +29,8 @@ export default function Courses() {
                   <div className="card-content">
                     <h3>{item.tenKhoaHoc}</h3>
                     <p>{item.moTa}</p>
+                  </div>
+                  <div className="card-action">
                     <ButtonRed>Add to cart</ButtonRed>
                   </div>
                 </Link>

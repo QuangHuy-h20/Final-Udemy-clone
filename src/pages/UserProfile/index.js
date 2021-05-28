@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountInfo } from "src/actions/user";
 import styled from "styled-components";
-import { Link, Route, Switch } from "react-router-dom";
-import EditProfile from "./EditProfile";
-import PublicProfile from "./PublicProfile";
+import { getAccountInfo } from "src/actions/user";
+import { Link} from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
+
 
 const UserSection = styled.section`
   margin: 0 auto;
@@ -49,9 +49,13 @@ const Public = styled.div`
   padding: 1rem;
   text-align: center;
   .wrapper {
+    border: 1px solid #524a47;
+    border-radius: 50%;
+    font-size:3rem;
     margin: auto;
-    width: 15rem;
-    height: 15rem;
+    color:#524a47;
+    width: 13rem;
+    height: 13rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -108,9 +112,10 @@ const FormWrapper = styled.div`
     }
   }
 `;
-const CourseEnroll = styled.div``;
+
 
 const FormContainer = styled.div`
+  padding: 3rem;
   box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #dedfe0;
 `;
 
@@ -138,7 +143,7 @@ export default function UserProfile({ children }) {
             <MenuSideBar>
               <Public>
                 <div className="wrapper">
-                  <img src="https://i.pravatar.cc/300" alt="avatar" />
+                <UserOutlined />
                 </div>
                 <div className="userName">
                   <h1>{item.hoTen}</h1>

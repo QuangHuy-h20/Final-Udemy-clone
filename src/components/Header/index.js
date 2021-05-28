@@ -138,7 +138,7 @@ const DropdownList = styled.div`
 const Header = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { category, isLoading, error } = useSelector((state) => state.category);
+  const { category } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(getCategory());
@@ -216,7 +216,7 @@ const Header = () => {
           </SmallButton>
           {userInfo ? (
             <>
-              <Link to="/user/profile">Hi, {userInfo.hoTen}</Link>
+              <Link to="/user/public-profile">Hi, {userInfo.hoTen}</Link>
               <Button primary bd colorHover to="/" onClick={handleLogout}>
                 Logout
               </Button>

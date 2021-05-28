@@ -29,7 +29,7 @@ const schema = yup.object().shape({
     .min(5, "Password must have 5 to 20 characters")
     .max(20, "Password must have 5 to 20 characters"),
   hoTen: yup.string().required("Full name is required"),
-  email: yup.string().required("Email is required"),
+  email: yup.string().email().required("Email is required"),
 });
 
 export default function Register() {
@@ -108,11 +108,10 @@ export default function Register() {
             />
           </div>
           {errors.hoTen && <Alert>{errors.soDT.message}</Alert>}
-          <div className="form-field-container">
+          <div className="form-field-container disabled">
             <UserOutlined />
-            <input type="text" placeholder="GroupID" {...register("maNhom")} />
+            <input type="text" value="GP08" {...register("maNhom")} />
           </div>
-          {errors.maNhom && <Alert>{errors.maNhom.message}</Alert>}
           <div className="form-field-container">
             <MailFilled />
 

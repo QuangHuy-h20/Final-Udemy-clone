@@ -140,6 +140,8 @@ export default function Home() {
                 <div className="card-content">
                   <h3>{item.tenKhoaHoc}</h3>
                   <p>{item.moTa}</p>
+                </div>
+                <div className="card-action">
                   <ButtonRed>Add to cart</ButtonRed>
                 </div>
               </Link>

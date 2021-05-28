@@ -96,7 +96,10 @@ function App() {
                       </Switch>
                     </UserProfile>
                   </Route>
-                  <Route path="" component={PageNotFound} />
+                  <Switch>
+                  <Route path="/404-not-found"  component={PageNotFound}/>
+                  <Redirect from="*" to="/404-not-found" />
+                  </Switch>
                 </Switch>
               </AppLayout>
             </Route>

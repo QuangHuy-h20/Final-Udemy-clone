@@ -4,7 +4,7 @@ import { getAccountInfo } from "src/actions/user";
 
 export default function PublicProfile() {
   const dispatch = useDispatch();
-  const { account, isLoading, error } = useSelector((state) => state.user);
+  const { account } = useSelector((state) => state.user);
 
   useEffect(() => {
     const account = localStorage.getItem("userInfo")
@@ -33,6 +33,10 @@ export default function PublicProfile() {
           <h4>
             Email: <span>{item.email}</span>
           </h4>
+          <h4>
+            Group ID: <span>{item.maNhom}</span>
+          </h4>
+         
         </>
       ))}
     </div>

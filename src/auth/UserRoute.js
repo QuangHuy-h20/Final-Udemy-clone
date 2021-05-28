@@ -8,5 +8,5 @@ export default function UserRoute({ children, ...props }) {
   if (!account) {
     return <Redirect to={`/login?redirectTo=${props.path}`} />;
   }
-  return <Route {...props}>{children}</Route>;
+  return <Route>{children}</Route>;
 }

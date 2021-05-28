@@ -35,6 +35,7 @@ const Content = styled.div`
   }
 `;
 const Card = styled.div`
+  width:35rem;
   display: block;
   position: absolute;
   top: 10%;
@@ -48,13 +49,13 @@ const Card = styled.div`
     display: none;
   }
   .img-content {
-    width: 45rem;
+    width: 100%;
     z-index: 1;
     border-radius: 4px;
     img {
       width: 100%;
       height: 20rem;
-    }
+    }  
   }
   .main-content {
     padding: 2.4rem;
@@ -121,14 +122,16 @@ const BottomContainer = styled.div`
 export default function Course() {
   const { courseId } = useParams();
   const dispatch = useDispatch();
-  const { courseDetail, isLoading, error } = useSelector(
+
+  const { courseDetail} = useSelector(
     (state) => state.courseDetail
   );
+  
 
   useEffect(() => {
     dispatch(getCourseDetail(courseId));
     console.log(courseId);
-  }, [courseId]);
+  }, []);
   // console.log(courseDetail);
   let result = [courseDetail].flat();
   // console.log(Array.isArray(result));
