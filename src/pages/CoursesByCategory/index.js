@@ -25,7 +25,7 @@ export default function Courses() {
                 <Link to={`/course/${item.maKhoaHoc}`}>
                   <div className="card-img">
                     <img src={item.hinhAnh} alt="khoaHoc" />
-                  </div>
+                  </div>                  
                   <div className="card-content">
                     <h3>{item.tenKhoaHoc}</h3>
                     <p>{item.moTa}</p>

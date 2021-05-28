@@ -1,5 +1,5 @@
+import React,{ lazy, Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { lazy, Suspense } from "react";
 import * as LottiePlayer from "@lottiefiles/lottie-player";
 //Layouts
 import AdminLayout from "./layouts/Admin";
@@ -97,8 +97,8 @@ function App() {
                     </UserProfile>
                   </Route>
                   <Switch>
-                  <Route path="/404-not-found"  component={PageNotFound}/>
-                  <Redirect from="*" to="/404-not-found" />
+                    <Route path="/404-not-found" component={PageNotFound} />
+                    <Redirect from="*" to="/404-not-found" />
                   </Switch>
                 </Switch>
               </AppLayout>

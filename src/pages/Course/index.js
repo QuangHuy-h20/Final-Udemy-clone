@@ -140,7 +140,7 @@ export default function Course() {
   return (
     <CourseSection>
       {result.map((item) => (
-        <>
+        <div class>
           <Card>
             <div className="img-content">
               <img src={item.hinhAnh} alt="" />
@@ -189,7 +189,7 @@ export default function Course() {
               </Content>
             </div>
           </BottomContainer>
-        </>
+        </div>
       ))}
     </CourseSection>
   );
