@@ -98,7 +98,7 @@ const Headline = styled.div`
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { courses, isLoading, error } = useSelector((state) => state.courses);
+  const { courses } = useSelector((state) => state.courses);
   useEffect(() => {
     dispatch(getCourses());
   }, []);
@@ -131,7 +131,7 @@ export default function Home() {
       </Headline>
       <CoursesSection>
         <div className="inner">
-          {courses.map((item, index) => (
+          {courses.map((item) => (
             <Card key={item.maKhoaHoc}>
               <Link to={`/course/${item.maKhoaHoc}`}>
                 <div className="card-img">
@@ -142,7 +142,7 @@ export default function Home() {
                   <p>{item.moTa}</p>
                 </div>
                 <div className="card-action">
-                  <ButtonRed>Add to cart</ButtonRed>
+                  <ButtonRed>View</ButtonRed>
                 </div>
               </Link>
             </Card>

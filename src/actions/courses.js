@@ -21,6 +21,22 @@ export function getCoursesByCategory(category) {
   };
 }
 
+
+export function getCoursesByEnroll(courseName){
+  return async (dispatch) =>{
+    dispatch({ type: GET_COURSES_REQUEST });
+    try {
+      const { data } = await coursesAPI.getCourseEnroll(courseName);
+      dispatch({ type: GET_COURSES_SUCCESS, payload: { data } });
+    } catch (error) {
+      dispatch({
+        type: GET_COURSES_FAILURE,
+        payload: { error: error.response.data },
+      });
+    }
+  }
+}
+
 export function getCourses() {
   return async (dispatch) => {
     dispatch({ type: GET_COURSES_REQUEST });

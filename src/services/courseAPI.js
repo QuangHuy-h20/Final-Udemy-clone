@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const courseDetailAPI = {
+const courseAPI = {
   getCourseDetail: (courseId) => {
     const params = {
       maKhoaHoc: courseId,
@@ -9,4 +9,4 @@ const courseDetailAPI = {
   },
 };
 
-export default courseDetailAPI;
+export default courseAPI;

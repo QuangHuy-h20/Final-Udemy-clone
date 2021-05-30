@@ -15,6 +15,7 @@ export default function Courses() {
     dispatch(getCoursesByCategory(category));
     console.log(category);
   }, [category]);
+  
   return (
     <StyledMain>
       <CoursesSection>
@@ -31,7 +32,7 @@ export default function Courses() {
                     <p>{item.moTa}</p>
                   </div>
                   <div className="card-action">
-                    <ButtonRed>Add to cart</ButtonRed>
+                    <ButtonRed>View</ButtonRed>
                   </div>
                 </Link>
               </Card>

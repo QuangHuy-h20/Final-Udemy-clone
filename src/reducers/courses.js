@@ -21,6 +21,7 @@ function coursesReducer(state = initialState, action) {
     case GET_COURSES_FAILURE: {
       return { ...state, isLoading: false, error: action.payload.error };
     }
+    
     default:
       return state;
   }
