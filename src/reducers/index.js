@@ -5,6 +5,7 @@ import auth from "./auth";
 import register from "./register";
 import courseDetail from "./courseDetail";
 import user from "./user";
+import admin from "./admin"
 const rootReducer = combineReducers({
   //Declare child reducers
   courseDetail,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   auth,
   register,
   user,
+  admin,
 });
 
 export default rootReducer;
