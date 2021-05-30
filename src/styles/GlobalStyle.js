@@ -289,6 +289,7 @@ img {
 }
 
 body {
+    background-color:#fff;
     font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
     font-size: 1.4rem;
     line-height: 1;

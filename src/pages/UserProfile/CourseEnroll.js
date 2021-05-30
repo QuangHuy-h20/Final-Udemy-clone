@@ -11,6 +11,9 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #dedfe0;
+  input {
+    display: none;
+  }
 `;
 
 const Direct = styled(Link)`
@@ -34,10 +37,11 @@ export default function CourseEnroll() {
   const userInfo = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
-  const userName = userInfo.taiKhoan;
+  const userAccount = userInfo.taiKhoan;
 
-  function handleCancel() {
-    dispatch(cancelCourse({ maKhoaHoc: "", taiKhoan: userName }));
+  function handleCancel(values) {
+    console.log(values);
+    dispatch(cancelCourse(values));
     // alert("Cancel course successfully!");
   }
 
@@ -51,8 +55,10 @@ export default function CourseEnroll() {
               <Direct to={`/course/${enroll.maKhoaHoc}`}>
                 {enroll.tenKhoaHoc}
               </Direct>
+              <input value={enroll.maKhoaHoc} />
+              <input value={userAccount} />
 
-              <ButtonRed type="submit">Cancel</ButtonRed>
+              <ButtonRed type="submit" handleCancel>Cancel</ButtonRed>
             </Wrapper>
           </form>
         ))

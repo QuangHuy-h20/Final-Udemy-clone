@@ -49,7 +49,7 @@ const UserForm = styled.form`
   }
 `;
 
-export default function EditProfile() {
+export default function EditProfile(props) {
   const dispatch = useDispatch();
   const { account} = useSelector((state) => state.user);
 
@@ -59,7 +59,7 @@ export default function EditProfile() {
     dispatch(updateAccountInfo(userUpdate));
     alert("Update successfully!");
   };
-
+  console.log(props)
   let handleChange = (e) => {
     const { value, name } = e.target;
     // console.log(name, value);
@@ -88,6 +88,7 @@ export default function EditProfile() {
               <input
                 name="matKhau"
                 type="password"
+                autoComplete="on"
                 defaultValue={item.matKhau}
                 onChange={handleChange}
               />

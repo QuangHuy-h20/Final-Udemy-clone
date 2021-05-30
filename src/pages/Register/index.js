@@ -33,7 +33,7 @@ const schema = yup.object().shape({
 });
 
 export default function Register() {
-  const { userRegister, error } = useSelector((state) => state.register);
+  const { user, registered, error } = useSelector((state) => state.register);
   const dispatch = useDispatch();
 
   const {
@@ -46,8 +46,10 @@ export default function Register() {
   });
 
   const handleRegister = (data) => {
-    // console.log(data);
     dispatch(signUp(data));
+    if (registered) {
+      return <Redirect path="/login" />;
+    }
   };
 
   return (
@@ -121,7 +123,7 @@ export default function Register() {
           {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
           <ActionForm>
             <div className="btn-submit">
-              <button type="submit" handleRegister userRegister>
+              <button type="submit" handleRegister>
                 Sign Up
               </button>
             </div>

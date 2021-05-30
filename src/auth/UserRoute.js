@@ -3,10 +3,10 @@ import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function UserRoute({ children, ...props }) {
-  const { account } = useSelector((state) => state.user);
+  const { account } = useSelector((state) => state.auth);
   
   if (!account) {
     return <Redirect to={`/login?redirectTo=${props.path}`} />;
   }
-  return <Route>{children}</Route>;
+  return <Route {...props}>{children}</Route>;
 }

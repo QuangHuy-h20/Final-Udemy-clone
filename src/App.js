@@ -1,4 +1,4 @@
-import React,{ lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import * as LottiePlayer from "@lottiefiles/lottie-player";
 //Layouts
@@ -78,22 +78,24 @@ function App() {
 
                   <Route path="/user">
                     <UserProfile>
-                      <Switch>
-                        <Redirect
-                          exact
-                          from="/user"
-                          to="/user/public-profile"
-                        />
-                        <Route path="/user/public-profile">
-                          <PublicProfile />
-                        </Route>
-                        <Route path="/user/edit-profile">
-                          <EditProfile />
-                        </Route>
-                        <Route path="/user/course-enroll">
-                          <CourseEnroll />
-                        </Route>
-                      </Switch>
+                      {/* <UserRoute> */}
+                        <Switch>
+                          <Redirect
+                            exact
+                            from="/user"
+                            to="/user/public-profile"
+                          />
+                          <Route path="/user/public-profile">
+                            <PublicProfile />
+                          </Route>
+                          <Route path="/user/edit-profile">
+                            <EditProfile />
+                          </Route>
+                          <Route path="/user/course-enroll">
+                            <CourseEnroll />
+                          </Route>
+                        </Switch>
+                      {/* </UserRoute> */}
                     </UserProfile>
                   </Route>
                   <Switch>

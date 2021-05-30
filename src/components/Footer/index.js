@@ -36,9 +36,14 @@ const Wrapper = styled.div`
   @media screen and (max-width: 45.5rem) {
     display: block;
   }
+  li{
+    display:block;
+  }
 `;
 
 const Item = styled(Link)`
+  text-transform: none;
+  color:#0f7c90;
   display: block;
   padding: 0.4rem 0;
   font-size: 1.4rem;

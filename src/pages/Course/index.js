@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetail } from "src/actions/course";
-import { useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { Button, ButtonRed } from "src/styles";
 import { cancelCourse, enrollCourse } from "src/actions/enroll";
+import { getAccountInfo } from "src/actions/user";
 
 const CourseSection = styled.section`
   position: relative;
@@ -68,6 +69,7 @@ const Card = styled.div`
     }
     button,
     a {
+      color: #fff;
       width: 100%;
       margin: 1rem auto;
     }
@@ -102,6 +104,27 @@ const TopContainer = styled.div`
   }
 `;
 
+const Direct = styled(Link)`
+  position: relative;
+  align-items: center;
+  border-radius: 4px;
+  border: none;
+  display: flex;
+  min-width: 10rem;
+  padding: 0 1.2rem;
+  justify-content: center;
+  user-select: none;
+  vertical-align: bottom;
+  white-space: nowrap;
+  height: 4.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: #ec5252;
+  &:hover {
+    background: #e61b1b;
+  }
+`;
+
 const MobileScreen = styled.div`
   display: flex;
   justify-content: center;
@@ -124,44 +147,52 @@ const BottomContainer = styled.div`
   }
 `;
 
-export default function Course() {
+export default function Course({ ...props }) {
+  //Get url param of course
   const { courseId } = useParams();
   const dispatch = useDispatch();
+
+  // Call reducers
   const { course } = useSelector((state) => state.course);
-  const { account } = useSelector((state) => state.user);
+  // const { account } = useSelector((state) => state.user);
+  const { enroll, isEnroll, cancel, error } = useSelector(
+    (state) => state.enroll
+  );
+
+  useEffect(() => {
+    dispatch(getCourseDetail(courseId));
+  }, [courseId]);
+  let result = [course].flat();
+
+  // let getEnroll = [account].flat().map((item) => item.chiTietKhoaHocGhiDanh);
+  // console.log(getEnroll);
+
+  //get prop "taiKhoan" from localStorage
 
   const userInfo = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
-    const username = userInfo.taiKhoan;
 
-    let getEnroll = [account].flat();
-    console.log(account);
-    
-  const handleEnroll = () => {
-    dispatch(enrollCourse({ maKhoaHoc: courseId, taiKhoan: username }));
-    alert("Enroll course successfully!");
+  const handleEnroll = (e) => {
+    e.preventDefault();
+    dispatch(
+      enrollCourse({ maKhoaHoc: courseId, taiKhoan: userInfo.taiKhoan })
+    );
+    alert("Enroll successfully");
   };
 
-  const handleCancel = () => {
-    dispatch(cancelCourse({ maKhoaHoc: courseId, taiKhoan: username }));
-    alert("Cancel course successfully!");
+  const handleCancel = (e) => {
+    e.preventDefault();
+    dispatch(
+      cancelCourse({ maKhoaHoc: courseId, taiKhoan: userInfo.taiKhoan })
+    );
+    alert("Cancel successfully");
   };
-
-  useEffect(() => {
-    dispatch(getCourseDetail(courseId));
-    console.log(courseId);
-  }, []);
-
-  // console.log(courseDetail);
-  let result = [course].flat();
-  // console.log(Array.isArray(result));
-  console.log(result);
 
   return (
     <CourseSection>
       {result.map((item) => (
-        <>
+        <div key={item.maKhoaHoc}>
           <Card>
             <div className="img-content">
               <img src={item.hinhAnh} alt="" />
@@ -169,13 +200,25 @@ export default function Course() {
             <div className="main-content">
               <h2>{item.tenKhoaHoc}</h2>
               <>
-                <form onSubmit={handleEnroll}>
-                  <ButtonRed type="submit">Enroll</ButtonRed>
-                </form>
+                {!userInfo ? (
+                  <>
+                    <h2 className="notice">
+                      You need to login to enroll this course
+                    </h2>
 
-                <form onSubmit={handleCancel}>
-                  <ButtonRed type="submit">Cancel</ButtonRed>
-                </form>
+                    <Direct to="/login">Login</Direct>
+                  </>
+                ) : (
+                  <>
+                    <form onSubmit={handleEnroll}>
+                      <ButtonRed type="submit">Enroll</ButtonRed>
+                    </form>
+
+                    <form onSubmit={handleCancel}>
+                      <ButtonRed type="submit">Cancel</ButtonRed>
+                    </form>
+                  </>
+                )}
               </>
             </div>
           </Card>
@@ -190,7 +233,6 @@ export default function Course() {
                 <p>
                   Last Updated: <time>{item.ngayTao}</time>
                 </p>
-                {/* {console.log([item.nguoiTao].flat())} */}
                 {[item.nguoiTao].flat().map((name) => (
                   <p>Created by: {name.hoTen}</p>
                 ))}
@@ -208,14 +250,10 @@ export default function Course() {
               <Content className="content">
                 <h3>Course information:</h3>
                 <p>{item.moTa}</p>
-
-                {/* {Object.values(item.nguoiTao).map((name) => (
-                <p>Created by: {name.hoTen}</p>
-              ))} */}
               </Content>
             </div>
           </BottomContainer>
-        </>
+        </div>
       ))}
     </CourseSection>
   );

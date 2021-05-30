@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, StyledForm, SmallButton, ButtonLogo, Logo } from "src/styles";
 import {
@@ -12,6 +12,7 @@ import { logout } from "src/actions/auth";
 import { getCategory } from "src/actions/category";
 import logo from "src/images/logo-coral.svg";
 import { Link } from "react-router-dom";
+import { getCourses } from "src/actions/courses";
 
 const HeaderSection = styled.header`
   display: flex;
@@ -93,6 +94,7 @@ const Navbar = styled.nav`
 `;
 
 const SearchForm = styled.div`
+  position: relative;
   max-width: none;
   display: flex;
   flex-grow: 1;
@@ -109,6 +111,7 @@ const DropdownList = styled.div`
   top: 100%;
   left: 10%;
   opacity: 1;
+  transition: all 0.2s ease;
   animation: 0.5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
   .wrapper {
     min-height: 40rem;
@@ -134,23 +137,92 @@ const DropdownList = styled.div`
     }
   }
 `;
+const DropdownSearch = styled.div`
+  display: block;
+  position: absolute;
+  top: 110%;
+  left: 5%;
+  background: #fff;
+  height: 20rem;
+  overflow: hidden;
+  overflow-y: scroll;
+  transition: all 0.2s ease;
+  .wrapper {
+    padding: 1rem;
+    width: 50rem;
+    li {
+      padding: 1rem 0;
+      height: auto;
+      a {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.4rem;
+        padding: 0.8rem 1.6rem;
+      }
+    }
+  }
+`;
 
 const Header = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const { category } = useSelector((state) => state.category);
+  const { courses } = useSelector((state) => state.courses);
+  const [keyword, setKeyword] = useState("");
+  const [focus, setFocus] = useState(false);
+
+  useEffect(() => {
+    dispatch(getCourses());
+  }, []);
 
   useEffect(() => {
     dispatch(getCategory());
   }, []);
-
-  console.log(category);
 
   const handleLogout = (data) => {
     localStorage.clear();
     dispatch(logout(data));
   };
 
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleFocus = () => {
+    setFocus(true);
+  };
+
+  const handleBlur = () => {
+    setFocus(false);
+  };
+
+  const filtered = courses.filter((item) => {
+    if (keyword === "") {
+      return item;
+    } else if (item.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase())) {
+      return item;
+    }
+  });
+
+  const renderDropdownSearch = filtered.map((item) => {
+    return (
+      <DropdownSearch>
+        <div className="wrapper">
+          <ul>
+            {filtered.map((item) => {
+              return (
+                <li key={item.maKhoahoc}>
+                  <Link to={`/course/${item.maKhoaHoc}`}>
+                    {item.tenKhoaHoc}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </DropdownSearch>
+    );
+  });
 
   return (
     <>
@@ -195,10 +267,19 @@ const Header = () => {
           </div>
           <SearchForm>
             <StyledForm>
-              <SmallButton to={`/courses/search/${0}`}>
+              <SmallButton>
                 <SearchOutlined />
               </SmallButton>
-              <input placeholder="Search for anything" />
+              <input
+                className="searchInput"
+                type="text"
+                placeholder="Search for anything"
+                value={keyword}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+              {focus ? renderDropdownSearch : null}
             </StyledForm>
           </SearchForm>
           <div className="trigger">
