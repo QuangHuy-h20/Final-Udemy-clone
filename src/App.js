@@ -44,7 +44,7 @@ function App() {
             <Route path="/admin">
               <AdminLayout>
                 <Switch>
-                  <Redirect exact from="/admin" to="/admin/courses" />
+                  {/* <Redirect exact from="/admin" to="/admin/courses" /> */}
                   <AdminRoute path="/admin/courses">
                     <AdminCourses />
                   </AdminRoute>

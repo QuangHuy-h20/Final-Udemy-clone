@@ -1,17 +1,16 @@
+import { Hidden } from "@material-ui/core";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import SideBar from "../../components/Sidebar/SideBar";
 
 const AdminLayout = ({ children }) => {
   return (
-    <div >
-      <div>
-        <h3>CyberLearn</h3>
-        <Link to="/admin/courses">Courses</Link>
-        <Link to="/admin/users">Users</Link>
-      </div>
+    
+    <Hidden>
+      <SideBar/>
       {/**Content */}
       <div>{children}</div>
-    </div>
+    </Hidden>
   );
 };
 
