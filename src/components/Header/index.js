@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  Button,
-  StyledForm,
-  SmallButton,
-  ButtonLogo,
-  Logo,
-} from "../../styles";
+import { Button, StyledForm, SmallButton, ButtonLogo, Logo } from "src/styles";
 import {
   SearchOutlined,
   ShoppingCartOutlined,
@@ -14,9 +8,9 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../actions/auth";
-import { getCategory } from "../../actions/category";
-import logo from "../../images/logo-coral.svg";
+import { logout } from "src/actions/auth";
+import { getCategory } from "src/actions/category";
+import logo from "src/images/logo-coral.svg";
 import { Link } from "react-router-dom";
 
 const HeaderSection = styled.header`
@@ -115,7 +109,7 @@ const DropdownList = styled.div`
   top: 100%;
   left: 10%;
   opacity: 1;
-  animation: .5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: 0.5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
   .wrapper {
     min-height: 40rem;
     width: 26rem;
@@ -144,7 +138,7 @@ const DropdownList = styled.div`
 const Header = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { category, isLoading, error } = useSelector((state) => state.category);
+  const { category } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(getCategory());
@@ -156,6 +150,7 @@ const Header = () => {
     localStorage.clear();
     dispatch(logout(data));
   };
+
 
   return (
     <>
@@ -200,7 +195,7 @@ const Header = () => {
           </div>
           <SearchForm>
             <StyledForm>
-              <SmallButton to={`/search/${0}`}>
+              <SmallButton to={`/courses/search/${0}`}>
                 <SearchOutlined />
               </SmallButton>
               <input placeholder="Search for anything" />
@@ -212,7 +207,7 @@ const Header = () => {
             </SmallButton>
           </div>
           <div className="trigger">
-            <SmallButton>
+            <SmallButton to="/">
               <span>Teach on Udemy</span>
             </SmallButton>
           </div>
@@ -221,7 +216,7 @@ const Header = () => {
           </SmallButton>
           {userInfo ? (
             <>
-              <Link to="/user/profile">Hi, {userInfo.hoTen}</Link>
+              <Link to="/user/public-profile">Hi, {userInfo.hoTen}</Link>
               <Button primary bd colorHover to="/" onClick={handleLogout}>
                 Logout
               </Button>

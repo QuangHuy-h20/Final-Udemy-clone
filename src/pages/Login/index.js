@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
 import qs from "qs";
-import { login } from "../../actions/auth";
+import { login } from "src/actions/auth";
 
 import { MailFilled, LockFilled } from "@ant-design/icons";
 import {
@@ -15,7 +15,7 @@ import {
   StyledLogin,
   StyledFooterLogin,
   Alert,
-} from "../../styles";
+} from "src/styles";
 
 //create schema validation
 const schema = yup.object().shape({

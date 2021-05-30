@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, Redirect } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+
 // import qs from "qs";
-import { signUp } from "../../actions/auth";
+import { signUp } from "src/actions/auth";
 
 import { MailFilled, LockFilled, UserOutlined } from "@ant-design/icons";
 import {
@@ -15,7 +15,7 @@ import {
   StyledLogin,
   StyledFooterLogin,
   Alert,
-} from "../../styles";
+} from "src/styles";
 
 const schema = yup.object().shape({
   taiKhoan: yup
@@ -29,14 +29,13 @@ const schema = yup.object().shape({
     .min(5, "Password must have 5 to 20 characters")
     .max(20, "Password must have 5 to 20 characters"),
   hoTen: yup.string().required("Full name is required"),
-  email: yup.string().required("Email is required"),
+  email: yup.string().email().required("Email is required"),
 });
 
 export default function Register() {
   const { userRegister, error } = useSelector((state) => state.register);
-  const [registered, setRegistered] = useState(false);
   const dispatch = useDispatch();
-  const location = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -109,17 +108,17 @@ export default function Register() {
             />
           </div>
           {errors.hoTen && <Alert>{errors.soDT.message}</Alert>}
-          <div className="form-field-container">
+          <div className="form-field-container disabled">
             <UserOutlined />
-            <input type="text" placeholder="GroupID" {...register("maNhom")} />
+            <input type="text" value="GP08" {...register("maNhom")} />
           </div>
-          {errors.maNhom && <Alert>{errors.maNhom.message}</Alert>}
           <div className="form-field-container">
             <MailFilled />
 
             <input type="text" placeholder="Email" {...register("email")} />
           </div>
           {errors.email && <Alert>{errors.email.message}</Alert>}
+          {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
           <ActionForm>
             <div className="btn-submit">
               <button type="submit" handleRegister userRegister>

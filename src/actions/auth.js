@@ -7,7 +7,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
 } from "../constants/auth";
-import authAPI from "../services/authAPI";
+import authAPI from "src/services/authAPI";
 
 export function login(values) {
   return async (dispatch) => {

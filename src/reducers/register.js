@@ -4,17 +4,18 @@ import {
   REGISTER_FAILURE,
 } from "../constants/auth";
 
-// const userRegister = {
-//   taiKhoan: "",
-//   matKhau: "",
-//   hoTen: "",
-//   soDT: "0144552894",
-//   maNhom: "GP01",
-//   email: "",
-// };
+const userRegister = {
+  taiKhoan: "",
+  matKhau: "",
+  hoTen: "",
+  soDT: "",
+  maNhom: "GP08",
+  maLoaiNguoiDung: "HV",
+  email: "",
+};
 
 const initialState = {
-  userRegister:{},
+  userRegister,
   isLoading: false,
   error: null,
 };

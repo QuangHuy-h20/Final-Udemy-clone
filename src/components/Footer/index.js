@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ButtonLogo, Logo } from "../../styles";
-import logo from "../../images/logo-coral.svg";
+import { ButtonLogo, Logo } from "src/styles";
+import logo from "src/images/logo-coral.svg";
 import { GlobalOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 

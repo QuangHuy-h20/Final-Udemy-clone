@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountInfo } from "../../actions/user";
+import { getAccountInfo } from "src/actions/user";
 
 export default function PublicProfile() {
   const dispatch = useDispatch();
-  const { account, isLoading, error } = useSelector((state) => state.user);
+  const { account } = useSelector((state) => state.user);
 
   useEffect(() => {
     const account = localStorage.getItem("userInfo")
@@ -18,7 +18,7 @@ export default function PublicProfile() {
 
   let result = [account].flat();
   return (
-    <div>
+    <div style={{padding:'3rem'}}>
       {result.map((item) => (
         <>
           <h4>
@@ -33,6 +33,10 @@ export default function PublicProfile() {
           <h4>
             Email: <span>{item.email}</span>
           </h4>
+          <h4>
+            Group ID: <span>{item.maNhom}</span>
+          </h4>
+         
         </>
       ))}
     </div>

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { GlobalStyle } from "./styles/GlobalStyle";
+import '../src/assets/css/material-dashboard-react.css?v=1.10.0'
 
 //setup Redux
 import rootReducer from "./reducers";
@@ -11,6 +12,7 @@ import { Provider } from "react-redux";
 
 //setup middleware
 import thunk from "redux-thunk";
+
 const middleware = applyMiddleware(thunk);
 const enhancer = compose(
   middleware,

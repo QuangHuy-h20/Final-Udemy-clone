@@ -1,7 +1,12 @@
 import React from "react";
+import * as LottiePlayer from "@lottiefiles/lottie-player";
+
+
 import styled from "styled-components";
-import { ButtonRed } from "../../styles";
+import { ButtonRed } from "src/styles";
 import { Link } from "react-router-dom";
+
+
 const Container = styled.div`
   width: 100%;
   background: #fbfbf8;
@@ -20,7 +25,8 @@ const Container = styled.div`
       font-weight: 700;
     }
     p {
-      font-size: 2.2rem;
+      font-size: 4.2rem;
+      padding:1.3rem;
     }
   }
 `;
@@ -28,13 +34,20 @@ const Container = styled.div`
 function PageNotFound() {
   return (
     <Container>
+       <lottie-player
+            autoplay
+            loop
+            mode="normal"
+            src="https://assets4.lottiefiles.com/private_files/lf30_fi8yfbmc.json"
+            style={{ width: "90vw", height: "50vh"}}
+          ></lottie-player>
       <div className="content">
-        <h1>404 Page Not Found!</h1>
+        {/* <h1>404 Page Not Found!</h1> */}
         <p>Oops! Looks like something went wrong.</p>
       </div>
       <ButtonRed>
         <Link to="/" style={{ color: "#fff" }}>
-          Back to HomePage
+          Back to Homepage
         </Link>
       </ButtonRed>
     </Container>
