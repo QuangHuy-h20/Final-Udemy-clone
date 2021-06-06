@@ -113,7 +113,7 @@ const Headline = styled.div`
 export default function Home() {
   const dispatch = useDispatch();
   const { courses } = useSelector((state) => state.courses);
-  
+
   useEffect(() => {
     dispatch(getCourses());
   }, []);
@@ -122,26 +122,29 @@ export default function Home() {
   const handleListCourses = () => {
     const list = [];
     const length = 8;
-    for (let item = 0; item < length; item++) {
-      let object = courses[item];
-      list.push(
-        <Card key={object.maKhoaHoc}>
-          <Link to={`/course/${object.maKhoaHoc}`}>
-            <div className="card-img">
-              <img src={object.hinhAnh} alt="khoaHoc" />
-            </div>
-            <div className="card-content">
-              <h3>{object.tenKhoaHoc}</h3>
-              <p>{object.moTa}</p>
-            </div>
-            <div className="card-action">
-              <ButtonRed>View</ButtonRed>
-            </div>
-          </Link>
-        </Card>
-      )
+    try {
+      for (let item = 0; item < length; item++) {
+        let object = courses[item];
+        list.push(
+          <Card key={object.maKhoaHoc}>
+            <Link to={`/course/${object.maKhoaHoc}`}>
+              <div className="card-img">
+                <img src={object.hinhAnh} alt="khoaHoc" />
+              </div>
+              <div className="card-content">
+                <h3>{object.tenKhoaHoc}</h3>
+                <p>{object.moTa}</p>
+              </div>
+              <div className="card-action">
+                <ButtonRed>View</ButtonRed>
+              </div>
+            </Link>
+          </Card>
+        )
+      } return (<div className="inner">{list}</div>)
+    } catch (err) {
+      console.log(err);
     }
-    return (<div className="inner">{list}</div>)
   }
 
 
