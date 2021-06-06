@@ -1,4 +1,4 @@
-import React,{ lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import * as LottiePlayer from "@lottiefiles/lottie-player";
 //Layouts
@@ -6,19 +6,20 @@ import AdminLayout from "./layouts/Admin";
 import AppLayout from "./layouts/App";
 //Custom Route
 import AdminRoute from "./auth/AdminRoute";
-import UserRoute from "./auth/UserRoute";
+// import UserRoute from "./auth/UserRoute";
 
 //UserLayout
 import PublicProfile from "./pages/UserProfile/PublicProfile";
 import EditProfile from "./pages/UserProfile/EditProfile";
 import CourseEnroll from "./pages/UserProfile/CourseEnroll";
-import SearchPage from "./pages/SearchPage";
+
 
 //Pages w LazyLoad
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const Courses = lazy(() => import("./pages/CoursesByCategory"));
+const CoursesByCategory = lazy(() => import("./pages/CoursesByCategory"));
+const Courses = lazy(() => import("./pages/Courses"));
 const Course = lazy(() => import("./pages/Course"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const AdminCourses = lazy(() => import("./pages/AdminCourses"));
@@ -43,8 +44,9 @@ function App() {
           <Switch>
             <Route path="/admin">
               <AdminLayout>
+                <AdminRoute>
                 <Switch>
-                  {/* <Redirect exact from="/admin" to="/admin/courses" /> */}
+                  <Redirect exact from="/admin" to="/admin/courses" />
                   <AdminRoute path="/admin/courses">
                     <AdminCourses />
                   </AdminRoute>
@@ -52,6 +54,7 @@ function App() {
                     <AdminUsers />
                   </AdminRoute>
                 </Switch>
+                </AdminRoute>
               </AdminLayout>
             </Route>
             <Route path="/">
@@ -60,15 +63,16 @@ function App() {
                   <Route path="/" exact>
                     <Home />
                   </Route>
-                  <Route path="/courses/:category">
-                    <Courses />
-                  </Route>
-                  <Route path="/courses/search/:name">
-                    <SearchPage />
-                  </Route>
-                  <Route path="/course/:courseId">
-                    <Course />
-                  </Route>
+                    <Route exact path="/courses">
+                      <Courses />
+                    </Route>
+                    <Route exact path="/courses/:category">
+                      <CoursesByCategory />
+                    </Route>
+                    <Route exact path="/course/:courseId">
+                      <Course />
+                    </Route>
+                  <Redirect exact from="/course" to="/courses/" />
                   <Route path="/login">
                     <Login />
                   </Route>
@@ -78,6 +82,7 @@ function App() {
 
                   <Route path="/user">
                     <UserProfile>
+                      {/* <UserRoute> */}
                       <Switch>
                         <Redirect
                           exact
@@ -94,6 +99,7 @@ function App() {
                           <CourseEnroll />
                         </Route>
                       </Switch>
+                      {/* </UserRoute> */}
                     </UserProfile>
                   </Route>
                   <Switch>

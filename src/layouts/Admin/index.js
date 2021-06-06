@@ -6,16 +6,16 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
-import FixedPlugin from '../../components/FixedPlugin/FixedPlugin';
-import Navbar from '../../components/Navbar/Navbar'
-import Sidebar from '../../components/Sidebar/Sidebar'
+import FixedPlugin from 'src/components/FixedPlugin/FixedPlugin';
+import Navbar from 'src/components/Navbar/Navbar'
+import Sidebar from 'src/components/Sidebar/SideBar'
 
-import styles from '../../assets/jss/material-dashboard-react/layouts/adminStyle'
+import styles from 'src/assets/jss/material-dashboard-react/layouts/adminStyle'
 
 import routes from "./routes";
 
-import bgImage from '../../assets/img/sidebar-2.jpg';
-import logo from '../../assets/img/reactlogo.png';
+import bgImage from 'src/assets/img/sidebar-2.jpg';
+import logo from 'src/assets/img/reactlogo.png';
 import AdminRoute from "src/auth/AdminRoute";
 
 let ps;

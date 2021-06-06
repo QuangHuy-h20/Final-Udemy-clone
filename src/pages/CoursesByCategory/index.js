@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCoursesByCategory } from "src/actions/courses";
 import { Card, ButtonRed, CoursesSection, StyledMain } from "src/styles";
 import { Link } from "react-router-dom";
-
-export default function Courses() {
+import Breadcrumb from "src/components/Breadcrumb/Breadcrumb";
+export default function CoursesByCategory() {
   const dispatch = useDispatch();
   const { category } = useParams();
   const { courses } = useSelector((state) => state.courses);
@@ -13,12 +13,13 @@ export default function Courses() {
   useEffect(() => {
     //dispatch action call API get list
     dispatch(getCoursesByCategory(category));
-    console.log(category);
+    // console.log(category);
   }, [category]);
   
   return (
     <StyledMain>
       <CoursesSection>
+      <Breadcrumb />
         <div className="content">
           <div className="inner">
             {courses.map((item) => (

@@ -8,6 +8,7 @@ import {
   REGISTER_FAILURE,
 } from "../constants/auth";
 import authAPI from "src/services/authAPI";
+import { Redirect } from "react-router";
 
 export function login(values) {
   return async (dispatch) => {
@@ -39,6 +40,7 @@ export function signUp(values) {
       const { data } = await authAPI.signUp(values);
       dispatch({ type: REGISTER_SUCCESS, payload: { data } });
       alert("Register Successfully!");
+      return <Redirect to="/login" />;
     } catch (error) {
       dispatch({
         type: REGISTER_FAILURE,

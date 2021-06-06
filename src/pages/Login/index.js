@@ -31,10 +31,11 @@ const schema = yup.object().shape({
     .max(20, "Password must have 5 to 20 characters"),
 });
 
-export default function Login() {
+export default function Login({ children }) {
   const dispatch = useDispatch();
-  const { userInfo, isLoading, error } = useSelector((state) => state.auth);
+  const { userInfo, error } = useSelector((state) => state.auth);
   const location = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -111,7 +112,11 @@ export default function Login() {
 
           <ActionForm>
             <div className="btn-submit">
-              <button type="submit" handleLogin>
+              <button
+                type="submit"
+                handleLogin
+
+              >
                 Log In
               </button>
               <span>or</span>

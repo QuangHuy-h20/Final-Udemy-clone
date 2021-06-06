@@ -7,17 +7,9 @@ import {
   CANCEL_ENROLL_FAILURE,
 } from "src/constants/enroll";
 
-// const userInfo = localStorage.getItem("userInfo")
-//   ? JSON.parse(localStorage.getItem("userInfo"))
-//   : null;
-// const enroll = [
-//   {
-//     userName: userInfo.taiKhoan,
-//     params: "",
-//   },
-// ];
 const initialState = {
-  enroll:{},
+  enroll: "",
+  cancel: "",
   isEnroll: false,
   error: null,
 };
@@ -25,22 +17,22 @@ const initialState = {
 function enrollReducer(state = initialState, action) {
   switch (action.type) {
     case ENROLL_REQUEST: {
-      return { ...state, isEnroll: false, error: null };
+      return { ...state, error: null };
     }
     case ENROLL_SUCCESS: {
       return { ...state, isEnroll: true, enroll: action.payload.data };
     }
     case ENROLL_FAILURE: {
-      return { ...state, isEnroll: false, error: action.payload.error };
+      return { ...state, error: action.payload.error };
     }
     case CANCEL_ENROLL_REQUEST: {
-      return { ...state, isEnroll: true, error: null };
+      return { ...state, error: null };
     }
     case CANCEL_ENROLL_SUCCESS: {
-      return { ...state, isEnroll: false, course: action.payload.data };
+      return { ...state, isEnroll: false, cancel: action.payload.data };
     }
     case CANCEL_ENROLL_FAILURE: {
-      return { ...state, isEnroll: true, error: action.payload.error };
+      return { ...state, error: action.payload.error };
     }
     default:
       return state;

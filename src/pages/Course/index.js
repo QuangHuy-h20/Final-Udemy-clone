@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetail } from "src/actions/course";
-import { useParams } from "react-router-dom";
-import { Button, ButtonRed } from "src/styles";
-import { cancelCourse, enrollCourse } from "src/actions/enroll";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { ButtonRed } from "src/styles";
+import { enrollCourse } from "src/actions/enroll";
+import Breadcrumb from "src/components/Breadcrumb/Breadcrumb";
 
 const CourseSection = styled.section`
   position: relative;
@@ -60,7 +61,13 @@ const Card = styled.div`
     }
   }
   .main-content {
-    padding: 2.4rem;
+    padding: 2.4rem 2rem;
+    h1{
+      font-weight:600;
+      color: #0f7c90;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
     h2 {
       font-weight: 600;
       text-align: center;
@@ -68,7 +75,9 @@ const Card = styled.div`
     }
     button,
     a {
-      width: 100%;
+      width:100%;
+      font-weight:700;
+      color: #fff;
       margin: 1rem auto;
     }
   }
@@ -77,6 +86,12 @@ const TopContainer = styled.div`
   padding: 3.2rem 0;
   background-color: #1e1e1c;
   color: #fff;
+  .custom{
+    a{
+      color:#fff;
+
+    }
+  }
   h1 {
     font-size: 3.8rem;
     font-weight: 600;
@@ -99,6 +114,27 @@ const TopContainer = styled.div`
         margin: 2rem auto;
       }
     }
+  }
+`;
+
+const Direct = styled(Link)`
+  position: relative;
+  align-items: center;
+  border-radius: 4px;
+  border: none;
+  display: flex;
+  min-width: 10rem;
+  padding: 0 1.2rem;
+  justify-content: center;
+  user-select: none;
+  vertical-align: bottom;
+  white-space: nowrap;
+  height: 4.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: #ec5252;
+  &:hover {
+    background: #e61b1b;
   }
 `;
 
@@ -125,57 +161,56 @@ const BottomContainer = styled.div`
 `;
 
 export default function Course() {
+  //Get url param of course
   const { courseId } = useParams();
   const dispatch = useDispatch();
-  const { course } = useSelector((state) => state.course);
-  const { account } = useSelector((state) => state.user);
+  let history = useHistory();
 
+  // Call reducers
+  const { course } = useSelector((state) => state.course);
   const userInfo = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
-    const username = userInfo.taiKhoan;
-
-    let getEnroll = [account].flat();
-    console.log(account);
-    
-  const handleEnroll = () => {
-    dispatch(enrollCourse({ maKhoaHoc: courseId, taiKhoan: username }));
-    alert("Enroll course successfully!");
-  };
-
-  const handleCancel = () => {
-    dispatch(cancelCourse({ maKhoaHoc: courseId, taiKhoan: username }));
-    alert("Cancel course successfully!");
-  };
 
   useEffect(() => {
     dispatch(getCourseDetail(courseId));
-    console.log(courseId);
-  }, []);
+  }, [courseId]);
 
-  // console.log(courseDetail);
+  const handleEnroll = (e) => {
+    //get prop "taiKhoan" from localStorage
+    const { taiKhoan } = userInfo;
+    e.preventDefault();
+    dispatch(enrollCourse({ maKhoaHoc: courseId, taiKhoan }));
+  }
+  //convert course to new Array
   let result = [course].flat();
-  // console.log(Array.isArray(result));
-  console.log(result);
+
+  function renderAction() {
+    if (!userInfo) {
+      return <>
+        <h2 className="notice">You need to login to enroll this course</h2>
+        <Direct to="/login" onClick={history.goback}>Login</Direct>
+      </>
+    } else {
+      return <form onSubmit={handleEnroll}>
+        <ButtonRed type="submit">Enroll</ButtonRed >
+      </form >
+    }
+
+  }
 
   return (
     <CourseSection>
       {result.map((item) => (
-        <>
+        <div key={item.maKhoaHoc}>
           <Card>
             <div className="img-content">
               <img src={item.hinhAnh} alt="" />
             </div>
             <div className="main-content">
-              <h2>{item.tenKhoaHoc}</h2>
+              <h1>{item.tenKhoaHoc}</h1>
               <>
-                <form onSubmit={handleEnroll}>
-                  <ButtonRed type="submit">Enroll</ButtonRed>
-                </form>
-
-                <form onSubmit={handleCancel}>
-                  <ButtonRed type="submit">Cancel</ButtonRed>
-                </form>
+                {renderAction()}
               </>
             </div>
           </Card>
@@ -184,22 +219,23 @@ export default function Course() {
               <img src={item.hinhAnh} alt="" />
             </MobileScreen>
             <div key={item.maKhoaHoc} className="inner ">
+              <div className="custom">
+                <Breadcrumb />
+              </div>
               <Content>
                 <h1>{item.tenKhoaHoc}</h1>
                 <p>View: {item.luotXem}</p>
                 <p>
                   Last Updated: <time>{item.ngayTao}</time>
                 </p>
-                {/* {console.log([item.nguoiTao].flat())} */}
                 {[item.nguoiTao].flat().map((name) => (
                   <p>Created by: {name.hoTen}</p>
                 ))}
               </Content>
               <div className="purchase">
-                <ButtonRed>Add to Cart</ButtonRed>
-                <Button primary bd colorHover to="/">
-                  Buy now
-                </Button>
+                <form onSubmit={handleEnroll}>
+                  <ButtonRed type="submit" >Enroll</ButtonRed>
+                </form>
               </div>
             </div>
           </TopContainer>
@@ -208,14 +244,10 @@ export default function Course() {
               <Content className="content">
                 <h3>Course information:</h3>
                 <p>{item.moTa}</p>
-
-                {/* {Object.values(item.nguoiTao).map((name) => (
-                <p>Created by: {name.hoTen}</p>
-              ))} */}
               </Content>
             </div>
           </BottomContainer>
-        </>
+        </div>
       ))}
     </CourseSection>
   );

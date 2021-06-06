@@ -12,7 +12,7 @@ export default function AdminRoute({ children, ...props }) {
 
   //Login but not admin role
   if (userInfo.maLoaiNguoiDung !== "GV") {
-    return <Redirect to="/admin" />;
+    return <Redirect to="/" />;
   }
   return <Route {...props}>{children}</Route>;
 }

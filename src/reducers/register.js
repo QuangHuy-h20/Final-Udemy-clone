@@ -4,18 +4,9 @@ import {
   REGISTER_FAILURE,
 } from "../constants/auth";
 
-const userRegister = {
-  taiKhoan: "",
-  matKhau: "",
-  hoTen: "",
-  soDT: "",
-  maNhom: "GP08",
-  maLoaiNguoiDung: "HV",
-  email: "",
-};
-
 const initialState = {
-  userRegister,
+  user: [],
+  registered: false,
   isLoading: false,
   error: null,
 };
@@ -23,9 +14,14 @@ const initialState = {
 function registerReducer(state = initialState, action) {
   switch (action.type) {
     case REGISTER_REQUEST:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, registered: false, error: null };
     case REGISTER_SUCCESS: {
-      return { ...state, isLoading: false, userRegister: action.payload.data };
+      return {
+        ...state,
+        isLoading: false,
+        registered: true,
+        user: action.payload.data,
+      };
     }
     case REGISTER_FAILURE: {
       return { ...state, isLoading: false, error: action.payload.error };

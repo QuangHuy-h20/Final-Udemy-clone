@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import {
-  SmallButton,
+  TextButton,
   StyledForm,
   StyledMain,
   Card,
   ButtonRed,
   CoursesSection,
 } from "src/styles/";
+
 import img from "src/images/8a5d045c-2dd2-4a4d-bb0e-a487af8a5aa0.jpg";
 
 const Billboard = styled.section`
@@ -19,19 +20,25 @@ const Billboard = styled.section`
   position: relative;
   width: 100%;
   display: block;
-  @media screen and (max-width: 700px) {
-    margin-bottom: 0;
-  }
   img {
+    position:relative;
     width: 100%;
     max-width: 100%;
     height: auto;
   }
+  @media screen and (max-width: 700px) {
+    margin-bottom: 0;
+  }
+  @media screen and (max-width: 550px) {
+    margin-bottom: 5rem;
+  }
+  
 `;
 
 const Box = styled.div`
   display: flex;
   width: 100%;
+  justify-content:space-between;
   position: absolute;
   background: #fff;
   flex-direction: column;
@@ -40,11 +47,14 @@ const Box = styled.div`
   top: 6.4rem;
   left: 4.8rem;
   max-width: 44rem;
-
   @media screen and (max-width: 1200px) {
     top: 2.4rem;
     left: 2.4rem;
     width: 34rem;
+  }
+  @media screen and (max-width: 875px) {
+    height: 16rem;
+    padding:1rem 2rem;
   }
   @media screen and (max-width: 700px) {
     box-shadow: none;
@@ -60,6 +70,9 @@ const Box = styled.div`
     font-weight: 700;
     font-size: 4rem;
     margin-bottom: 0.8rem;
+    @media screen and (max-width: 900px) {
+      font-size: 2.5rem;
+    }
   }
 
   p {
@@ -67,7 +80,7 @@ const Box = styled.div`
     margin-bottom: 1.6rem;
 
     @media screen and (max-width: 1200px) {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
   a {
@@ -96,12 +109,42 @@ const Headline = styled.div`
   }
 `;
 
+
 export default function Home() {
   const dispatch = useDispatch();
   const { courses } = useSelector((state) => state.courses);
+  
   useEffect(() => {
     dispatch(getCourses());
   }, []);
+
+
+  const handleListCourses = () => {
+    const list = [];
+    const length = 8;
+    for (let item = 0; item < length; item++) {
+      let object = courses[item];
+      list.push(
+        <Card key={object.maKhoaHoc}>
+          <Link to={`/course/${object.maKhoaHoc}`}>
+            <div className="card-img">
+              <img src={object.hinhAnh} alt="khoaHoc" />
+            </div>
+            <div className="card-content">
+              <h3>{object.tenKhoaHoc}</h3>
+              <p>{object.moTa}</p>
+            </div>
+            <div className="card-action">
+              <ButtonRed>View</ButtonRed>
+            </div>
+          </Link>
+        </Card>
+      )
+    }
+    return (<div className="inner">{list}</div>)
+  }
+
+
   return (
     <StyledMain>
       <Billboard>
@@ -115,9 +158,9 @@ export default function Home() {
           <div className="wrapper">
             <StyledForm>
               <input type="text" placeholder="What do you want to learn?" />
-              <SmallButton to="/">
+              <TextButton to="/">
                 <SearchOutlined />
-              </SmallButton>
+              </TextButton>
             </StyledForm>
           </div>
         </Box>
@@ -130,24 +173,7 @@ export default function Home() {
         </p>
       </Headline>
       <CoursesSection>
-        <div className="inner">
-          {courses.map((item) => (
-            <Card key={item.maKhoaHoc}>
-              <Link to={`/course/${item.maKhoaHoc}`}>
-                <div className="card-img">
-                  <img src={item.hinhAnh} alt="khoaHoc" />
-                </div>
-                <div className="card-content">
-                  <h3>{item.tenKhoaHoc}</h3>
-                  <p>{item.moTa}</p>
-                </div>
-                <div className="card-action">
-                  <ButtonRed>View</ButtonRed>
-                </div>
-              </Link>
-            </Card>
-          ))}
-        </div>
+        {handleListCourses()}
       </CoursesSection>
     </StyledMain>
   );

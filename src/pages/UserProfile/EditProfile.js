@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const UserForm = styled.form`
   .form-wrapper {
-    padding: 2rem 14rem;
+    padding: 2rem 10rem;
     .disabled {
       display: none !important;
     }
@@ -37,6 +37,12 @@ const UserForm = styled.form`
     label {
       padding: 1rem 0;
     }
+    @media screen and (max-width:1200px){
+      padding: 2rem 5rem;
+    }
+    @media screen and (max-width:800px){
+      padding: 2rem;
+    }
   }
   .action-form {
     box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #dedfe0;
@@ -59,7 +65,6 @@ export default function EditProfile() {
     dispatch(updateAccountInfo(userUpdate));
     alert("Update successfully!");
   };
-
   let handleChange = (e) => {
     const { value, name } = e.target;
     // console.log(name, value);
@@ -88,6 +93,7 @@ export default function EditProfile() {
               <input
                 name="matKhau"
                 type="password"
+                autoComplete="on"
                 defaultValue={item.matKhau}
                 onChange={handleChange}
               />

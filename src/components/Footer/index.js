@@ -28,17 +28,26 @@ const FooterSection = styled.footer`
 `;
 const Wrapper = styled.div`
   display: flex;
+  @media screen and (max-width: 729px) {
+    display: block;
+    padding: 1rem 0;
+  }
   &.bottom {
     justify-content: space-between;
-    padding: 6.4rem 0 4.8rem;
+    padding-bottom: 3rem;
     align-items: center;
+    a{
+      margin: 2rem 0; 
+    }
   }
-  @media screen and (max-width: 45.5rem) {
-    display: block;
+  li{
+    display:block;
   }
 `;
 
 const Item = styled(Link)`
+  text-transform: none;
+  color:#0f7c90;
   display: block;
   padding: 0.4rem 0;
   font-size: 1.4rem;

@@ -60,6 +60,14 @@ export const Button = styled(Link)`
     background: ${({ primary }) => (primary ? "#fff" : "#094c59")};
     color: ${({ colorHover }) => (colorHover ? "#094c59" : "#fff")};
   }
+  @media screen and (max-width: 800px) {
+    display:block;
+    border:none;
+    height:100%;
+    padding: 1rem 0;
+    background-color:#fff;
+    color: #0f7c90;
+  }
 `;
 
 export const ButtonRed = styled.button`
@@ -81,9 +89,14 @@ export const ButtonRed = styled.button`
   &:hover {
     background: #e61b1b;
   }
+  @media screen and (max-width: 600px) {
+    min-width: 7rem;
+    height:4rem;
+    font-size:1.3rem;
+  }
 `;
 
-export const SmallButton = styled(Link)`
+export const TextButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -118,15 +131,32 @@ export const Card = styled.div`
       width: 100%;
       height: 100%;
     }
+    &:hover{
+      &:before{
+      content:"";
+      background:#1e1e1c;
+      position:absolute;
+      top:0;
+      left:0;
+      height:100%;
+      width:100%;
+      opacity:0.2;
+      }
+    }
+    @media screen and (max-width: 1024px){
+      height: 14rem;
+    }
   }
 
   .card-content {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
     padding: 1.4rem;
     height:10rem;
     width: 100%;
     h3 {
       display: -webkit-box;
-      margin-bottom: 0.8rem;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       font-size: 1.6rem;
@@ -140,12 +170,10 @@ export const Card = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      margin-bottom: 1.6rem;
     }
   }
   &:hover{
   box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 2px 4px 12px rgb(0 0 0 / 12%);
-
   }
   .card-action{
     padding: 0 1.4rem 1.4rem;
@@ -221,6 +249,14 @@ export const StyledLogin = styled.div`
   .content {
     padding: 2.4rem 2.4rem 1.6rem;
   }
+
+  @media screen and (max-width: 375px){
+    width:100%;
+    .title{
+      padding: 2rem;
+      text-align:center;
+    }
+  }
 `;
 
 export const Alert = styled.div`
@@ -257,9 +293,15 @@ export const CoursesSection = styled.section`
     grid-gap: 3.5rem;
     @media screen and (max-width: 980px) {
       grid-template-columns: repeat(3, 1fr);
+      grid-gap: 2.5rem;
+      
     }
     @media screen and (max-width: 700px) {
       grid-template-columns: repeat(2, 1fr);
+      grid-gap: 2rem;
+    }
+    @media screen and (max-width: 425px) {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 `;
