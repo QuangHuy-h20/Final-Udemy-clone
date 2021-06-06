@@ -16,10 +16,12 @@ import routes from "./routes";
 
 import bgImage from '../../assets/img/sidebar-2.jpg';
 import logo from '../../assets/img/reactlogo.png';
+import AdminRoute from "src/auth/AdminRoute";
 
 let ps;
 
 const switchRoutes = (
+  <AdminRoute>
   <Switch>
     {routes.map((prop, key) => {
       if (prop.layout === "/admin") {
@@ -35,6 +37,7 @@ const switchRoutes = (
     })}
     <Redirect from="/admin" to="/admin/dashboard" />
   </Switch>
+  </AdminRoute>
 );
 
 const useStyles = makeStyles(styles);
