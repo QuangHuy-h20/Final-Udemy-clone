@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dbf129f1-cac6-4035-8090-0011b816909c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/jss/material-dashboard-react/components/cardBodyStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/jss/material-dashboard-react/components/cardBodyStyle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/jss/material-dashboard-react/components/cardStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/jss/material-dashboard-react/components/cardStyle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/jss/material-dashboard-react/components/tableStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/jss/material-dashboard-react/components/tableStyle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbars/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AdminCourses/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AdminCourses/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/adminAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/adminAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/Sidebar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +61,7 @@
       <workItem from="1622823605975" duration="5557000" />
       <workItem from="1622872048900" duration="8359000" />
       <workItem from="1622889100997" duration="13217000" />
-      <workItem from="1622953890078" duration="1330000" />
+      <workItem from="1622953890078" duration="3120000" />
     </task>
     <servers />
   </component>
