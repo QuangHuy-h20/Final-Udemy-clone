@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetail } from "src/actions/course";
-import { Link, Redirect, useHistory, useParams } from "react-router-dom";
-import { Button, ButtonRed } from "src/styles";
-import { cancelCourse, enrollCourse } from "src/actions/enroll";
-import { getAccountInfo } from "src/actions/user";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { ButtonRed } from "src/styles";
+import { enrollCourse } from "src/actions/enroll";
+import Breadcrumb from "src/components/Breadcrumb/Breadcrumb";
 
 const CourseSection = styled.section`
   position: relative;
@@ -61,7 +61,13 @@ const Card = styled.div`
     }
   }
   .main-content {
-    padding: 2.4rem;
+    padding: 2.4rem 2rem;
+    h1{
+      font-weight:600;
+      color: #0f7c90;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
     h2 {
       font-weight: 600;
       text-align: center;
@@ -69,8 +75,9 @@ const Card = styled.div`
     }
     button,
     a {
+      width:100%;
+      font-weight:700;
       color: #fff;
-      width: 100%;
       margin: 1rem auto;
     }
   }
@@ -79,6 +86,12 @@ const TopContainer = styled.div`
   padding: 3.2rem 0;
   background-color: #1e1e1c;
   color: #fff;
+  .custom{
+    a{
+      color:#fff;
+
+    }
+  }
   h1 {
     font-size: 3.8rem;
     font-weight: 600;
@@ -147,47 +160,44 @@ const BottomContainer = styled.div`
   }
 `;
 
-export default function Course({ ...props }) {
+export default function Course() {
   //Get url param of course
   const { courseId } = useParams();
   const dispatch = useDispatch();
+  let history = useHistory();
 
   // Call reducers
   const { course } = useSelector((state) => state.course);
-  // const { account } = useSelector((state) => state.user);
-  const { enroll, isEnroll, cancel, error } = useSelector(
-    (state) => state.enroll
-  );
-
-  useEffect(() => {
-    dispatch(getCourseDetail(courseId));
-  }, [courseId]);
-  let result = [course].flat();
-
-  // let getEnroll = [account].flat().map((item) => item.chiTietKhoaHocGhiDanh);
-  // console.log(getEnroll);
-
-  //get prop "taiKhoan" from localStorage
-
   const userInfo = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
 
-  const handleEnroll = (e) => {
-    e.preventDefault();
-    dispatch(
-      enrollCourse({ maKhoaHoc: courseId, taiKhoan: userInfo.taiKhoan })
-    );
-    alert("Enroll successfully");
-  };
+  useEffect(() => {
+    dispatch(getCourseDetail(courseId));
+  }, [courseId]);
 
-  const handleCancel = (e) => {
+  const handleEnroll = (e) => {
+    //get prop "taiKhoan" from localStorage
+    const { taiKhoan } = userInfo;
     e.preventDefault();
-    dispatch(
-      cancelCourse({ maKhoaHoc: courseId, taiKhoan: userInfo.taiKhoan })
-    );
-    alert("Cancel successfully");
-  };
+    dispatch(enrollCourse({ maKhoaHoc: courseId, taiKhoan }));
+  }
+  //convert course to new Array
+  let result = [course].flat();
+
+  function renderAction() {
+    if (!userInfo) {
+      return <>
+        <h2 className="notice">You need to login to enroll this course</h2>
+        <Direct to="/login" onClick={history.goback}>Login</Direct>
+      </>
+    } else {
+      return <form onSubmit={handleEnroll}>
+        <ButtonRed type="submit">Enroll</ButtonRed >
+      </form >
+    }
+
+  }
 
   return (
     <CourseSection>
@@ -198,27 +208,9 @@ export default function Course({ ...props }) {
               <img src={item.hinhAnh} alt="" />
             </div>
             <div className="main-content">
-              <h2>{item.tenKhoaHoc}</h2>
+              <h1>{item.tenKhoaHoc}</h1>
               <>
-                {!userInfo ? (
-                  <>
-                    <h2 className="notice">
-                      You need to login to enroll this course
-                    </h2>
-
-                    <Direct to="/login">Login</Direct>
-                  </>
-                ) : (
-                  <>
-                    <form onSubmit={handleEnroll}>
-                      <ButtonRed type="submit">Enroll</ButtonRed>
-                    </form>
-
-                    <form onSubmit={handleCancel}>
-                      <ButtonRed type="submit">Cancel</ButtonRed>
-                    </form>
-                  </>
-                )}
+                {renderAction()}
               </>
             </div>
           </Card>
@@ -227,6 +219,9 @@ export default function Course({ ...props }) {
               <img src={item.hinhAnh} alt="" />
             </MobileScreen>
             <div key={item.maKhoaHoc} className="inner ">
+              <div className="custom">
+                <Breadcrumb />
+              </div>
               <Content>
                 <h1>{item.tenKhoaHoc}</h1>
                 <p>View: {item.luotXem}</p>
@@ -238,10 +233,9 @@ export default function Course({ ...props }) {
                 ))}
               </Content>
               <div className="purchase">
-                <ButtonRed>Add to Cart</ButtonRed>
-                <Button primary bd colorHover to="/">
-                  Buy now
-                </Button>
+                <form onSubmit={handleEnroll}>
+                  <ButtonRed type="submit" >Enroll</ButtonRed>
+                </form>
               </div>
             </div>
           </TopContainer>

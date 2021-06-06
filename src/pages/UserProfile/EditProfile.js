@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const UserForm = styled.form`
   .form-wrapper {
-    padding: 2rem 14rem;
+    padding: 2rem 10rem;
     .disabled {
       display: none !important;
     }
@@ -37,6 +37,12 @@ const UserForm = styled.form`
     label {
       padding: 1rem 0;
     }
+    @media screen and (max-width:1200px){
+      padding: 2rem 5rem;
+    }
+    @media screen and (max-width:800px){
+      padding: 2rem;
+    }
   }
   .action-form {
     box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #dedfe0;
@@ -49,7 +55,7 @@ const UserForm = styled.form`
   }
 `;
 
-export default function EditProfile(props) {
+export default function EditProfile() {
   const dispatch = useDispatch();
   const { account} = useSelector((state) => state.user);
 
@@ -59,7 +65,6 @@ export default function EditProfile(props) {
     dispatch(updateAccountInfo(userUpdate));
     alert("Update successfully!");
   };
-  console.log(props)
   let handleChange = (e) => {
     const { value, name } = e.target;
     // console.log(name, value);

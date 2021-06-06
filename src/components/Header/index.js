@@ -1,18 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { Button, StyledForm, SmallButton, ButtonLogo, Logo } from "src/styles";
+import { Button, StyledForm, TextButton, ButtonLogo, Logo, } from "src/styles";
 import {
   SearchOutlined,
-  ShoppingCartOutlined,
   MenuOutlined,
   RightOutlined,
+  UserOutlined
 } from "@ant-design/icons";
+import { makeStyles } from '@material-ui/core/styles';
+import Backdrop from '@material-ui/core/Backdrop';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Paper from '@material-ui/core/Paper';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "src/actions/auth";
 import { getCategory } from "src/actions/category";
 import logo from "src/images/logo-coral.svg";
 import { Link } from "react-router-dom";
 import { getCourses } from "src/actions/courses";
+import { StyledGrow, StyledMenuList, StyledPopper } from "src/styles/customize";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 const HeaderSection = styled.header`
   display: flex;
@@ -31,7 +43,7 @@ const HeaderSection = styled.header`
     max-width: 100%;
     height: 3.2rem;
     width: 11rem;
-    &.imgCenter {
+    &.ude-logo {
       @media screen and (max-width: 800px) {
         flex: 1;
       }
@@ -46,13 +58,10 @@ const Mobile = styled.div`
     justify-content: center;
     align-items: center;
   }
-  .toggle {
+  .menu-toggle {
+    position:relative;
     padding: 0 1.2rem;
     cursor: pointer;
-  }
-  .empty {
-    width: 4.8rem;
-    height: 4.8rem;
   }
   .logo-mobile {
     flex: 1;
@@ -73,23 +82,38 @@ const Navbar = styled.nav`
     display: none;
   }
 
-  .trigger {
-    position: relative;
-    display: flex;
-    transition: all 2s;
-
-    @media screen and (max-width: 1100px) {
+  .category{
+    @media screen and (max-width: 800px) {
       display: none;
     }
     &:hover {
       .dropdown {
         display: block;
+        transition: all 0.2s ease;
+        animation: 0.5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
       }
     }
   }
-  .cart {
+
+  .ude-business{
+    @media screen and (max-width: 1100px) {
+      display: none;
+    }
+  }
+
+  .ude-teach{
+    @media screen and (max-width: 920px) {
+      display: none;
+    }
+  }
+  .ude-user {
     color: #73726c;
-    font-size: 2.4rem;
+    font-size: 1.6rem;
+    &:hover{
+      .dropdown{
+          display:block;
+      }
+    }
   }
 `;
 
@@ -109,44 +133,50 @@ const DropdownList = styled.div`
   display: none;
   position: absolute;
   top: 100%;
-  left: 10%;
+  left: ${({ left }) => (left ? "8%" : "unset")};
+  right: ${({ right }) => (right ? "4%" : "unset")};
   opacity: 1;
-  transition: all 0.2s ease;
-  animation: 0.5s cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  transition: .25s;
   .wrapper {
-    min-height: 40rem;
-    width: 26rem;
+    min-height: ${({ left }) => (left ? "40rem" : "16rem")};
+    width: ${({ left }) => (left ? "26rem" : "19rem")};
     margin-top: 0.4rem;
     position: relative;
     background: #fff;
     border: 1px solid #dcdacb;
     border-radius: 0.4rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 8%), 0 4px 12px rgba(0, 0, 0, 8%);
-    color: #3c3b37;
     z-index: 1;
 
     li {
       padding: 1rem 0;
       height: auto;
       a {
+        color:#868282;
         display: flex;
         justify-content: space-between;
         font-size: 1.4rem;
         padding: 0.8rem 1.6rem;
+        &:hover{
+          color:#0f7c90;
+        }
       }
     }
+    
   }
 `;
 const DropdownSearch = styled.div`
   display: block;
   position: absolute;
-  top: 110%;
+  top:105%;
   left: 5%;
+  border-color:transparent;
   background: #fff;
   height: 20rem;
   overflow: hidden;
   overflow-y: scroll;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 8%), 0 4px 12px rgba(0, 0, 0, 8%);
   .wrapper {
     padding: 1rem;
     width: 50rem;
@@ -166,10 +196,13 @@ const DropdownSearch = styled.div`
 const Header = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { category } = useSelector((state) => state.category);
   const { courses } = useSelector((state) => state.courses);
+  const { category } = useSelector((state) => state.category);
   const [keyword, setKeyword] = useState("");
   const [focus, setFocus] = useState(false);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(getCourses());
@@ -179,9 +212,37 @@ const Header = () => {
     dispatch(getCategory());
   }, []);
 
-  const handleLogout = (data) => {
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = useRef(open);
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+    prevOpen.current = open;
+  }, [open]);
+
+  const handleLogout = () => {
     localStorage.clear();
-    dispatch(logout(data));
+    dispatch(logout());
   };
 
   const handleChange = (e) => {
@@ -206,112 +267,141 @@ const Header = () => {
 
   const renderDropdownSearch = filtered.map((item) => {
     return (
-      <DropdownSearch>
-        <div className="wrapper">
-          <ul>
-            {filtered.map((item) => {
-              return (
-                <li key={item.maKhoahoc}>
-                  <Link to={`/course/${item.maKhoaHoc}`}>
-                    {item.tenKhoaHoc}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </DropdownSearch>
+      <li key={item.maKhoahoc}>
+        <Link to={`/course/${item.maKhoaHoc}`}>
+          {item.tenKhoaHoc}
+        </Link>
+      </li>
     );
-  });
+  })
+
+  const renderCategoryList = category.map((item) => (
+    <li key={item.maDanhMuc} onClick={handleClose}>
+      <Link to={`/courses/${item.maDanhMuc}`}>
+        {item.tenDanhMuc}
+        <RightOutlined />
+      </Link>
+      
+    </li>
+  ))
+
+  const handleAccess = () => (
+    userInfo ?
+      <>
+        <div className="ude-user">
+          <TextButton to="/user/public-profile">
+            <p><UserOutlined /> Hi, <i>{userInfo.hoTen}</i></p>
+          </TextButton>
+          <DropdownList right className="dropdown">
+            <div className="wrapper">
+              <ul>
+                <li>
+                  <Link to="/user/public-profile">Public profile</Link>
+                </li>
+                <li>
+                  <Link to="/user/edit-profile">Edit profile</Link>
+                </li>
+                <li>
+                  <Link to="/user/course-enroll">My learning</Link>
+                </li>
+              </ul>
+            </div>
+          </DropdownList>
+        </div>
+        <Button className="authen" primary bd colorHover to="/" onClick={function (event) { handleLogout(); handleClose(event); }}>Logout</Button>
+      </> :
+      <>
+        <Button onClick={handleClose} primary bd colorHover to="/login">Log in</Button>
+        <Button onClick={handleClose} color to="/signup"> Sign up</Button>
+      </>
+  )
 
   return (
     <>
       <HeaderSection>
         <Mobile>
-          <div className="toggle">
+          <div className="menu-toggle" ref={anchorRef} onClick={handleToggle}>
             <MenuOutlined />
+            <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+              <StyledPopper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                {({ TransitionProps, placement }) => (
+                  <StyledGrow
+                    {...TransitionProps}
+                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <StyledMenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                          <div className="mobile">
+                            {renderCategoryList}
+                            {handleAccess()}
+                          </div>
+                        </StyledMenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </StyledGrow>
+                )}
+              </StyledPopper>
+            </Backdrop>
           </div>
-          <div className="empty" />
+
           <ButtonLogo to="/" className="logo-mobile">
-            <Logo src={logo} alt="ude-logo" className="imgCenter" />
+            <Logo src={logo} alt="ude-logo" className="ude-logo" />
           </ButtonLogo>
-          <SmallButton>
+          <TextButton>
             <SearchOutlined />
-          </SmallButton>
-          <SmallButton to="/">
-            <ShoppingCartOutlined />
-          </SmallButton>
+          </TextButton>
+
         </Mobile>
         <Navbar>
           <ButtonLogo to="/">
-            <Logo src={logo} alt="ude-logo" className="imgCenter" />
+            <Logo src={logo} alt="ude-logo" className="ude-logo" />
           </ButtonLogo>
-          <div className="trigger">
-            <SmallButton>
+          <div className="category">
+            <TextButton>
               <span>Categories</span>
-            </SmallButton>
-            <DropdownList className="dropdown">
+            </TextButton>
+            <DropdownList left className="dropdown">
               <div className="wrapper">
                 <ul>
-                  {category.map((item) => (
-                    <li key={item.maDanhMuc}>
-                      <Link to={`/courses/${item.maDanhMuc}`}>
-                        {item.tenDanhMuc}
-                        <RightOutlined />
-                      </Link>
-                    </li>
-                  ))}
+                  {renderCategoryList}
                 </ul>
               </div>
             </DropdownList>
           </div>
           <SearchForm>
             <StyledForm>
-              <SmallButton>
+              <TextButton>
                 <SearchOutlined />
-              </SmallButton>
-              <input
-                className="searchInput"
-                type="text"
-                placeholder="Search for anything"
-                value={keyword}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-              />
-              {focus ? renderDropdownSearch : null}
+              </TextButton>
+              <div className="search-page" >
+                <input
+                  type="text"
+                  placeholder="Search for anything"
+                  value={keyword}
+                  onChange={handleChange}
+                  onClick={handleFocus}
+                />
+                {focus ? <DropdownSearch onMouseLeave={handleBlur}>
+                  <div className="wrapper" >
+                    <ul>{renderDropdownSearch}</ul>
+                  </div>
+                </DropdownSearch> : null}
+              </div>
+
             </StyledForm>
           </SearchForm>
-          <div className="trigger">
-            <SmallButton to="/">
+          <div className="ude-business">
+            <TextButton to="/">
               <span>Udemy for Business</span>
-            </SmallButton>
+            </TextButton>
           </div>
-          <div className="trigger">
-            <SmallButton to="/">
+          <div className="ude-teach">
+            <TextButton to="/">
               <span>Teach on Udemy</span>
-            </SmallButton>
+            </TextButton>
           </div>
-          <SmallButton to="/" className="cart">
-            <ShoppingCartOutlined />
-          </SmallButton>
-          {userInfo ? (
-            <>
-              <Link to="/user/public-profile">Hi, {userInfo.hoTen}</Link>
-              <Button primary bd colorHover to="/" onClick={handleLogout}>
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button primary bd colorHover to="/login">
-                Log in
-              </Button>
-              <Button color to="/signup">
-                Sign up
-              </Button>
-            </>
-          )}
+          {handleAccess()}
         </Navbar>
       </HeaderSection>
     </>

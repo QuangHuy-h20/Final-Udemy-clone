@@ -11,14 +11,14 @@ export default function PublicProfile() {
       ? JSON.parse(localStorage.getItem("userInfo"))
       : null;
     if (account) {
-      console.log(account);
+      // console.log(account);
       dispatch(getAccountInfo(account));
     }
   }, []);
 
   let result = [account].flat();
   return (
-    <div style={{padding:'3rem'}}>
+    <div style={{padding:'2rem'}}>
       {result.map((item) => (
         <>
           <h4>

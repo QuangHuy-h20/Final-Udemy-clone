@@ -15,11 +15,13 @@ export function enrollCourse(values) {
     try {
       const { data } = await enrollAPI.enrollCourse(values);
       dispatch({ type: ENROLL_SUCCESS, payload: { data } });
+      alert("Enroll course successfully");
     } catch (error) {
       dispatch({
         type: ENROLL_FAILURE,
         payload: { error: error.response.data },
       });
+      alert("you've already enrolled this course");
     }
   };
 }

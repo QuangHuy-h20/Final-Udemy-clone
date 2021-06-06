@@ -17,13 +17,13 @@ const initialState = {
 function enrollReducer(state = initialState, action) {
   switch (action.type) {
     case ENROLL_REQUEST: {
-      return { ...state, isEnroll: false, error: null };
+      return { ...state, error: null };
     }
     case ENROLL_SUCCESS: {
       return { ...state, isEnroll: true, enroll: action.payload.data };
     }
     case ENROLL_FAILURE: {
-      return { ...state, isEnroll: false, error: action.payload.error };
+      return { ...state, error: action.payload.error };
     }
     case CANCEL_ENROLL_REQUEST: {
       return { ...state, error: null };
@@ -32,7 +32,7 @@ function enrollReducer(state = initialState, action) {
       return { ...state, isEnroll: false, cancel: action.payload.data };
     }
     case CANCEL_ENROLL_FAILURE: {
-      return { ...state, isEnroll: false, error: action.payload.error };
+      return { ...state, error: action.payload.error };
     }
     default:
       return state;

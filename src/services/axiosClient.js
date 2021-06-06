@@ -29,16 +29,16 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => {
     //Handle return value from server
-    console.log(response);
+    // console.log(response);
     return response;
   },
   (error) => {
     if (error.status === 401) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       //Handle logout, redirect user to login page
     }
     if (error.status === 500) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       //Announce alert to user that server has error
     }
     return Promise.reject(error);

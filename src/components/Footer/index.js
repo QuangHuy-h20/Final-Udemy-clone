@@ -28,13 +28,17 @@ const FooterSection = styled.footer`
 `;
 const Wrapper = styled.div`
   display: flex;
+  @media screen and (max-width: 729px) {
+    display: block;
+    padding: 1rem 0;
+  }
   &.bottom {
     justify-content: space-between;
-    padding: 6.4rem 0 4.8rem;
+    padding-bottom: 3rem;
     align-items: center;
-  }
-  @media screen and (max-width: 45.5rem) {
-    display: block;
+    a{
+      margin: 2rem 0; 
+    }
   }
   li{
     display:block;

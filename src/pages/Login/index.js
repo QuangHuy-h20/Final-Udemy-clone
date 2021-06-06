@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory, useLocation } from "react-router";
+import { Redirect, useLocation } from "react-router";
 import qs from "qs";
 import { login } from "src/actions/auth";
 
@@ -33,9 +33,9 @@ const schema = yup.object().shape({
 
 export default function Login({ children }) {
   const dispatch = useDispatch();
-  const { userInfo, isLoading, error } = useSelector((state) => state.auth);
+  const { userInfo, error } = useSelector((state) => state.auth);
   const location = useLocation();
-  let history = useHistory();
+
   const {
     register,
     handleSubmit,
@@ -115,7 +115,7 @@ export default function Login({ children }) {
               <button
                 type="submit"
                 handleLogin
-                onClick={() => history.goBack()}
+
               >
                 Log In
               </button>

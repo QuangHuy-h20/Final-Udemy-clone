@@ -10,12 +10,21 @@ const UserSection = styled.section`
   padding: 0 1.5rem;
   min-width: 32rem;
   width: 117rem;
-
-  @media screen and (max-width: 1200px) {
-    width: 97rem;
-  }
+  
   @media screen and (max-width: 992px) {
     width: 75rem;
+  }
+  @media screen and (max-width: 768px) {
+    width: 60rem;
+  }
+  @media screen and (max-width: 600px) {
+    width: 50rem;
+  }
+  @media screen and (max-width: 500px) {
+    width: 40rem;
+  }
+  @media screen and (max-width: 400px) {
+    width: 25rem;
   }
 `;
 
@@ -24,9 +33,12 @@ const Container = styled.div`
   max-width: 110rem;
 `;
 
-const Content = styled.div`
+const LargeScreen = styled.div`
   position: relative;
   padding-left: 20rem;
+  @media screen and (max-width:768px){
+    display:none;
+  }
 `;
 
 const MenuSideBar = styled.div`
@@ -39,16 +51,49 @@ const MenuSideBar = styled.div`
   box-shadow: 1px 1px #dedfe0 inset, 0 -1px #dedfe0 inset;
   overflow: hidden;
   padding-bottom: 20px;
-  li {
-    padding: 1rem;
-  }
 `;
+
+const List = styled.ul`
+  margin:2rem 0 3rem;
+    li {
+      position:relative;
+      font-size:1.5rem;
+      a{
+        padding: 1rem;
+        display:block;
+        width:100%;
+        &:hover{
+          color:#fff;
+          background: #b9b2b0;
+        }
+        
+        &:after{
+          content: '';
+          position:absolute;
+          left:0;
+          top:0;
+          display: block;
+          width:0;
+          height:0;
+          background: #b9b2b0;
+        }
+      }
+    }
+
+`
+
+const MobileScreen = styled.div`
+  display:none;
+  @media screen and (max-width:768px){
+    display:block;
+  }
+`
 
 const Public = styled.div`
   padding: 1rem;
   text-align: center;
   .wrapper {
-    border: 1px solid #524a47;
+    border: 1px solid #b9b2b0;
     border-radius: 50%;
     font-size: 3rem;
     margin: auto;
@@ -67,17 +112,20 @@ const Public = styled.div`
   }
   .userName {
     margin-top: 3rem;
-    font-size: 1.6rem;
+    font-size: 2.4rem;
     font-weight: 700;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    h1{
+      color:#969696;
+    }
   }
 `;
 
-const FormWrapper = styled.div`
+const Article = styled.div`
   background: #fff;
   position: relative;
   min-height: 60rem;
@@ -116,54 +164,65 @@ const FormContainer = styled.div`
 
 export default function UserProfile({ children }) {
   const dispatch = useDispatch();
-  const { account, isLoading, error } = useSelector((state) => state.user);
+  const { account } = useSelector((state) => state.user);
 
   useEffect(() => {
     const account = localStorage.getItem("userInfo")
       ? JSON.parse(localStorage.getItem("userInfo"))
       : null;
     if (account) {
-      console.log(account);
       dispatch(getAccountInfo(account));
     }
   }, []);
 
   let result = [account].flat();
 
+  const renderScreen = result.map(item => (
+    <>
+      <Public>
+        <div className="wrapper">
+          <UserOutlined />
+        </div>
+        <div className="userName">
+          <h1>{item.hoTen}</h1>
+        </div>
+      </Public>
+      <List>
+        <li>
+          <Link class="active" to="/user/public-profile">Public profile</Link>
+        </li>
+        <li>
+          <Link to="/user/edit-profile">Edit profile</Link>
+        </li>
+        <li>
+          <Link to="/user/course-enroll">Course enroll</Link>
+        </li>
+      </List>
+    </>
+  ))
+
+  const renderArticle = () => (
+    <Article>
+      <h2>Public profile</h2>
+      <h3>Add information about yourself</h3>
+      <FormContainer>{children}</FormContainer>
+    </Article>
+  )
+
+
   return (
     <UserSection>
       <Container>
-        {result.map((item) => (
-          <Content>
-            <MenuSideBar>
-              <Public>
-                <div className="wrapper">
-                  <UserOutlined />
-                </div>
-                <div className="userName">
-                  <h1>{item.hoTen}</h1>
-                </div>
-              </Public>
-              <ul>
-                <li>
-                  <Link to="/user/public-profile">Public profile</Link>
-                </li>
-                <li>
-                  <Link to="/user/edit-profile">Edit profile</Link>
-                </li>
-                <li>
-                  <Link to="/user/course-enroll">Course enroll</Link>
-                </li>
-              </ul>
-            </MenuSideBar>
-            <FormWrapper>
-              <h2>Public profile</h2>
-              <h3>Add information about yourself</h3>
-              <FormContainer>{children}</FormContainer>
-              
-            </FormWrapper>
-          </Content>
-        ))}
+        <MobileScreen>
+          {renderScreen}
+          {renderArticle()}
+        </MobileScreen>
+        <LargeScreen>
+          <MenuSideBar>
+            {renderScreen}
+          </MenuSideBar>
+          {renderArticle()}
+        </LargeScreen>
       </Container>
     </UserSection>
   );
