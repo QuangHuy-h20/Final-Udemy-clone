@@ -1,6 +1,5 @@
 import {lighten, makeStyles, withStyles} from "@material-ui/core/styles";
-import {purple} from "@material-ui/core/colors";
-import Button from "@material-ui/core/Button";
+import Modal from '../Modal';
 import Toolbar from "@material-ui/core/Toolbar";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
@@ -34,17 +33,6 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 
 
-
-const ColorButton = withStyles((theme) => ({
-    root: {
-        color: theme.palette.getContrastText(purple[500]),
-        backgroundColor: purple[500],
-        '&:hover': {
-            backgroundColor: purple[700],
-        },
-    },
-}))(Button);
-
 export default function EnhancedTableToolbar(props) {
     const classes = useToolbarStyles();
     const { numSelected } = props;
@@ -61,9 +49,7 @@ export default function EnhancedTableToolbar(props) {
                 </Typography>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    <ColorButton variant="contained" color="primary">
-                        Add new course
-                    </ColorButton>
+                    <Modal />
                 </Typography>
             )}
 

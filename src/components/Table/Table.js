@@ -185,19 +185,19 @@ export default function EnhancedTable() {
                       <TableCell style = {{ fontSize : '1.25rem' }} component="th" id={labelId} scope="row" padding="none">
                         {row.maKhoaHoc}
                       </TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{row.biDanh}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{row.tenKhoaHoc}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{row.maNhom}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{row.soLuongHocVien}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{[row.nguoiTao].flat().map(username => username.taiKhoan)}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{[row.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc)}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="right">{row.luotXem}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{row.biDanh}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{row.tenKhoaHoc}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{row.maNhom}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{row.soLuongHocVien}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[row.nguoiTao].flat().map(username => username.taiKhoan)}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[row.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc)}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{row.luotXem}</TableCell>
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows, fontSize: '1.8rem' }}>
+                  <TableCell style = {{ fontSize : '1.8rem' }} colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
