@@ -14,7 +14,7 @@ const Breadcrumb = props => {
             <Link onClick={() => history.push("/")}>Home</Link>
             {pathnames.map((name, index) => {
                 const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`
-                console.log(name);
+                // console.log(name);
                 // console.log(index);
                 // console.log(routeTo);
                 const isLast = index === pathnames.length - 1;

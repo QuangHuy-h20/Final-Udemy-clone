@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import FixedPlugin from 'src/components/FixedPlugin/FixedPlugin';
 import Navbar from 'src/components/Navbar/Navbar'
-import Sidebar from 'src/components/Sidebar/SideBar'
+import Sidebar from 'src/components/Sidebar/Sidebar'
 
 import styles from 'src/assets/jss/material-dashboard-react/layouts/adminStyle'
 
@@ -22,21 +22,21 @@ let ps;
 
 const switchRoutes = (
   <AdminRoute>
-  <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          /> 
-        );
-      }
-      return null;
-    })}
-    <Redirect from="/admin" to="/admin/dashboard" />
-  </Switch>
+    <Switch>
+      {routes.map((prop, key) => {
+        if (prop.layout === "/admin") {
+          return (
+            <Route
+              path={prop.layout + prop.path}
+              component={prop.component}
+              key={key}
+            />
+          );
+        }
+        return null;
+      })}
+      <Redirect from="/admin" to="/admin/dashboard" />
+    </Switch>
   </AdminRoute>
 );
 
@@ -121,7 +121,7 @@ export default function Admin({ ...rest }) {
         ) : (
           <div className={classes.map}>{switchRoutes}</div>
         )}
-       
+
         <FixedPlugin
           handleImageClick={handleImageClick}
           handleColorClick={handleColorClick}
