@@ -43,7 +43,7 @@ const tableStyle = (theme) => ({
     color: "inherit",
     ...defaultFont,
     "&, &$tableCell": {
-      fontSize: "1em",
+      fontSize: "1.8em",
     },
   },
   tableCell: {

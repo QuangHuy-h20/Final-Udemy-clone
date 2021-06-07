@@ -8,6 +8,7 @@ const cardBodyStyle = {
   cardBodyPlain: {
     paddingLeft: "5px",
     paddingRight: "5px",
+    fontSize: "20px"
   },
   cardBodyProfile: {
     marginTop: "15px",
