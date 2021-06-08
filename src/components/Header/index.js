@@ -5,7 +5,8 @@ import {
   SearchOutlined,
   MenuOutlined,
   RightOutlined,
-  UserOutlined
+  UserOutlined,
+  CloseOutlined
 } from "@ant-design/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -134,12 +135,12 @@ const DropdownList = styled.div`
   position: absolute;
   top: 100%;
   left: ${({ left }) => (left ? "8%" : "unset")};
-  right: ${({ right }) => (right ? "4%" : "unset")};
+  right: ${({ right }) => (right ? "5%" : "unset")};
   opacity: 1;
   transition: .25s;
   .wrapper {
     min-height: ${({ left }) => (left ? "40rem" : "16rem")};
-    width: ${({ left }) => (left ? "26rem" : "19rem")};
+    width: ${({ left }) => (left ? "26rem" : "13rem")};
     margin-top: 0.4rem;
     position: relative;
     background: #fff;
@@ -201,7 +202,9 @@ const Header = () => {
   const [keyword, setKeyword] = useState("");
   const [focus, setFocus] = useState(false);
   const [open, setOpen] = useState(false);
+  const [modal, setModal] = useState(false);
   const anchorRef = useRef(null);
+  const modalRef = useRef(null);
   const classes = useStyles();
 
   useEffect(() => {
@@ -211,6 +214,13 @@ const Header = () => {
   useEffect(() => {
     dispatch(getCategory());
   }, []);
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -224,12 +234,16 @@ const Header = () => {
     setOpen(false);
   };
 
-  function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
+  const handleModal = () => {
+    setModal((prevOpenModal) => !prevOpenModal);
+  };
+
+  const handleCloseModal = (event) => {
+    if (modalRef.current && modalRef.current.contains(event.target)) {
+      return;
     }
-  }
+    setModal(false);
+  };
 
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
@@ -239,6 +253,14 @@ const Header = () => {
     }
     prevOpen.current = open;
   }, [open]);
+
+  const prevOpenModal = useRef(modal);
+  useEffect(() => {
+    if (prevOpenModal.current === true && modal === false) {
+      modalRef.current.focus();
+    }
+    prevOpenModal.current = modal;
+  }, [modal]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -267,7 +289,7 @@ const Header = () => {
 
   const renderDropdownSearch = filtered.map((item) => {
     return (
-      <li key={item.maKhoahoc}>
+      <li key={item.maKhoahoc} onClick={handleCloseModal}>
         <Link to={`/course/${item.maKhoaHoc}`}>
           {item.tenKhoaHoc}
         </Link>
@@ -281,7 +303,7 @@ const Header = () => {
         {item.tenDanhMuc}
         <RightOutlined />
       </Link>
-      
+
     </li>
   ))
 
@@ -348,17 +370,50 @@ const Header = () => {
           <ButtonLogo to="/" className="logo-mobile">
             <Logo src={logo} alt="ude-logo" className="ude-logo" />
           </ButtonLogo>
-          <TextButton>
+          <TextButton className="search-toggle" ref={modalRef} onClick={handleModal}>
             <SearchOutlined />
-          </TextButton>
+            <div open={modal} onClick={handleCloseModal}>
+              <StyledPopper open={modal} anchorEl={modalRef.current} role={undefined} transition disablePortal>
+                {({ TransitionProps, placement }) => (
+                  <StyledGrow search
+                    {...TransitionProps}
+                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleCloseModal}>
 
+
+                        <StyledMenuList autoFocusItem={modal} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                          <div className="search-page">
+                            <SearchOutlined />
+                            <input
+                              type="text"
+                              placeholder="Search for anything"
+                              value={keyword}
+                              onChange={handleChange}
+                              onClick={handleModal}
+                            />
+                            <CloseOutlined onClick={handleCloseModal} />
+                          </div>
+                          <ul>
+                            {renderDropdownSearch}
+                          </ul>
+                        </StyledMenuList>
+
+                      </ClickAwayListener>
+                    </Paper>
+                  </StyledGrow>
+                )}
+              </StyledPopper>
+            </div>
+          </TextButton>
         </Mobile>
         <Navbar>
           <ButtonLogo to="/">
             <Logo src={logo} alt="ude-logo" className="ude-logo" />
           </ButtonLogo>
           <div className="category">
-            <TextButton>
+            <TextButton to="/courses">
               <span>Categories</span>
             </TextButton>
             <DropdownList left className="dropdown">

@@ -61,7 +61,8 @@ export default function EditProfile() {
 
   const [userUpdate, setUserUpdate] = useState(account);
 
-  let handleUpdate = () => {
+  let handleUpdate = (e) => {
+    e.preventDefault();
     dispatch(updateAccountInfo(userUpdate));
     alert("Update successfully!");
   };

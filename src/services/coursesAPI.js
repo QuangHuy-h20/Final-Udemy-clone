@@ -27,16 +27,6 @@ const coursesAPI = {
       params,
     });
   },
-
-  getCoursesBySearchName: (name) => {
-    const params = {
-      maNhom: "GP08",
-      tenKhoaHoc: name,
-    };
-    return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc", {
-      params,
-    });
-  },
 };
 
 export default coursesAPI;
