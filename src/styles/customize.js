@@ -3,7 +3,7 @@ import Grow from '@material-ui/core/Grow';
 import MenuList from '@material-ui/core/MenuList';
 import Popper from '@material-ui/core/Popper';
 import { Breadcrumbs as Breadcrumbs} from '@material-ui/core'
-//Customize Material UI's components
+//Customize Material UI components
 
 export const StyledPopper = styled(Popper)`
     top:0 !important;
