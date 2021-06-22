@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 export default function AdminRoute({ children, ...props }) {
   const { userInfo } = useSelector((state) => state.auth);
-
   //Not login
   if (!userInfo) {
     return <Redirect to={`/login?redirectTo=${props.path}`} />;
