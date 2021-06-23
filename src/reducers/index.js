@@ -6,7 +6,8 @@ import register from "./register";
 import course from "./course";
 import user from "./user";
 import enroll from "./enroll";
-import admin from "./admin";
+import adminUser from "./adminUser";
+import adminCourse from "./adminCourse";
 const rootReducer = combineReducers({
   //Declare child reducers
   course,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   register,
   user,
   enroll,
-  admin,
+  adminCourse,
+  adminUser
 });
 
 export default rootReducer;
