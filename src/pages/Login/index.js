@@ -35,7 +35,6 @@ export default function Login({ children }) {
   const dispatch = useDispatch();
   const { userInfo, error } = useSelector((state) => state.auth);
   const location = useLocation();
-
   const {
     register,
     handleSubmit,
@@ -59,6 +58,9 @@ export default function Login({ children }) {
     });
     if (redirectTo) {
       return <Redirect to={redirectTo} />;
+    }
+    if (location.state) {
+      return <Redirect to={location.state.prevPath} />
     }
     return <Redirect to="/" />;
   }

@@ -6,9 +6,9 @@ import { StyledBreadCrumbs } from 'src/styles/customize';
 const Breadcrumb = props => {
     const { history, location: { pathname } } = props;
     // const { pathname } = location;
-    console.log(pathname);
+    // console.log(pathname);
     const pathnames = pathname.split("/").filter(x => x);
-    console.log(pathnames);
+    // console.log(pathnames);
     return (
         <StyledBreadCrumbs >
             <Link onClick={() => history.push("/")}>Home</Link>
@@ -23,7 +23,5 @@ const Breadcrumb = props => {
         </StyledBreadCrumbs>
     )
 }
-
-// onClick = {()=>history.push(``)}
 
 export default withRouter(Breadcrumb)

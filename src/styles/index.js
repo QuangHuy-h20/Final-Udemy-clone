@@ -9,6 +9,10 @@ export const StyledForm = styled.form`
   height: 100%;
   width: 100%;
 
+  .search-page{
+    width:100%;
+  }
+
   input {
     display: block;
     width: 100%;

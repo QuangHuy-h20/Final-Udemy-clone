@@ -173,7 +173,7 @@ export default function UserProfile({ children }) {
     if (account) {
       dispatch(getAccountInfo(account));
     }
-  }, []);
+  }, [account]);
 
   let result = [account].flat();
 
