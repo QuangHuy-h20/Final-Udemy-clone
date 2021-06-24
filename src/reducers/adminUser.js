@@ -2,9 +2,6 @@ import {
     GET_USER_LIST_REQUEST,
     GET_USER_LIST_SUCCESS,
     GET_USER_LIST_FAILURE,
-    GET_COURSE_LIST_REQUEST,
-    GET_COURSE_LIST_SUCCESS,
-    GET_COURSE_LIST_FAILURE,
     POST_USER_REQUEST,
     POST_USER_SUCCESS,
     POST_USER_FAILURE,
@@ -17,17 +14,16 @@ import {
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAILURE,
-} from "../constants/admin"
+} from "../constants/adminUser"
 
 const initialState = {
     userUpdate:null,
     userList: [],
     isLoading: false,
     error: null,
-    courseList: []
 };
 
-function adminReducer(state = initialState,action){
+function adminUserReducer(state = initialState,action){
     switch(action.type){
 //adminusers ListUser
         case GET_USER_LIST_REQUEST:{
@@ -133,28 +129,9 @@ function adminReducer(state = initialState,action){
             }
         }
 
-//admincourses
-        case GET_COURSE_LIST_REQUEST:{
-            return {...state,
-                isLoading:true,
-                error: null};
-        }
-        case GET_COURSE_LIST_SUCCESS:{
-            return {...state,
-                isLoading:false,
-                courseList: action.payload.data,
-            }
-        }
-        case GET_COURSE_LIST_FAILURE: {
-            return{
-                ...state,
-                isLoading:true,
-                error:action.payload.error,
-            }
-        }
         default:{
             return state
         }
     }
 }
-export default adminReducer
+export default adminUserReducer;
