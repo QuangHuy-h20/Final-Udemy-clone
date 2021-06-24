@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetail } from "src/actions/course";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { ButtonRed } from "src/styles";
 import { enrollCourse } from "src/actions/enroll";
 import Breadcrumb from "src/components/Breadcrumb/Breadcrumb";
@@ -164,7 +164,8 @@ export default function Course() {
   //Get url param of course
   const { courseId } = useParams();
   const dispatch = useDispatch();
-  let history = useHistory();
+  const history = useHistory();
+  const location = useLocation();
 
   // Call reducers
   const { course } = useSelector((state) => state.course);
@@ -189,7 +190,7 @@ export default function Course() {
     if (!userInfo) {
       return <>
         <h2 className="notice">You need to login to enroll this course</h2>
-        <Direct to="/login" onClick={history.goback}>Login</Direct>
+        <Direct to={{ pathname: "/login", state: { prevPath: location.pathname } }}>Login</Direct>
       </>
     } else {
       return <form onSubmit={handleEnroll}>

@@ -51,18 +51,3 @@ export function getCourses() {
     }
   };
 }
-
-export function getCoursesBySearchName(name) {
-  return async (dispatch) => {
-    dispatch({ type: GET_COURSES_REQUEST });
-    try {
-      const { data } = await coursesAPI.getCoursesByName(name);
-      dispatch({ type: GET_COURSES_SUCCESS, payload: { data } });
-    } catch (error) {
-      dispatch({
-        type: GET_COURSES_FAILURE,
-        payload: { error: error.response.data },
-      });
-    }
-  };
-}

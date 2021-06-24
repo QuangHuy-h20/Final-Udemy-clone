@@ -14,7 +14,7 @@ import EnhancedTableHead from './TableHead'
 import EnhancedTableToolbar from './TableToolBar'
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getCourseList } from "../../actions/admin";
+import { getCourseList } from "../../actions/adminCourse";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -81,7 +81,7 @@ export default function EnhancedTable() {
 
   const {pathname} = useLocation()
   const dispatch = useDispatch();
-  const { courseList, isLoading, error } = useSelector((state) => state.admin);
+  const { courseList, isLoading, error } = useSelector((state) => state.adminCourse);
   useEffect(() => {
     dispatch(getCourseList());
   }, [pathname]);

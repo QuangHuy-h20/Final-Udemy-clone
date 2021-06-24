@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 //
 import UserControl from '../UserControl/UserControl';
 //
-import {getUser,updateUser,addUser,getUserList} from '../../actions/admin';
+import {getUser,updateUser,addUser,getUserList} from '../../actions/adminUser';
 const typeOfUser = [
   {
     value: "HV",
@@ -28,7 +28,7 @@ export default function UserForm(props) {
 
   console.log('recordForEdit:',recordForEdit);
 
-  const { userUpdate,error } = useSelector((state)=> state.admin);
+  const { userUpdate,error } = useSelector((state)=> state.adminUser);
   console.log(userUpdate)
   useEffect(()=>{
     console.log('useEffect UserForm')

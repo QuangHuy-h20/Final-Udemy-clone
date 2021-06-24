@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getListUser} from "../../actions/admin";
+import {getListUser} from "../../actions/adminUser";
 import { useLocation } from 'react-router-dom';
 
 export default function UserManagement() {

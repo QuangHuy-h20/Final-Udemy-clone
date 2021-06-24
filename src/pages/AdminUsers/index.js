@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button'
 import { Paper, makStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, TableContainer, Table, TableHead, TablePagination } from "@material-ui/core";
 import UserModal from '../../components/AdminUser/UserModal';
 
-import { addUser, getUserList, updateUser, deleteUser } from "../../actions/admin.js";
+import { addUser, getUserList, updateUser, deleteUser } from "../../actions/adminUser.js";
 import UserForm from "../../components/AdminUser/UserForm";
 
 import EnhancedTableHead from "src/components/AdminUser/EnhancedTableHead.js";
@@ -70,7 +70,7 @@ export default function AdminUsers() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { pathname } = useLocation();
-  const { userList, userUpdate, isLoading, error } = useSelector((state) => state.admin);
+  const { userList, userUpdate, isLoading, error } = useSelector((state) => state.adminUser);
 
   useEffect(() => {
     dispatch(getUserList());
