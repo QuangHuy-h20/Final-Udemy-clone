@@ -40,7 +40,7 @@ export function signUp(values) {
       const { data } = await authAPI.signUp(values);
       dispatch({ type: REGISTER_SUCCESS, payload: { data } });
       alert("Register Successfully!");
-      return <Redirect to="/login" />;
+      <Redirect to="/login" />;
     } catch (error) {
       dispatch({
         type: REGISTER_FAILURE,
