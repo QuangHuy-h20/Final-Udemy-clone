@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button'
 import { Paper, makStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, TableContainer, Table, TableHead, TablePagination } from "@material-ui/core";
 import UserModal from '../../components/AdminUser/UserModal';
 
-import { addUser, getUserList, updateUser, deleteUser } from "../../actions/adminUser.js";
+import { addUser, getUserList, updateUser, deleteUser, getUser } from "../../actions/adminUser.js";
 import UserForm from "../../components/AdminUser/UserForm";
 
 import EnhancedTableHead from "src/components/AdminUser/EnhancedTableHead.js";
@@ -78,19 +78,28 @@ export default function AdminUsers() {
 
   //ModalAdd or ModalUpdate
   const [openModal, setOpenModal] = useState(false);
-  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [recordForEdit, setRecordForEdit] = useState(false);
+  const [user,setUser] = useState(null);
 
-  const setOpenUpdateForm = item => {
-    setRecordForEdit(item);
+  console.log('userUpdate:',userUpdate)
+  const handleOpenUpdateForm = async (item) => {
+    setUser({...item})
+    setRecordForEdit(true);
     setOpenModal(true)
   }
+  console.log(user)
 
+  const handleOpenAddForm = () => {
+    setRecordForEdit(false)
+    setUser(null)
+    setOpenModal(true)
+  }
+  
   const handleDeleteUser = (data) => {
     dispatch(deleteUser(data))
     dispatch(getUserList())
   }
-
-  
+    
   //End 
 
   //Table
@@ -120,7 +129,7 @@ export default function AdminUsers() {
   return (
     <div className={classes.root}>
       <Button
-        onClick={() => setOpenModal(true)}
+        onClick={handleOpenAddForm}
       > Add </Button>
 
       <Paper className={classes.paper}>
@@ -167,7 +176,7 @@ export default function AdminUsers() {
                       <StyledTableCell align="center"
                       >
                         <Button
-                          onClick={() => { setOpenUpdateForm(user) }}
+                          onClick={() => { handleOpenUpdateForm(user) }}
                         >
                           <EditOutlinedIcon fontSize='small' />
                         </Button>
@@ -205,11 +214,12 @@ export default function AdminUsers() {
         title="Student Form"
         openModal={openModal}
         setOpenModal={setOpenModal}
+        setUser={setUser}
       >
         <UserForm
           recordForEdit={recordForEdit}
-          setRecordForEdit={setRecordForEdit}
           setOpenModal={setOpenModal}
+          user={user}
         />
       </UserModal>
     </div>

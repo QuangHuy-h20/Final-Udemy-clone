@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 //
 import UserControl from '../UserControl/UserControl';
 //
-import {getUser,updateUser,addUser,getUserList} from '../../actions/adminUser';
+import { getUser, updateUser, addUser, getUserList } from '../../actions/adminUser';
 const typeOfUser = [
   {
     value: "HV",
@@ -24,48 +24,48 @@ export default function UserForm(props) {
 
   const dispatch = useDispatch();
 
-  const {recordForEdit,setOpenModal, setRecordForEdit} = props;
+  const { user, setUser, setOpenModal } = props;
 
-  console.log('recordForEdit:',recordForEdit);
+  const { userUpdate } = useSelector((state) => state.adminUser)
+  console.log(user)
+  useEffect(() => {
+    if (user) {
 
-  const { userUpdate,error } = useSelector((state)=> state.adminUser);
-  console.log(userUpdate)
-  useEffect(()=>{
-    console.log('useEffect UserForm')
-    if(recordForEdit != null){
-      dispatch(getUser(recordForEdit.hoTen))
+      dispatch(getUser(user.hoTen))
     }
-  },[recordForEdit])
+  }, [user])
 
   const addOrEdit = (values) => {
-    if (!recordForEdit) {
+    if (!user) {
       dispatch(addUser(values));
     } else {
-      
       dispatch(updateUser(values));
     }
-    setRecordForEdit(null)
-    dispatch(getUserList());
+    setUser(null)
     setOpenModal(false)
   }
+  
+  const handleClose = ()=> {
+    setOpenModal(false);
+}
 
   const formik = useFormik({
-      enableReinitialize:true,
-      initialValues:{
-      taiKhoan: userUpdate? userUpdate.taiKhoan:'',
-      matKhau: userUpdate? userUpdate.matKhau:'',
-      hoTen: userUpdate? userUpdate.hoTen:'',
-      soDt: userUpdate? userUpdate.soDt:'',
-      maLoaiNguoiDung: userUpdate?userUpdate.maLoaiNguoiDung : 'HV',
-      maNhom: userUpdate?userUpdate.maNhom: 'GP08',
-      email: userUpdate? userUpdate.email:'',
+    enableReinitialize: true,
+    initialValues: {
+      taiKhoan: user ? user.taiKhoan : '',
+      matKhau: user ? user.matKhau : '',
+      hoTen: user ? user.hoTen : '',
+      soDt: user ? user.soDt : '',
+      user: user ? user.maLoaiNguoiDung : 'HV',
+      maNhom: user ? user.maNhom : 'GP08',
+      email: user ? user.email : '',
     },
     validationSchema: Yup.object({
       taiKhoan: Yup
-      .string()
-      .required("This field is required.")
-      .min(5, "Use from 5 to 20 characters for your account.")
-      .max(20, "Use from 5 to 20 characters for your account."),
+        .string()
+        .required("This field is required.")
+        .min(5, "Use from 5 to 20 characters for your account.")
+        .max(20, "Use from 5 to 20 characters for your account."),
       matKhau: Yup.string().required("This field is required."),
       hoTen: Yup.string().required("This field is required."),
       email: Yup.string().required("This field is required."),
@@ -75,21 +75,22 @@ export default function UserForm(props) {
     onReset: () => {
       console.log("reset")
     },
-    onSubmit:async(values) => {
+    onSubmit: async (values) => {
       await addOrEdit(values)
-      
+
     },
     onClose: () => {
-      setRecordForEdit(null)
+      setUser(null);
     },
 
   });
 
-  
+
   return (
     <form
-    onSubmit={formik.handleSubmit}
-    onReset={formik.handleReset}
+      onSubmit={formik.handleSubmit}
+      onReset={formik.handleReset}
+      onClose={formik.handleClose}
     >
       <Grid container>
         <Grid item xs={6}>
@@ -166,14 +167,17 @@ export default function UserForm(props) {
           </UserControl.Input>
 
           <div>
-            <UserControl.ActionButton color="primary"
-              onClick={formik.handleReset}
-            >Cancel</UserControl.ActionButton>
+            {user?<UserControl.ActionButton color="primary"
+              onClick={handleClose}
+            >Cancel</UserControl.ActionButton> : <UserControl.ActionButton color="primary"
+            onClick={formik.handleReset}
+          >Reset</UserControl.ActionButton>}
+           
             <UserControl.ActionButton color="primary"
               type='submit'
             >Submit</UserControl.ActionButton>
           </div>
-        </Grid> 
+        </Grid>
       </Grid>
     </form>)
 }
