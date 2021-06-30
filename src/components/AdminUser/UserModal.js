@@ -14,8 +14,12 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 export default function UserModal(props){
-    const {title, children, openModal, setOpenModal} = props;
+    const {title, children, setUser, openModal, setOpenModal} = props;
     const classes = useStyles();
+    const handleClose = ()=> {
+        setUser(null);
+        setOpenModal(false);
+    }
     return(
         <Dialog open={openModal} maxWidth='md' classes={{paper:classes.dialogWrapper}}>
             <DialogTitle className={classes.dialogTitle}>
@@ -24,7 +28,7 @@ export default function UserModal(props){
                 </Typography>
                 <UserControl.ActionButton
                     color='secondary'
-                    onClick={()=>{setOpenModal(false)}}
+                    onClick={handleClose}
                 >
                     <CloseIcon/>
                 </UserControl.ActionButton>

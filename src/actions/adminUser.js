@@ -42,6 +42,7 @@ export function getUser(values) {
         dispatch({type:GET_USER_REQUEST})
         try{
             const {data} = await adminAPI.getUser(values);
+            console.log("getUser:",data)
             dispatch({
                 type:GET_USER_SUCCESS,
                 payload: data[0],
