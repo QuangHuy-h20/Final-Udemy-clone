@@ -15,7 +15,7 @@ export function getCoursesByCategory(category) {
     } catch (error) {
       dispatch({
         type: GET_COURSES_FAILURE,
-        payload: { error: error.response.data },
+        payload: { error: error.data },
       });
     }
   };
@@ -31,7 +31,7 @@ export function getCoursesByEnroll(courseName){
     } catch (error) {
       dispatch({
         type: GET_COURSES_FAILURE,
-        payload: { error: error.response.data },
+        payload: { error: error.data },
       });
     }
   }
@@ -46,7 +46,7 @@ export function getCourses() {
     } catch (error) {
       dispatch({
         type: GET_COURSES_FAILURE,
-        payload: { error: error.response.data },
+        payload: { error: error.data },
       });
     }
   };

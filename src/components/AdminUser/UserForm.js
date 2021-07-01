@@ -24,41 +24,33 @@ export default function UserForm(props) {
 
   const dispatch = useDispatch();
 
-  const { user, setUser, setOpenModal } = props;
+  const { userUpdate,openModal, setOpenModal, recordForEdit, setRecordForEdit } = props;
 
-  const { userUpdate } = useSelector((state) => state.adminUser)
-  console.log(user)
+  // const { userUpdate } = useSelector((state) => state.adminUser)
+
   useEffect(() => {
-    if (user) {
+  }, [recordForEdit]);
+  console.log("userUpdate", userUpdate)
 
-      dispatch(getUser(user.hoTen))
-    }
-  }, [user])
-
-  const addOrEdit = (values) => {
-    if (!user) {
-      dispatch(addUser(values));
-    } else {
-      dispatch(updateUser(values));
-    }
-    setUser(null)
-    setOpenModal(false)
-  }
-  
-  const handleClose = ()=> {
+  const handleClose = () => {
+    setRecordForEdit(null);
     setOpenModal(false);
-}
+  }
+  console.log('record',recordForEdit)
+  console.log('open',openModal)
+
+
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      taiKhoan: user ? user.taiKhoan : '',
-      matKhau: user ? user.matKhau : '',
-      hoTen: user ? user.hoTen : '',
-      soDt: user ? user.soDt : '',
-      user: user ? user.maLoaiNguoiDung : 'HV',
-      maNhom: user ? user.maNhom : 'GP08',
-      email: user ? user.email : '',
+      taiKhoan: recordForEdit ? userUpdate.taiKhoan : '',
+      matKhau: recordForEdit ? userUpdate.matKhau : '',
+      hoTen: recordForEdit ? userUpdate.hoTen : '',
+      soDt: recordForEdit ? userUpdate.soDt : '',
+      maLoaiNguoiDung: recordForEdit ? userUpdate.maLoaiNguoiDung : 'HV',
+      maNhom: recordForEdit ? userUpdate.maNhom : 'GP08',
+      email: recordForEdit ? userUpdate.email : '',
     },
     validationSchema: Yup.object({
       taiKhoan: Yup
@@ -76,21 +68,29 @@ export default function UserForm(props) {
       console.log("reset")
     },
     onSubmit: async (values) => {
-      await addOrEdit(values)
-
+     
+      try {
+        if(!recordForEdit) {
+          console.log(values)
+          await dispatch(addUser(values))
+        }
+        if(recordForEdit) {
+          console.log(values)
+          await dispatch(updateUser(values))
+        }
+        await dispatch(getUserList());
+        setRecordForEdit(false);
+        setOpenModal(false);
+      }
+      catch (err) {
+        setOpenModal(false)
+      }
     },
-    onClose: () => {
-      setUser(null);
-    },
-
   });
-
-
   return (
     <form
       onSubmit={formik.handleSubmit}
       onReset={formik.handleReset}
-      onClose={formik.handleClose}
     >
       <Grid container>
         <Grid item xs={6}>
@@ -158,23 +158,27 @@ export default function UserForm(props) {
             onChange={formik.handleChange}
             helperText={formik.touched.maLoaiNguoiDung && formik.errors.maLoaiNguoiDung}
             error={formik.touched.maLoaiNguoiDung && Boolean(formik.errors.maLoaiNguoiDung)}
+            dafaultValue={formik.values.maLoaiNguoiDung}
           >
             {typeOfUser.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
+              <MenuItem key={option.value}
+                value={option.value}
+
+              >
                 {option.label}
               </MenuItem>
             ))}
           </UserControl.Input>
 
           <div>
-            {user?<UserControl.ActionButton color="primary"
+            {userUpdate ? <UserControl.ActionButton color="primary"
               onClick={handleClose}
             >Cancel</UserControl.ActionButton> : <UserControl.ActionButton color="primary"
-            onClick={formik.handleReset}
-          >Reset</UserControl.ActionButton>}
-           
+              onClick={formik.handleReset}
+            >Reset</UserControl.ActionButton>}
             <UserControl.ActionButton color="primary"
               type='submit'
+              onPress={handleClose}
             >Submit</UserControl.ActionButton>
           </div>
         </Grid>

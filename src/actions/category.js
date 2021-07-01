@@ -7,6 +7,7 @@ import {
 import categoryAPI from "../services/categoryAPI";
 
 export function getCategory() {
+  console.log('getCategory')
   return async (dispatch) => {
     dispatch({ type: GET_CATEGORY_REQUEST });
     try {
