@@ -38,10 +38,12 @@ export function getUserList(){
 
 //findUserByName
 export function getUser(values) {
+    console.log('getuser')
     return async (dispatch) => {
         dispatch({type:GET_USER_REQUEST})
         try{
             const {data} = await adminAPI.getUser(values);
+            console.log("getUser:",data)
             dispatch({
                 type:GET_USER_SUCCESS,
                 payload: data[0],
@@ -49,48 +51,50 @@ export function getUser(values) {
         }catch(error){
             dispatch({
                 type:GET_USER_FAILURE,
-                payload:{error:error.data}
+                payload:{error:error.response.data}
             })
         }
     }
 }
 
 export function addUser(values) {
+    console.log('adduser')
     return async (dispatch) => {
         dispatch({type:POST_USER_REQUEST})
         try{
             const {data} = await adminAPI.addUser(values);
+            console.log(data)
             alert('Add User Successfully');
             dispatch({
                 type: POST_USER_SUCCESS,
-                payload:{data}
+                payload:data
             })
         }catch(error){
+            alert(error.response.data);
             dispatch({
                 type:POST_USER_FAILURE,
-                payload: {error:error.data}
+                payload: {error:error.response.data}
             })
         }
     }
 }
 
 export function updateUser(values){
+    console.log('updateuse')
     return async (dispatch) => {
         dispatch({type: PUT_USER_REQUEST})
         try{
             const {data} = await adminAPI.updateUser(values);
             alert('Update User Successfully');
-
             dispatch({
                 type:PUT_USER_SUCCESS,
                 payload:{data}
             })
         }catch(error){
-            alert(error.data)
-
+            alert(error.response.data);
             dispatch({
                 type:PUT_USER_FAILURE,
-                payload: {error:error.data}
+                payload: {error:error.response.data}
             })
         }
     }
@@ -107,10 +111,10 @@ export function deleteUser(values){
                 payload:{data}
             })
         }catch(error){
-            alert(error.data)
+            alert(error.response.data);
             dispatch({
                 type:DELETE_USER_FAILURE,
-                payload: {error:error.data}
+                payload: {error:error.response.data}
             })
         }
     }

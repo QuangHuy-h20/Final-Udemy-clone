@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog,DialogTitle, DialogContent, makeStyles, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, makeStyles, Typography } from '@material-ui/core';
 import UserControl from '../UserControl/UserControl';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -9,24 +9,43 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         top: theme.spacing(5),
     },
-    dialogTitle:{
-        paddingRight:'0px'
+    dialogTitle: {
+        paddingRight: 0,
+        width: '100%',
+        '& .MuiTypography-h6': {
+            width: '100%',
+            padding: 0,
+            fontSize: 32,
+            fontWeight: 700,
+            color: theme.palette.secondary.light,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        '& .MuiDialogTitle-root': {
+            padding: 0,
+            
+        }
     }
 }))
-export default function UserModal(props){
-    const {title, children, openModal, setOpenModal} = props;
+export default function UserModal(props) {
+    const { title, children, setRecordForEdit, openModal, setOpenModal } = props;
     const classes = useStyles();
-    return(
-        <Dialog open={openModal} maxWidth='md' classes={{paper:classes.dialogWrapper}}>
+    const handleClose = () => {
+        setRecordForEdit(false);
+        setOpenModal(false);
+    }
+    return (
+        <Dialog open={openModal} maxWidth='md' classes={{ paper: classes.dialogWrapper }}>
             <DialogTitle className={classes.dialogTitle}>
-                <Typography variant='h6' component='div' style={{flexGrow:1}}>
+                <h2 style={{ display: 'inline' },{paddingLeft:'50px'}}>
                     {title}
-                </Typography>
+                </h2>
                 <UserControl.ActionButton
                     color='secondary'
-                    onClick={()=>{setOpenModal(false)}}
+                    onClick={handleClose}
                 >
-                    <CloseIcon/>
+                    <CloseIcon />
                 </UserControl.ActionButton>
             </DialogTitle>
             <DialogContent dividers>

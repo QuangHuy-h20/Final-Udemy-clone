@@ -8,10 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Button from '@material-ui/core/Button'
-import { Paper, makStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, TableContainer, Table, TableHead, TablePagination } from "@material-ui/core";
+import { Paper, makStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, TableContainer, Table, TableHead, TablePagination, TextField } from "@material-ui/core";
 import UserModal from '../../components/AdminUser/UserModal';
 
-import { addUser, getUserList, updateUser, deleteUser } from "../../actions/adminUser.js";
+import { addUser, getUserList, updateUser, deleteUser, getUser } from "../../actions/adminUser.js";
 import UserForm from "../../components/AdminUser/UserForm";
 
 import EnhancedTableHead from "src/components/AdminUser/EnhancedTableHead.js";
@@ -19,7 +19,8 @@ import { descendingComparator, getComparator, stableSort } from "src/components/
 import UserControl from "src/components/UserControl/UserControl";
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import { ConsoleSqlOutlined } from "@ant-design/icons";
+import InputSearch from "src/components/UserControl/InputSearch";
+import EnhancedTablePagination from '../../components/AdminUser/EnhancedTableTablePagination';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +55,6 @@ const StyledTableCell = withStyles((theme) => ({
     padding: 10,
     paddingLeft: 5,
     paddingRight: 0,
-    // maxWidth:90,
   }
 }))(TableCell);
 
@@ -72,25 +72,41 @@ export default function AdminUsers() {
   const { pathname } = useLocation();
   const { userList, userUpdate, isLoading, error } = useSelector((state) => state.adminUser);
 
+
   useEffect(() => {
     dispatch(getUserList());
   }, [pathname])
 
   //ModalAdd or ModalUpdate
   const [openModal, setOpenModal] = useState(false);
-  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [recordForEdit, setRecordForEdit] = useState(false);
+  // const [user, setUser] = useState(null);
 
-  const setOpenUpdateForm = item => {
-    setRecordForEdit(item);
+  console.log('userUpdate:', userUpdate)
+  console.log('record',recordForEdit)
+  console.log('open',openModal)
+
+  const handleOpenUpdateForm = async (item) => {
+    try {
+      await dispatch(getUser(item.hoTen))
+      // setUser(item)
+      setRecordForEdit(true);
+      setOpenModal(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // console.log(user)
+
+  const handleOpenAddForm = () => {
+    setRecordForEdit(false);
     setOpenModal(true)
   }
 
-  const handleDeleteUser = (data) => {
-    dispatch(deleteUser(data))
+  const handleDeleteUser = async (data) => {
+    await dispatch(deleteUser(data))
     dispatch(getUserList())
   }
-
-  
   //End 
 
   //Table
@@ -112,16 +128,41 @@ export default function AdminUsers() {
     setRowsPerPage(parseInt(event.target.value, 10))
   }
 
-
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, userList.length - page * rowsPerPage);
+  //End Table
+
+  //Find User By Name
+
+  const [userFilter, setUserFilter] = useState('')
+
+  const handleChangeFilters = (e) => {
+    setUserFilter(e.target.value);
+  }
+
+  let userFilterList = userList.filter((user) => {
+    if (userFilter === '') {
+      return user;
+    } else if (user.taiKhoan.toLowerCase().includes(userFilter.toLowerCase())) {
+      return user;
+    }
+  })
 
 
+  //End Find User By Nme
 
   return (
     <div className={classes.root}>
-      <Button
-        onClick={() => setOpenModal(true)}
-      > Add </Button>
+      <div style={{ display: 'flex' }}>
+        <UserControl.ActionButton
+          color='secondary'
+          onClick={handleOpenAddForm}
+        > Add </UserControl.ActionButton>
+        <InputSearch
+          type='text'
+          onChange={handleChangeFilters}
+        />
+      </div>
+
 
       <Paper className={classes.paper}>
         <TableContainer component={Paper}>
@@ -137,7 +178,7 @@ export default function AdminUsers() {
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {stableSort(userList, getComparator(order, orderBy))
+              {stableSort(userFilterList, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
                   return (
@@ -167,7 +208,7 @@ export default function AdminUsers() {
                       <StyledTableCell align="center"
                       >
                         <Button
-                          onClick={() => { setOpenUpdateForm(user) }}
+                          onClick={() => { handleOpenUpdateForm(user) }}
                         >
                           <EditOutlinedIcon fontSize='small' />
                         </Button>
@@ -190,7 +231,7 @@ export default function AdminUsers() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        <EnhancedTablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component='div'
           count={userList.length}
@@ -205,11 +246,16 @@ export default function AdminUsers() {
         title="Student Form"
         openModal={openModal}
         setOpenModal={setOpenModal}
+        setRecordForEdit={setRecordForEdit}
       >
         <UserForm
           recordForEdit={recordForEdit}
           setRecordForEdit={setRecordForEdit}
           setOpenModal={setOpenModal}
+          userUpdate={userUpdate}
+        openModal={openModal}
+
+          // setUser={setUser}
         />
       </UserModal>
     </div>

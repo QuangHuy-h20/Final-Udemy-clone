@@ -75,11 +75,9 @@ function adminUserReducer(state = initialState,action){
             }
         }
         case POST_USER_SUCCESS:{
-            const newdata = action.payload.data;
             return{
                 ...state,
                 isLoading: false,
-                admin:{userList:{...state.admin.userList, newdata},...state.admin}
             }
         }
         case POST_USER_FAILURE:{
@@ -128,7 +126,6 @@ function adminUserReducer(state = initialState,action){
                 error: action.payload.error,
             }
         }
-
         default:{
             return state
         }
