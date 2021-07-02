@@ -9,7 +9,11 @@ const adminAPI = {
         return axiosClient.get("/QuanLyNguoiDung/LayDanhSachNguoiDung", {params})
     },
     getUser: (values) => {
-        return axiosClient.get("/QuanLyNguoiDung/TimKiemNguoiDung", values)
+        const params = {
+            maNhom:'GP08',
+            tuKhoa:values,
+        }
+        return axiosClient.get("/QuanLyNguoiDung/TimKiemNguoiDung", {params})
     },
     addUser: (data) => {
         return axiosClient.post("/QuanLyNguoiDung/ThemNguoiDung", data)

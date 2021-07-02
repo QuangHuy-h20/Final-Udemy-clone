@@ -7,7 +7,7 @@ const StyledTableCell = withStyles((theme) => ({
       backgroundColor: theme.palette.secondary.light,
       color: theme.palette.black,
       fontSize: 13,
-      fontWeight: 1.2,
+      fontWeight: 700,
       padding:16,
       paddingLeft: 5,
     }}))(TableCell);
@@ -18,7 +18,7 @@ const headCells = [
     {id:'soDt',numberic:false,minWidth:100,disablePadding:true, label: 'Phone Number'},
     {id:'email',numberic:false,minWidth:200,disablePadding:true, label: 'User Email'},
     {id:'maLoaiNguoiDung',numberic:false,minWidth:50,disablePadding:true, label: 'Type'},
-    {id:'actions', label:'Actions', disableSorting:true}
+    {id:'actions',numberic:true, label:'Actions', disableSorting:true}
   ];
 
 export default function EnhancedTableHead(props){
@@ -35,7 +35,7 @@ export default function EnhancedTableHead(props){
                     <StyledTableCell
                         key={headCell.id}
                         align={headCell.numberic ? 'center' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'default'}
+                        padding={headCell.disablePadding ? 'center' : 'default'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
                         <TableSortLabel

@@ -10,7 +10,6 @@ import Hidden from "@material-ui/core/Hidden";
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 // core components
-import AdminNavbarLinks from "../AdminNavbarLinks";
 
 import Button from "../CustomButtons/Button";
 
@@ -37,9 +36,9 @@ export default function Header(props) {
             {routeName}
           </Button>
         </div>
-        <Hidden smDown implementation="css">
+        {/* <Hidden smDown implementation="css">
            <AdminNavbarLinks />
-        </Hidden>
+        </Hidden> */}
         <Hidden mdUp implementation="css">
           <IconButton
             color="inherit"
