@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import { useDispatch} from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 //
 import UserControl from '../UserControl/UserControl';
 //
-import { getUser, updateUser, addUser, getUserList } from '../../actions/adminUser';
+import {  updateUser, addUser, getUserList } from '../../actions/adminUser';
 const typeOfUser = [
   {
     value: "HV",
@@ -20,26 +21,25 @@ const typeOfUser = [
   }
 ]
 
+const useStyles = makeStyles({
+  inputText:{
+    padding:10,
+  }
+})
 export default function UserForm(props) {
-
+  const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { userUpdate,openModal, setOpenModal, recordForEdit, setRecordForEdit } = props;
+  const { userUpdate, setOpenModal, recordForEdit, setRecordForEdit } = props;
 
-  // const { userUpdate } = useSelector((state) => state.adminUser)
 
   useEffect(() => {
   }, [recordForEdit]);
-  console.log("userUpdate", userUpdate)
 
   const handleClose = () => {
     setRecordForEdit(null);
     setOpenModal(false);
   }
-  console.log('record',recordForEdit)
-  console.log('open',openModal)
-
-
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -56,12 +56,16 @@ export default function UserForm(props) {
       taiKhoan: Yup
         .string()
         .required("This field is required.")
+        .matches(/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$/,"Invalid characters")
         .min(5, "Use from 5 to 20 characters for your account.")
         .max(20, "Use from 5 to 20 characters for your account."),
-      matKhau: Yup.string().required("This field is required."),
+      matKhau: Yup.string().required("This field is required.").matches(/^[a-zA-Z\-]+$/,"Invalid characters"),
       hoTen: Yup.string().required("This field is required."),
-      email: Yup.string().required("This field is required."),
-      soDt: Yup.number().integer().positive(),
+      email: Yup.string()
+      .required("This field is required.")
+      .matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,"Email is not valid"),
+      soDt: Yup.string()
+      .matches(/^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/,"Phone is not valid"),
       maLoaiNguoiDung: Yup.string(),
     }),
     onReset: () => {
@@ -71,11 +75,9 @@ export default function UserForm(props) {
      
       try {
         if(!recordForEdit) {
-          console.log(values)
           await dispatch(addUser(values))
         }
         if(recordForEdit) {
-          console.log(values)
           await dispatch(updateUser(values))
         }
         await dispatch(getUserList());
@@ -94,8 +96,10 @@ export default function UserForm(props) {
     >
       <Grid container>
         <Grid item xs={6}>
-          <UserControl.Input
+          <TextField
             fullWidth
+            className={classes.inputText}
+            variant="outlined"
             id="taiKhoan"
             name="taiKhoan"
             label="Account"
@@ -104,8 +108,10 @@ export default function UserForm(props) {
             error={formik.touched.taiKhoan && Boolean(formik.errors.taiKhoan)}
             helperText={formik.touched.taiKhoan && formik.errors.taiKhoan}
           />
-          <UserControl.Input
+          <TextField
             fullWidth
+            variant="outlined"
+            className={classes.inputText}
             id="hoTen"
             name="hoTen"
             label="Name"
@@ -114,8 +120,10 @@ export default function UserForm(props) {
             error={formik.touched.hoTen && Boolean(formik.errors.hoTen)}
             helperText={formik.touched.hoTen && formik.errors.hoTen}
           />
-          <UserControl.Input
+          <TextField
             fullWidth
+            variant="outlined"
+            className={classes.inputText}
             id="email"
             name="email"
             label="Email"
@@ -127,8 +135,10 @@ export default function UserForm(props) {
           />
         </Grid>
         <Grid item xs={6}>
-          <UserControl.Input
+          <TextField
             fullWidth
+            variant="outlined"
+            className={classes.inputText}
             id="soDt"
             name="soDt"
             label="Phone"
@@ -137,19 +147,10 @@ export default function UserForm(props) {
             error={formik.touched.soDt && Boolean(formik.errors.soDt)}
             helperText={formik.touched.soDt && formik.errors.soDt}
           />
-          <UserControl.Input
+          <TextField
             fullWidth
-            id="matKhau"
-            name="matKhau"
-            label="Password"
-            value={formik.values.matKhau}
-            type="text"
-            onChange={formik.handleChange}
-            error={formik.touched.matKhau && Boolean(formik.errors.matKhau)}
-            helperText={formik.touched.matKhau && formik.errors.matKhau}
-          />
-          <UserControl.Input
-            fullWidth
+            className={classes.inputText}
+            variant="outlined"
             id="maLoaiNguoiDung"
             name="maLoaiNguoiDung"
             select
@@ -160,6 +161,20 @@ export default function UserForm(props) {
             error={formik.touched.maLoaiNguoiDung && Boolean(formik.errors.maLoaiNguoiDung)}
             dafaultValue={formik.values.maLoaiNguoiDung}
           >
+          <TextField
+            fullWidth
+            variant="outlined"
+            className={classes.inputText}
+            id="matKhau"
+            name="matKhau"
+            label="Password"
+            value={formik.values.matKhau}
+            type="text"
+            onChange={formik.handleChange}
+            error={formik.touched.matKhau && Boolean(formik.errors.matKhau)}
+            helperText={formik.touched.matKhau && formik.errors.matKhau}
+          />
+          
             {typeOfUser.map((option) => (
               <MenuItem key={option.value}
                 value={option.value}
@@ -168,7 +183,7 @@ export default function UserForm(props) {
                 {option.label}
               </MenuItem>
             ))}
-          </UserControl.Input>
+          </TextField>
 
           <div>
             {userUpdate ? <UserControl.ActionButton color="primary"

@@ -3,8 +3,6 @@ import {
   whiteColor,
   grayColor,
   hexToRgb,
-  warningColor,
-  dangerColor
 } from "../../../jss/material-dashboard-react";
 
 const dashboardStyle = {

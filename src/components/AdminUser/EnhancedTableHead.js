@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, makeStyle } from '@material-ui/core/styles';
+import { withStyles} from '@material-ui/core/styles';
 import { TableHead,TableRow,TableCell, TableSortLabel } from '@material-ui/core';
 const StyledTableCell = withStyles((theme) => ({
     head: {

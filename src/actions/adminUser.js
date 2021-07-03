@@ -38,12 +38,10 @@ export function getUserList(){
 
 //findUserByName
 export function getUser(values) {
-    console.log('getuser')
     return async (dispatch) => {
         dispatch({type:GET_USER_REQUEST})
         try{
             const {data} = await adminAPI.getUser(values);
-            console.log("getUser:",data)
             dispatch({
                 type:GET_USER_SUCCESS,
                 payload: data[0],
@@ -58,12 +56,10 @@ export function getUser(values) {
 }
 
 export function addUser(values) {
-    console.log('adduser')
     return async (dispatch) => {
         dispatch({type:POST_USER_REQUEST})
         try{
             const {data} = await adminAPI.addUser(values);
-            console.log(data)
             alert('Add User Successfully');
             dispatch({
                 type: POST_USER_SUCCESS,
@@ -80,7 +76,6 @@ export function addUser(values) {
 }
 
 export function updateUser(values){
-    console.log('updateuse')
     return async (dispatch) => {
         dispatch({type: PUT_USER_REQUEST})
         try{

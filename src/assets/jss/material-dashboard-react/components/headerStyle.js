@@ -39,8 +39,9 @@ const headerStyle = () => ({
   title: {
     ...defaultFont,
     letterSpacing: "unset",
-    lineHeight: "30px",
-    fontSize: "18px",
+    lineHeight: "20px",
+    fontSize: "30px",
+    fontWeight: 700,
     borderRadius: "3px",
     textTransform: "none",
     color: "inherit",
