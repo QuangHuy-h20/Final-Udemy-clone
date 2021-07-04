@@ -12,12 +12,6 @@ import GridItem from '../Grid/GridItem';
 import Card from '../Card/Card';
 import CardHeader from '../Card/CardHeader';
 import CardIcon from '../Card/CardIcon';
-import CardFooter from '../Card/CardFooter';
-import Danger from '../Typography/Danger';
-import CardBody from '../Card/CardBody';
-import CustomTabs from '../CustomTabs/CustomTabs';
-//icon
-import { Code, Warning } from '@material-ui/icons';
 
 //API
 import { getUserList } from 'src/actions/adminUser';
@@ -28,7 +22,6 @@ const useStyles = makeStyles(styles);
 export default function Dashboard() {
   const { userList} = useSelector((state) => state.adminUser);
   const {courseList} = useSelector((state)=> state.adminCourse);
-  const {category} = useSelector((state)=>(state.category))
   const classes = useStyles();
   const dispatch = useDispatch();
   const {pathname} = useLocation();
@@ -50,7 +43,6 @@ export default function Dashboard() {
     dispatch(getCourseList())
   }, [pathname])
 
-console.log(category)
   return (
     <div>
       <GridContainer>

@@ -1,6 +1,7 @@
-import React from "react";
+import React,{useEffect} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import {useLocation} from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -27,18 +28,20 @@ export default function Header(props) {
   const appBarClasses = classNames({
     [" " + classes[color]]: color,
   });
+  const {pathname} = useLocation();
+  useEffect(()=>{
+
+  },[pathname])
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
-          {/* Here we create navbar brand, based on route name */}
+          
           <Button color="transparent" href="#" className={classes.title}>
             {routeName}
           </Button>
         </div>
-        {/* <Hidden smDown implementation="css">
-           <AdminNavbarLinks />
-        </Hidden> */}
+       
         <Hidden mdUp implementation="css">
           <IconButton
             color="inherit"
