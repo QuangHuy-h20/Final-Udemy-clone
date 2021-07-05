@@ -14,7 +14,7 @@ import EnhancedTableHead from './TableHead'
 import EnhancedTableToolbar from './TableToolBar'
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getCourseList } from "../../actions/adminCourse";
+import { getCourseList, getOneCourse } from "../../actions/adminCourse";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -81,7 +81,7 @@ export default function EnhancedTable() {
 
   const {pathname} = useLocation()
   const dispatch = useDispatch();
-  const { courseList, isLoading, error } = useSelector((state) => state.adminCourse);
+  const { courseList } = useSelector((state) => state.adminCourse);
   useEffect(() => {
     dispatch(getCourseList());
   }, [pathname]);
@@ -94,19 +94,19 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = courseList.map((n) => n.name);
+      const newSelected = courseList.map((n) => n.maKhoaHoc);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, maKhoaHoc) => {
+    const selectedIndex = selected.indexOf(maKhoaHoc);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, maKhoaHoc);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -117,7 +117,6 @@ export default function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
   };
 
@@ -134,14 +133,14 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (maKhoaHoc) => selected.indexOf(maKhoaHoc) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, courseList.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} selectedCourse={selected[0]}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -161,18 +160,18 @@ export default function EnhancedTable() {
             <TableBody>
               {stableSort(courseList, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.maKhoaHoc);
+                .map((course, index) => {
+                  const isItemSelected = isSelected(course.maKhoaHoc);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.maKhoaHoc)}
+                      onClick={(event) => handleClick(event, course.maKhoaHoc)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.maKhoaHoc}
+                      key={course.maKhoaHoc}
                       selected={isItemSelected}
                       style = {{ fontSize : '1.2rem' }}
                     >
@@ -183,15 +182,15 @@ export default function EnhancedTable() {
                         />
                       </TableCell>
                       <TableCell style = {{ fontSize : '1.25rem' }} component="th" id={labelId} scope="row" padding="none">
-                        {row.maKhoaHoc}
+                        {course.maKhoaHoc}
                       </TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{row.biDanh}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{row.tenKhoaHoc}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{row.maNhom}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{row.soLuongHocVien}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[row.nguoiTao].flat().map(username => username.taiKhoan)}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[row.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc)}</TableCell>
-                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{row.luotXem}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{course.biDanh}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{course.tenKhoaHoc}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{course.maNhom}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{course.soLuongHocVien}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[course.nguoiTao].flat().map(username => username.taiKhoan)}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[course.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc)}</TableCell>
+                      <TableCell style = {{ fontSize : '1.25rem' }} align="center">{course.luotXem}</TableCell>
                     </TableRow>
                   );
                 })}

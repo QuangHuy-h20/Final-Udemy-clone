@@ -34,6 +34,28 @@ const adminAPI = {
             maNhom: "GP08",
         }
         return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc", {params})
+    },
+    addCourse: (data) => {
+        return axiosClient.post("/QuanLyKhoaHoc/ThemKhoaHoc", data)
+    },
+    deleteCourse: (data) => {
+        const params = {
+            maKhoaHoc: data
+        }
+        return axiosClient.delete("/QuanLyKhoaHoc/XoaKhoaHoc", {params})
+    },
+    updateCourse: (data) => {
+        const params = {
+            ...data,
+            maNhom: 'GP08'
+        }
+        return axiosClient.put("/QuanLyKhoaHoc/CapNhatKhoatHoc", {params})
+    },
+    getOneCourse: (courseId) => {
+        return axiosClient.get("/QuanLyKhoaHoc/LayThongTinKhoaHoc", courseId)
+    },
+    getCourseCategory: () => {
+        return axiosClient.get("/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
     }
 }
 

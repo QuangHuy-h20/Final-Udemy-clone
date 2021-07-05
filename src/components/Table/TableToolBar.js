@@ -8,7 +8,9 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteCourse, getCourseList } from "src/actions/adminCourse";
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -35,8 +37,18 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 export default function EnhancedTableToolbar(props) {
     const classes = useToolbarStyles();
-    const { numSelected } = props;
+    const { numSelected, selectedCourse } = props;
+    const [courseUpdate, setCourseUpdate] = useState(null);
+    const dispatch = useDispatch();
+    const handleDeleteCourse = () => {
+        console.log(selectedCourse);
+        dispatch(deleteCourse(selectedCourse))
+        dispatch(getCourseList());
+    }
 
+    const handleEditForm = item => {
+        setCourseUpdate(selectedCourse);
+    }
     return (
         <Toolbar
             className={clsx(classes.root, {
@@ -49,13 +61,13 @@ export default function EnhancedTableToolbar(props) {
                 </Typography>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    <Modal />
+                    <Modal selectedCourse={selectedCourse}/>
                 </Typography>
             )}
 
-            {numSelected > 0 ? (
+            {numSelected === 1 ? (
                 <Tooltip title="Delete">
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="delete" onClick={handleDeleteCourse}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
