@@ -10,8 +10,9 @@ import {
   useMediaQuery,
   MenuItem,
   Slide,
+  TextField
 } from "@material-ui/core";
-import { useTheme, withStyles } from "@material-ui/core/styles";
+import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -25,10 +26,15 @@ import {
 } from "src/actions/adminCourse";
 import DateFnsUtils from "@date-io/date-fns";
 import * as Yup from "yup";
-import CourseControl from "../CourseControl/CourseControl";
 import { useFormik } from "formik";
 import { getCourseDetail } from "src/actions/course";
 import { useSelector } from "react-redux";
+
+const useStyles = makeStyles({
+  inputText:{
+    padding:10,
+  }
+})
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,6 +46,7 @@ export default function Modal(props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
+  const classes = useStyles();
   const { courseUpdate, error, categoryList } = useSelector(
     (state) => state.adminCourse
   );
@@ -67,16 +74,16 @@ export default function Modal(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      maKhoaHoc: selectedCourse ? selectedCourse.maKhoaHoc : "",
-      biDanh: selectedCourse ? selectedCourse.biDanh : "",
-      tenKhoaHoc: selectedCourse ? selectedCourse.matKhau : "",
-      moTa: selectedCourse ? selectedCourse.hoTen : "",
-      taiKhoanNguoiTao: selectedCourse ? selectedCourse.taiKhoanNguoiTao : taiKhoan,
-      ngayTao: selectedCourse ? selectedCourse.ngayTao : new Date().toString(),
-      maNhom: selectedCourse ? selectedCourse.maNhom : "GP08",
-      luotXem: selectedCourse ? selectedCourse.luotXem : 0,
-      danhGia: selectedCourse ? selectedCourse.danhGia : 0,
-      maDanhMucKhoaHoc: selectedCourse ? selectedCourse.maDanhMucKhoaHoc : "",
+      maKhoaHoc: selectedCourse ? courseUpdate.maKhoaHoc : "",
+      biDanh: selectedCourse ? courseUpdate.biDanh : "",
+      tenKhoaHoc: selectedCourse ? courseUpdate.matKhau : "",
+      moTa: selectedCourse ? courseUpdate.hoTen : "",
+      taiKhoanNguoiTao: selectedCourse ? courseUpdate.taiKhoanNguoiTao : taiKhoan,
+      ngayTao: selectedCourse ? courseUpdate.ngayTao : new Date().toString(),
+      maNhom: selectedCourse ? courseUpdate.maNhom : "GP08",
+      luotXem: selectedCourse ? courseUpdate.luotXem : 0,
+      danhGia: selectedCourse ? courseUpdate.danhGia : 0,
+      maDanhMucKhoaHoc: selectedCourse ? courseUpdate.maDanhMucKhoaHoc : "",
     },
     validationSchema: Yup.object({
       maKhoaHoc: Yup.string().lowercase().required("This field is required."),
@@ -138,78 +145,91 @@ export default function Modal(props) {
         </DialogTitle>
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <DialogContent dividers>
-            <CourseControl.Input
+            <TextField
               lable="Ma Khoa Hoc"
-              id="maKhoaHoc"
-              name="maKhoaHoc"
-              type="text"
+              id="maKhoaHoc"              
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.maKhoaHoc}
               onChange={formik.handleChange}
               helperText={formik.touched.maKhoaHoc && formik.errors.maKhoaHoc}
-              error={
-                formik.touched.maKhoaHoc && Boolean(formik.errors.maKhoaHoc)
-              }
+              error={formik.touched.maKhoaHoc && Boolean(formik.errors.maKhoaHoc)}
             />
-            <CourseControl.Input
+            <TextField
               lable="Bi Danh"
               id="biDanh"
-              name="biDanh"
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.biDanh}
               onChange={formik.handleChange}
               helperText={formik.touched.biDanh && formik.errors.biDanh}
               error={formik.touched.biDanh && Boolean(formik.errors.biDanh)}
             />
-            <CourseControl.Input
+            <TextField
               lable="Ten Khoa Hoc"
               id="tenKhoaHoc"
-              name="tenKhoaHoc"
+              variant="outlined"
+              fullWidth
               value={formik.values.tenKhoaHoc}
+              className={classes.inputText}
               onChange={formik.handleChange}
               helperText={formik.touched.tenKhoaHoc && formik.errors.tenKhoaHoc}
               error={
                 formik.touched.tenKhoaHoc && Boolean(formik.errors.tenKhoaHoc)
               }
             />
-            <CourseControl.Input
+            <TextField
               lable="Mo Ta"
               id="moTa"
-              name="moTa"
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.moTa}
               onChange={formik.handleChange}
               helperText={formik.touched.moTa && formik.errors.moTa}
               error={formik.touched.moTa && Boolean(formik.errors.moTa)}
             />
-            <CourseControl.Input
+            <TextField
               lable="Ma Nhom"
               id="maNhom"
-              name="maNhom"
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.maNhom}
               onChange={formik.handleChange}
               helperText={formik.touched.maNhom && formik.errors.maNhom}
               error={formik.touched.maNhom && Boolean(formik.errors.maNhom)}
             />
-            <CourseControl.Input
+            <TextField
               lable="Luot Xem"
-              id="luotXem"
-              name="luotXem"
+              id="luotXem"              
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.luotXem}
               onChange={formik.handleChange}
               helperText={formik.touched.luotXem && formik.errors.luotXem}
               error={formik.touched.luotXem && Boolean(formik.errors.luotXem)}
             />
-            <CourseControl.Input
+            <TextField
               lable="Danh Gia"
               id="danhGia"
-              name="danhGia"
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.danhGia}
               onChange={formik.handleChange}
               helperText={formik.touched.danhGia && formik.errors.danhGia}
               error={formik.touched.danhGia && Boolean(formik.errors.danhGia)}
             />
-            <CourseControl.Input
+            <TextField
               lable="Tai Khoan Nguoi Tao"
               id="taiKhoanNguoiTao"
-              name="taiKhoanNguoiTao"
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
               value={formik.values.taiKhoanNguoiTao}
               onChange={formik.handleChange}
               helperText={formik.touched.taiKhoanNguoiTao && formik.errors.taiKhoanNguoiTao}
@@ -222,6 +242,7 @@ export default function Modal(props) {
                   label="Ngay Tao"
                   inputVariant="outlined"
                   value={formik.values.ngayTao}
+                  className={classes.inputText}
                   onChange={formik.handleChange}
                   error={
                     formik.touched.ngayTao && Boolean(formik.errors.ngayTao)
@@ -233,18 +254,18 @@ export default function Modal(props) {
                 />
               </MuiPickersUtilsProvider>
             </Box>
-            <CourseControl.Input
+            <TextField
               lable="Ma Danh Muc"
-              id="maDanhMucKhoaHoc"
-              name="maDanhMucKhoaHoc"
+              id="maDanhMuc"
               select
-              value={formik.values.maDanhMucKhoaHoc}
+              variant="outlined"
+              fullWidth
+              className={classes.inputText}
+              value={formik.values.taiKhoanNguoiTao}
               onChange={formik.handleChange}
-              helperText={formik.touched.maDanhMucKhoaHoc && formik.errors.maDanhMucKhoaHoc}
-              error={
-                formik.touched.maDanhMucKhoaHoc &&
-                Boolean(formik.errors.maDanhMucKhoaHoc)
-              }
+              helperText={formik.touched.taiKhoanNguoiTao && formik.errors.taiKhoanNguoiTao}
+              error={formik.touched.taiKhoanNguoiTao && Boolean(formik.errors.taiKhoanNguoiTao)}
+              defaultValue={formik.touched.maDanhMucKhoaHoc}
             >
               {categoryList.map((option) => (
                 <MenuItem
@@ -254,7 +275,7 @@ export default function Modal(props) {
                   {option.tenDanhMuc}
                 </MenuItem>
               ))}
-            </CourseControl.Input>
+              </TextField>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">

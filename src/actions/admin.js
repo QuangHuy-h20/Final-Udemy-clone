@@ -101,14 +101,12 @@ export function updateUser(values){
         try{
             const {data} = await adminAPI.updateUser(values);
             alert('Update User Successfully');
-
             dispatch({
                 type:PUT_USER_SUCCESS,
                 payload:{data}
             })
         }catch(error){
-            alert(error)
-
+            console.log(error)
             dispatch({
                 type:PUT_USER_FAILURE,
                 payload: {error:error.response.data}
@@ -128,8 +126,7 @@ export function deleteUser(values){
                 payload:{data}
             })
         }catch(error){
-            alert(error)
-            
+            console.log(error);
             dispatch({
                 type:DELETE_USER_FAILURE,
                 payload: {error}

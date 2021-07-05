@@ -3,13 +3,25 @@ import { Button, makeStyles}  from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root:{
+        margin:0,
         minWidth: 0,
-        margin: theme.spacing(0.5)
+        margin: theme.spacing(0.5),
+        padding:15,
+        paddingTop:8,
+        paddingBottom:8,
+        fontSize:13,
+        fontWeight: 600
     },
     secondary:{
         backgroundColor: theme.palette.secondary.light,
         '& .MuiButton-label': {
-            color:theme.palette.secondary.main,
+            color:theme.palette.common.black,
+        },
+        '&:hover':{
+            backgroundColor: theme.palette.secondary.dark,
+            '& .MuiButton-label': {
+                color:theme.palette.common.white,
+            }
         }
     },
     primary:{

@@ -3,7 +3,7 @@ import {
   whiteColor,
   grayColor,
   hexToRgb,
-} from "assets/jss/material-dashboard-react.js";
+} from "../../../jss/material-dashboard-react";
 
 const dashboardStyle = {
   successText: {
@@ -37,8 +37,8 @@ const dashboardStyle = {
   cardCategory: {
     color: grayColor[0],
     margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
+    fontSize: "16px",
+    marginTop: "10px",
     paddingTop: "10px",
     marginBottom: "0",
   },
@@ -51,6 +51,7 @@ const dashboardStyle = {
   },
   cardTitle: {
     color: grayColor[2],
+    fontSize:'14px',
     marginTop: "0px",
     minHeight: "auto",
     fontWeight: "300",

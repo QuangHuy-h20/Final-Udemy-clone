@@ -35,11 +35,12 @@ axiosClient.interceptors.response.use(
     if (error.status === 401) {
       // console.log(error.response.data);
       //Handle logout, redirect user to login page
+      
     }
     if (error.status === 500) {
-      console.log(error);
+      console.log(error.data);
       //Announce alert to user that server has error
-
+      
     }
     return Promise.reject(error);
   }

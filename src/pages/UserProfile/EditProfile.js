@@ -57,7 +57,7 @@ const UserForm = styled.form`
 
 export default function EditProfile() {
   const dispatch = useDispatch();
-  const { account} = useSelector((state) => state.user);
+  const { account } = useSelector((state) => state.user);
 
   const [userUpdate, setUserUpdate] = useState(account);
 

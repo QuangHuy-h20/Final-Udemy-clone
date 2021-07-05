@@ -1,3 +1,4 @@
+
 import adminAPI from 'src/services/adminAPI';
 import {GET_USER_LIST_REQUEST,
     GET_USER_LIST_SUCCESS,
@@ -49,7 +50,7 @@ export function getUser(values) {
         }catch(error){
             dispatch({
                 type:GET_USER_FAILURE,
-                payload:{error:error.data}
+                payload:{error:error.response.data}
             })
         }
     }
@@ -63,12 +64,13 @@ export function addUser(values) {
             alert('Add User Successfully');
             dispatch({
                 type: POST_USER_SUCCESS,
-                payload:{data}
+                payload:data
             })
         }catch(error){
+            alert(error.response.data);
             dispatch({
                 type:POST_USER_FAILURE,
-                payload: {error:error.data}
+                payload: {error:error.response.data}
             })
         }
     }
@@ -80,17 +82,15 @@ export function updateUser(values){
         try{
             const {data} = await adminAPI.updateUser(values);
             alert('Update User Successfully');
-
             dispatch({
                 type:PUT_USER_SUCCESS,
                 payload:{data}
             })
         }catch(error){
-            alert(error.data)
-
+            alert(error.response.data);
             dispatch({
                 type:PUT_USER_FAILURE,
-                payload: {error:error.data}
+                payload: {error:error.response.data}
             })
         }
     }
@@ -101,16 +101,16 @@ export function deleteUser(values){
         dispatch({type: DELETE_USER_REQUEST})
         try{
             const{data} = await adminAPI.deleteUser(values);
-            alert('Detele User Successfully');
+            alert('Delete User Successfully');
             dispatch({
                 type:DELETE_USER_SUCCESS,
                 payload:{data}
             })
         }catch(error){
-            alert(error.data)
+            alert(error.response.data);
             dispatch({
                 type:DELETE_USER_FAILURE,
-                payload: {error:error.data}
+                payload: {error:error.response.data}
             })
         }
     }
