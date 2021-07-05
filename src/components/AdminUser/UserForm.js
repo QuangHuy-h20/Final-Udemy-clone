@@ -59,13 +59,18 @@ export default function UserForm(props) {
         .matches(/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$/,"Invalid characters")
         .min(5, "Use from 5 to 20 characters for your account.")
         .max(20, "Use from 5 to 20 characters for your account."),
-      matKhau: Yup.string().required("This field is required.").matches(/^[a-zA-Z\-]+$/,"Invalid characters"),
+      matKhau: Yup.string().required("This field is required.")
+      .min(5, "Use from 5 to 20 characters for your password.")
+        .max(20, "Use from 5 to 20 characters for your password.")
+      ,
       hoTen: Yup.string().required("This field is required."),
       email: Yup.string()
       .required("This field is required.")
       .matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,"Email is not valid"),
       soDt: Yup.string()
-      .matches(/^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/,"Phone is not valid"),
+      .min(9,"Phone is not valid")
+      .max(11,"Phone is not valid")
+      .matches(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/,"Phone is not valid"),
       maLoaiNguoiDung: Yup.string(),
     }),
     onReset: () => {
@@ -147,6 +152,19 @@ export default function UserForm(props) {
             error={formik.touched.soDt && Boolean(formik.errors.soDt)}
             helperText={formik.touched.soDt && formik.errors.soDt}
           />
+           <TextField
+            fullWidth
+            variant="outlined"
+            className={classes.inputText}
+            id="matKhau"
+            name="matKhau"
+            label="Password"
+            value={formik.values.matKhau}
+            type="text"
+            onChange={formik.handleChange}
+            error={formik.touched.matKhau && Boolean(formik.errors.matKhau)}
+            helperText={formik.touched.matKhau && formik.errors.matKhau}
+          />
           <TextField
             fullWidth
             className={classes.inputText}
@@ -161,20 +179,7 @@ export default function UserForm(props) {
             error={formik.touched.maLoaiNguoiDung && Boolean(formik.errors.maLoaiNguoiDung)}
             dafaultValue={formik.values.maLoaiNguoiDung}
           >
-          <TextField
-            fullWidth
-            variant="outlined"
-            className={classes.inputText}
-            id="matKhau"
-            name="matKhau"
-            label="Password"
-            value={formik.values.matKhau}
-            type="text"
-            onChange={formik.handleChange}
-            error={formik.touched.matKhau && Boolean(formik.errors.matKhau)}
-            helperText={formik.touched.matKhau && formik.errors.matKhau}
-          />
-          
+         
             {typeOfUser.map((option) => (
               <MenuItem key={option.value}
                 value={option.value}
@@ -186,7 +191,7 @@ export default function UserForm(props) {
           </TextField>
 
           <div>
-            {userUpdate ? <UserControl.ActionButton color="primary"
+            {recordForEdit ? <UserControl.ActionButton color="primary"
               onClick={handleClose}
             >Cancel</UserControl.ActionButton> : <UserControl.ActionButton color="primary"
               onClick={formik.handleReset}
