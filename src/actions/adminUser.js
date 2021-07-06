@@ -14,6 +14,9 @@ import {GET_USER_LIST_REQUEST,
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAILURE,
+    GET_TYPE_REQUEST,
+    GET_TYPE_SUCCESS,
+    GET_TYPE_FAILURE,
 }
     from '../constants/adminUser';
 
@@ -111,6 +114,22 @@ export function deleteUser(values){
                 type:DELETE_USER_FAILURE,
                 payload: {error:error.response.data}
             })
+        }
+    }
+}
+export function getTypeOfUser(){
+    return async (dispatch)=>{
+        dispatch({type: GET_TYPE_REQUEST})
+        try{
+            const {data} = await adminAPI.getTypeOfUser();
+            dispatch({
+                type:GET_TYPE_SUCCESS,
+                payload:{data}
+            })
+        }catch(error){
+            dispatch({
+                type:GET_TYPE_FAILURE,
+                payload:error.response.data})
         }
     }
 }

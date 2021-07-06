@@ -9,17 +9,8 @@ import Grid from '@material-ui/core/Grid';
 //
 import UserControl from '../UserControl/UserControl';
 //
-import {  updateUser, addUser, getUserList } from '../../actions/adminUser';
-const typeOfUser = [
-  {
-    value: "HV",
-    label: "Student"
-  },
-  {
-    value: "GV",
-    label: "Teacher"
-  }
-]
+import {  updateUser, addUser, getUserList} from '../../actions/adminUser';
+
 
 const useStyles = makeStyles({
   inputText:{
@@ -30,10 +21,10 @@ export default function UserForm(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { userUpdate, setOpenModal, recordForEdit, setRecordForEdit } = props;
-
+  const { userUpdate, setOpenModal, recordForEdit, setRecordForEdit, typeOfUser } = props;
 
   useEffect(() => {
+  
   }, [recordForEdit]);
 
   const handleClose = () => {
@@ -181,11 +172,11 @@ export default function UserForm(props) {
           >
          
             {typeOfUser.map((option) => (
-              <MenuItem key={option.value}
-                value={option.value}
+              <MenuItem key={option.maLoaiNguoiDung}
+                value={option.maLoaiNguoiDung}
 
               >
-                {option.label}
+                {option.tenLoaiNguoiDung}
               </MenuItem>
             ))}
           </TextField>

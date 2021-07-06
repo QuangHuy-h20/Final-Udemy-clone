@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button'
 import { Paper,TableBody, TableRow, TableCell, TableContainer, Table} from "@material-ui/core";
 import UserModal from '../../components/AdminUser/UserModal';
 
-import { getUserList, deleteUser, getUser } from "../../actions/adminUser.js";
+import { getUserList, deleteUser, getUser, getTypeOfUser } from "../../actions/adminUser.js";
 import UserForm from "../../components/AdminUser/UserForm";
 
 import EnhancedTableHead from "src/components/AdminUser/EnhancedTableHead.js";
@@ -71,11 +71,13 @@ export default function AdminUsers() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { pathname } = useLocation();
-  const { userList, userUpdate} = useSelector((state) => state.adminUser);
+  const { userList, userUpdate, typeOfUser} = useSelector((state) => state.adminUser);
 
+  console.log(typeOfUser)
 
   useEffect(() => {
     dispatch(getUserList());
+    dispatch(getTypeOfUser())
   }, [pathname])
 
   //ModalAdd or ModalUpdate
@@ -239,7 +241,7 @@ export default function AdminUsers() {
           setOpenModal={setOpenModal}
           userUpdate={userUpdate}
         openModal={openModal}
-
+        typeOfUser={typeOfUser}
           // setUser={setUser}
         />
       </UserModal>

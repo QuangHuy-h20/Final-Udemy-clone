@@ -27,6 +27,9 @@ const adminAPI = {
             taiKhoan: values,
         }
         return axiosClient.delete("/QuanLyNguoiDung/XoaNguoiDung",{params})
+    },
+    getTypeOfUser: ()=> {
+        return axiosClient.get("/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung")
     }
     ,
     getListCourses: () => {

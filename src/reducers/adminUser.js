@@ -14,6 +14,9 @@ import {
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAILURE,
+    GET_TYPE_FAILURE,
+    GET_TYPE_SUCCESS,
+    GET_TYPE_REQUEST
 } from "../constants/adminUser"
 
 const initialState = {
@@ -21,6 +24,7 @@ const initialState = {
     userList: [],
     isLoading: false,
     error: null,
+    typeOfUser:[],
 };
 
 function adminUserReducer(state = initialState,action){
@@ -124,6 +128,28 @@ function adminUserReducer(state = initialState,action){
                 ...state,
                 isLoading:false,
                 error: action.payload.error,
+            }
+        }
+        //typeofuser
+        case GET_TYPE_REQUEST:{
+            return{
+                ...state,
+                isLoading:true,
+                error:null        
+            }
+        }
+        case GET_TYPE_SUCCESS:{
+            return{
+                ...state,
+                isLoading:false,
+                typeOfUser:action.payload.data,
+            }
+        }
+        case GET_TYPE_FAILURE:{
+            return{
+                ...state,
+                isLoading:false,
+                error:action.payload.error,
             }
         }
         default:{
