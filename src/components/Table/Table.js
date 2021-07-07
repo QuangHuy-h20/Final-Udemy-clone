@@ -14,7 +14,12 @@ import EnhancedTableHead from './TableHead'
 import EnhancedTableToolbar from './TableToolBar'
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getCourseList, getOneCourse } from "../../actions/adminCourse";
+import { deleteCourse, getCourseList, getOneCourse } from "../../actions/adminCourse";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import { Modal } from '@material-ui/core';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -81,7 +86,7 @@ export default function EnhancedTable() {
 
   const {pathname} = useLocation()
   const dispatch = useDispatch();
-  const { courseList } = useSelector((state) => state.adminCourse);
+  const { courseList, courseUpdate } = useSelector((state) => state.adminCourse);
   useEffect(() => {
     dispatch(getCourseList());
   }, [pathname]);
@@ -117,7 +122,11 @@ export default function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       );
     }
-    setSelected(newSelected);
+    setSelected(newSelected);  
+    if(selected) {
+      dispatch(getOneCourse(maKhoaHoc));
+      console.log(courseUpdate)
+    }  
   };
 
   const handleChangePage = (event, newPage) => {
@@ -137,10 +146,15 @@ export default function EnhancedTable() {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, courseList.length - page * rowsPerPage);
 
+  const handleDeleteCourse = async (courseId) => {
+    dispatch(deleteCourse(courseId));
+    dispatch(getCourseList());
+  }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} selectedCourse={selected[0]}/>
+        <EnhancedTableToolbar numSelected={selected.length} selectedCourse={courseUpdate}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -191,6 +205,22 @@ export default function EnhancedTable() {
                       <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[course.nguoiTao].flat().map(username => username.taiKhoan)}</TableCell>
                       <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[course.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc)}</TableCell>
                       <TableCell style = {{ fontSize : '1.25rem' }} align="center">{course.luotXem}</TableCell>
+                      <TableCell>
+                        <Tooltip title="Edit">
+                          <IconButton aria-label="edit">
+                            <EditIcon>
+                              <Modal selectedCourse={courseUpdate}/>
+                            </EditIcon>
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip title="Delete">
+                          <IconButton aria-label="delete" onClick={() => handleDeleteCourse(course.maKhoaHoc)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
                     </TableRow>
                   );
                 })}

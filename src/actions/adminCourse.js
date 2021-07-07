@@ -62,6 +62,10 @@ export function addNewCourse(values) {
     return async (dispatch) => {
         dispatch({type:ADD_COURSE_REQUEST})
         try{
+            let form_data = new FormData();
+            for (let key in values) {
+                form_data.append(key, values[key]);
+            }
             const {data} = await adminAPI.addCourse(values);
             dispatch({
                 type:ADD_COURSE_SUCCESS,
@@ -81,7 +85,11 @@ export function updateCourse(values) {
     return async (dispatch) => {
         dispatch({type: EDIT_COURSE_REQUEST})
         try{
-            const {data} = await adminAPI.updateUser(values);
+            let form_data = new FormData();
+            for (let key in values) {
+                form_data.append(key, values[key]);
+            }
+            const {data} = await adminAPI.updateUser(form_data);
             alert('Update Course Successfully');
 
             dispatch({
