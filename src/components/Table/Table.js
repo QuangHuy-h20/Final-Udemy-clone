@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,9 +17,9 @@ import { useLocation } from "react-router-dom";
 import { deleteCourse, getCourseList, getOneCourse } from "../../actions/adminCourse";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
+import InputBase from '@material-ui/core/InputBase';
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import { Modal } from '@material-ui/core';
+import SearchIcon from "@material-ui/icons/Search";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,7 +72,44 @@ const useStyles = makeStyles((theme) => ({
   },
   margin : {
     margin : theme.spacing(1)
-  }
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.black, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.black, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
 }));
 
 export default function EnhancedTable() {
@@ -151,8 +188,31 @@ export default function EnhancedTable() {
     dispatch(getCourseList());
   }
 
+  const [courseFilter, setCourseFilter] = React.useState('')
+  const handleChangeFilters = (e) => {
+    setCourseFilter(e.target.value);
+  }
+  let courseFilterList = courseList.filter((course) => {
+    if (courseFilter === '') {
+      return course;
+    } else if (course.biDanh.toLowerCase().includes(courseFilter.toLowerCase())) {
+      return course;
+    }
+  })
+
   return (
     <div className={classes.root}>
+      <div className={classes.search}>
+          <div className={classes.searchIcon}>
+              <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Search…"
+            classes={{ root: classes.inputRoot, input: classes.inputInput }}
+            inputProps={{ 'aria-label': 'search' }}
+            onChange={handleChangeFilters}
+          />
+      </div>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} selectedCourse={courseUpdate}/>
         <TableContainer>
@@ -172,7 +232,7 @@ export default function EnhancedTable() {
               rowCount={courseList.length}
             />
             <TableBody>
-              {stableSort(courseList, getComparator(order, orderBy))
+              {stableSort(courseFilterList, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((course, index) => {
                   const isItemSelected = isSelected(course.maKhoaHoc);
