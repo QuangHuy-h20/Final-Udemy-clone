@@ -1,6 +1,7 @@
 import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
 import Modal from "../Modal";
 import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -9,8 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -36,30 +36,27 @@ const useToolbarStyles = makeStyles((theme) => ({
 export default function EnhancedTableToolbar(props) {
   const classes = useToolbarStyles();
   const { numSelected, selectedCourse } = props;
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  }
 
   return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
+    <Toolbar className={clsx(classes.root, { [classes.highlight]: numSelected > 0})}>
       {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
+        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+          {/* <Button onClick={handleOpenModal}>
+            <Modal openModal={openModal} edit={true} selectedCourse={selectedCourse}/>
+          </Button> */}
+          <Modal openModal={openModal} edit={true} selectedCourse={selectedCourse} onClose={handleCloseModal} onClick={handleOpenModal}/>
         </Typography>
       ) : (
-        <Typography
-          className={classes.title}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          <Modal open={true} selectedCourse={selectedCourse} />
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+            <Modal onClick={handleOpenModal} openModal={openModal} onClose={handleCloseModal}/>          
         </Typography>
       )}
 
@@ -82,5 +79,5 @@ export default function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  selectedCourse: PropTypes.object
+  selectedCourse: PropTypes.object,
 };

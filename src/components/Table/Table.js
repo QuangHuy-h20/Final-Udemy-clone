@@ -206,15 +206,6 @@ export default function EnhancedTable() {
                       <TableCell style = {{ fontSize : '1.25rem' }} align="left">{[course.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc)}</TableCell>
                       <TableCell style = {{ fontSize : '1.25rem' }} align="center">{course.luotXem}</TableCell>
                       <TableCell>
-                        <Tooltip title="Edit">
-                          <IconButton aria-label="edit">
-                            <EditIcon>
-                              <Modal selectedCourse={courseUpdate}/>
-                            </EditIcon>
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
                         <Tooltip title="Delete">
                           <IconButton aria-label="delete" onClick={() => handleDeleteCourse(course.maKhoaHoc)}>
                             <DeleteIcon />

@@ -1,29 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  useMediaQuery,
-  MenuItem,
-  Slide,
-  TextField,
-  FormControl,
-} from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle, useMediaQuery, MenuItem, Slide, TextField } from "@material-ui/core";
 import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import { purple } from "@material-ui/core/colors";
-import {
-  addNewCourse,
-  getAllCategories,
-  updateCourse,
-  getOneCourse
-} from "src/actions/adminCourse";
+import { addNewCourse, getAllCategories, updateCourse, getOneCourse } from "src/actions/adminCourse";
 import DateFnsUtils from "@date-io/date-fns";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -51,7 +32,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function Modal(props) {
-  const { selectedCourse } = props;
+  const { selectedCourse, openModal, edit, onClick, onClose, ...rest } = props;
 
   const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -59,9 +40,6 @@ export default function Modal(props) {
     "image/gif",
     "image/png",
   ];
-
-  const [open, setOpen] = React.useState(false);
-  //const [openMenu, setOpenMenu] = React.useState(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -78,10 +56,8 @@ export default function Modal(props) {
     : null;
 
   useEffect(() => {
-    if (selectedCourse) {
-      dispatch(getAllCategories());
-    }
-  }, [selectedCourse]);
+    dispatch(getAllCategories());
+  }, []);
 
   const ColorButton = withStyles((theme) => ({
     root: {
@@ -100,26 +76,21 @@ export default function Modal(props) {
       biDanh: selectedCourse ? selectedCourse.biDanh : "",
       tenKhoaHoc: selectedCourse ? selectedCourse.tenKhoaHoc : "",
       moTa: selectedCourse ? selectedCourse.moTa : "",
-      taiKhoanNguoiTao: selectedCourse
-        ? selectedCourse.taiKhoanNguoiTao
-        : taiKhoan,
-      ngayTao: selectedCourse ? selectedCourse.ngayTao : null,
+      taiKhoanNguoiTao: selectedCourse ? [selectedCourse.nguoiTao].flat().map(item => item.taiKhoan) : taiKhoan,
+      ngayTao: selectedCourse ? selectedCourse.ngayTao.toString() : null,
       maNhom: selectedCourse ? selectedCourse.maNhom : "GP08",
       luotXem: selectedCourse ? selectedCourse.luotXem : 0,
       danhGia: selectedCourse ? selectedCourse.danhGia : 0,
-      maDanhMucKhoaHoc: selectedCourse
-        ? selectedCourse.maDanhMucKhoaHoc
-        : "BackEnd",
+      maDanhMucKhoaHoc: selectedCourse ? [selectedCourse.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc) : "BackEnd",
       hinhAnh: selectedCourse ? selectedCourse.hinhAnh : "",
     },
     validationSchema: Yup.object({
       maKhoaHoc: Yup.string()
-        .lowercase()
-        .matches(/^(?:(?=[a-z0-9-]{10}$)[a-z0-9]*-[a-z0-9]*|[a-z0-9]{20})$/, `Using "-" between words`)
+        .lowercase("Must be in lowercase")
         .min(5, "Expected minimum 5 characters")
-        .max(20, "Maximum 20 characters")
+        .max(15, "Maximum 15 characters")
         .required("This field is required."),
-      biDanh: Yup.string().lowercase().required("This field is required."),
+      biDanh: Yup.string().lowercase("Must be in lowercase").required("This field is required."),
       tenKhoaHoc: Yup.string().required("This field is required."),
       moTa: Yup.string().nullable(),
       taiKhoanNguoiTao: Yup.string()
@@ -161,37 +132,29 @@ export default function Modal(props) {
     },
   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleFileChange = (event) => {
     formik.setFieldValue("hinhAnh", event.target.files[0]);
   };
 
   return (
     <div>
-      <ColorButton variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add new Course
+      <ColorButton variant="outlined" color="primary" onClick={onClick}>
+        {edit ? "Edit Course" : "Add new Course"}
       </ColorButton>
       <Dialog
         fullScreen={fullScreen}
         fullWidth
         maxWidth="sm"
-        open={open}
+        open={openModal}
         TransitionComponent={Transition}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle
           className={classes.dialogHeader}
           id="responsive-dialog-title"
         >
-          {"ADD NEW COURSE"}
+          {edit ? "EDIT COURSE" : "ADD NEW COURSE"}
         </DialogTitle>
         <form
           onSubmit={formik.handleSubmit}
@@ -361,14 +324,13 @@ export default function Modal(props) {
             />
           </DialogContent>
           <div className={classes.actionButton}>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={onClose} color="primary" variant="outlined">
               Disagree
             </Button>
             <ColorButton
               color="primary"
               type="submit"
               variant="outlined"
-              onClick={formik.handleSubmit}
             >
               Agree
             </ColorButton>

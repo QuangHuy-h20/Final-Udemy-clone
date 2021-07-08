@@ -36,7 +36,7 @@ const adminAPI = {
         return axiosClient.get("/QuanLyKhoaHoc/LayDanhSachKhoaHoc", {params})
     },
     addCourse: (data) => {
-        return axiosClient.post("/QuanLyKhoaHoc/ThemKhoaHocUpload", data)
+        return axiosClient.post("/QuanLyKhoaHoc/ThemKhoaHocUploadHinh", data)
     },
     deleteCourse: (data) => {
         const params = {
