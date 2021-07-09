@@ -7,7 +7,6 @@ import { addNewCourse, getAllCategories, updateCourse, getOneCategory, getOneCou
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
-import { getAccountInfo } from "src/actions/user";
 
 const useStyles = makeStyles({
   inputText: {
@@ -48,26 +47,18 @@ export default function Modal(props) {
 
   const { courseUpdate, error, categoryList } = useSelector(
     (state) => state.adminCourse
-  );
-  
-  const { account } = useSelector( (state) => state.user);
-
-  const { taiKhoan } = localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
-    : null;
+  );  
 
   useEffect(() => {
     dispatch(getAllCategories());    
-    const account = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo"))
-        : null;
-    if (account) {
-      dispatch(getAccountInfo(account));
-    }
     if(selectedCourse) {
       dispatch(getOneCourse(selectedCourse.maKhoaHoc));
     }
   }, []);
+
+  const { taiKhoan } = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
 
   const ColorButton = withStyles((theme) => ({
     root: {
@@ -82,17 +73,17 @@ export default function Modal(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      maKhoaHoc: selectedCourse ? selectedCourse.maKhoaHoc : "",
-      biDanh: selectedCourse ? selectedCourse.biDanh : "",
-      tenKhoaHoc: selectedCourse ? selectedCourse.tenKhoaHoc : "",
-      moTa: selectedCourse ? selectedCourse.moTa : "",
-      taiKhoanNguoiTao: selectedCourse ? [selectedCourse.taiKhoanNguoiTao].flat().map(item => item.taiKhoan) : taiKhoan,
-      ngayTao: selectedCourse ? selectedCourse.ngayTao : "",
-      maNhom: selectedCourse ? selectedCourse.maNhom : "GP08",
-      luotXem: selectedCourse ? selectedCourse.luotXem : 0,
-      danhGia: selectedCourse ? selectedCourse.danhGia : 0,
-      maDanhMucKhoaHoc: selectedCourse ? [selectedCourse.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc) : "BackEnd",
-      hinhAnh: selectedCourse ? selectedCourse.hinhAnh : "",
+      maKhoaHoc: selectedCourse ? courseUpdate.maKhoaHoc : "",
+      biDanh: selectedCourse ? courseUpdate.biDanh : "",
+      tenKhoaHoc: selectedCourse ? courseUpdate.tenKhoaHoc : "",
+      moTa: selectedCourse ? courseUpdate.moTa : "",
+      taiKhoanNguoiTao: selectedCourse ? [courseUpdate.nguoiTao].flat().map(item => item.taiKhoan) : taiKhoan,
+      ngayTao: selectedCourse ? courseUpdate.ngayTao : "",
+      maNhom: selectedCourse ? courseUpdate.maNhom : "GP08",
+      luotXem: selectedCourse ? courseUpdate.luotXem : 0,
+      danhGia: selectedCourse ? courseUpdate.danhGia : 0,
+      maDanhMucKhoaHoc: selectedCourse ? [courseUpdate.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc) : "BackEnd",
+      hinhAnh: selectedCourse ? courseUpdate.hinhAnh : "",
     },
     validationSchema: Yup.object({
       maKhoaHoc: Yup.string()
