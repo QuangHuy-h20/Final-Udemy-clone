@@ -20,7 +20,7 @@ import {
 } from "../constants/adminCourse";
 
 const initialState = {
-  courseUpdate: null,
+  courseUpdate: [],
   courseList: [],
   isLoading: false,
   error: null,
@@ -52,15 +52,7 @@ function adminCourseReducer(state = initialState, action) {
       return { ...state, isLoading: true, error: action.payload.error };
     }
     case ADD_COURSE_SUCCESS: {
-      const newCourse = action.payload.data;
-      return {
-        ...state,
-        isLoading: false,
-        admin: {
-          courseList: { ...state.admin.courseList, newCourse },
-          ...state.admin,
-        },
-      };
+      return { ...state, isLoading: false, courseUpdate: action.payload.data };
     }
     case ADD_COURSE_REQUEST: {
       return { ...state, isLoading: true, error: null };

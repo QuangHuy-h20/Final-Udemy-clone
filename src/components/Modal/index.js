@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Dialog, DialogContent, DialogTitle, useMediaQuery, MenuItem, Slide, TextField } from "@material-ui/core";
 import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import { purple } from "@material-ui/core/colors";
-import { addNewCourse, getAllCategories, updateCourse, getOneCourse } from "src/actions/adminCourse";
-import DateFnsUtils from "@date-io/date-fns";
+import { addNewCourse, getAllCategories, updateCourse, getOneCategory, getOneCourse } from "src/actions/adminCourse";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
@@ -49,15 +47,18 @@ export default function Modal(props) {
 
   const { courseUpdate, error, categoryList } = useSelector(
     (state) => state.adminCourse
-  );
-
-  const { taiKhoan } = localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
-    : null;
+  );  
 
   useEffect(() => {
-    dispatch(getAllCategories());
+    dispatch(getAllCategories());    
+    if(selectedCourse) {
+      dispatch(getOneCourse(selectedCourse.maKhoaHoc));
+    }
   }, []);
+
+  const { taiKhoan } = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
 
   const ColorButton = withStyles((theme) => ({
     root: {
@@ -72,17 +73,17 @@ export default function Modal(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      maKhoaHoc: selectedCourse ? selectedCourse.maKhoaHoc : "",
-      biDanh: selectedCourse ? selectedCourse.biDanh : "",
-      tenKhoaHoc: selectedCourse ? selectedCourse.tenKhoaHoc : "",
-      moTa: selectedCourse ? selectedCourse.moTa : "",
-      taiKhoanNguoiTao: selectedCourse ? [selectedCourse.nguoiTao].flat().map(item => item.taiKhoan) : taiKhoan,
-      ngayTao: selectedCourse ? selectedCourse.ngayTao.toString() : null,
-      maNhom: selectedCourse ? selectedCourse.maNhom : "GP08",
-      luotXem: selectedCourse ? selectedCourse.luotXem : 0,
-      danhGia: selectedCourse ? selectedCourse.danhGia : 0,
-      maDanhMucKhoaHoc: selectedCourse ? [selectedCourse.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc) : "BackEnd",
-      hinhAnh: selectedCourse ? selectedCourse.hinhAnh : "",
+      maKhoaHoc: selectedCourse ? courseUpdate.maKhoaHoc : "",
+      biDanh: selectedCourse ? courseUpdate.biDanh : "",
+      tenKhoaHoc: selectedCourse ? courseUpdate.tenKhoaHoc : "",
+      moTa: selectedCourse ? courseUpdate.moTa : "",
+      taiKhoanNguoiTao: selectedCourse ? [courseUpdate.nguoiTao].flat().map(item => item.taiKhoan) : taiKhoan,
+      ngayTao: selectedCourse ? courseUpdate.ngayTao : "",
+      maNhom: selectedCourse ? courseUpdate.maNhom : "GP08",
+      luotXem: selectedCourse ? courseUpdate.luotXem : 0,
+      danhGia: selectedCourse ? courseUpdate.danhGia : 0,
+      maDanhMucKhoaHoc: selectedCourse ? [courseUpdate.danhMucKhoaHoc].flat().map(item => item.maDanhMucKhoahoc) : "BackEnd",
+      hinhAnh: selectedCourse ? courseUpdate.hinhAnh : "",
     },
     validationSchema: Yup.object({
       maKhoaHoc: Yup.string()
@@ -101,7 +102,7 @@ export default function Modal(props) {
         .min(5, "Use from 5 to 20 characters for your account.")
         .max(20, "Use from 5 to 20 characters for your account.")
         .required("This field is required."),
-      ngayTao: Yup.date().nullable(),
+      ngayTao: Yup.string().matches(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/, "Must be in the form of dd/MM/yyyy").required("This field is required"),
       maNhom: Yup.string().required("This field is required."),
       luotXem: Yup.number(),
       danhGia: Yup.number(),
@@ -267,23 +268,18 @@ export default function Modal(props) {
                 Boolean(formik.errors.taiKhoanNguoiTao)
               }
             />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                id="ngayTao"
-                label="Ngay Tao"
-                name="ngayTao"
-                inputVariant="outlined"
-                value={formik.values.ngayTao}
-                className={classes.inputText}
-                onBlur={formik.handleBlur}
-                onChange={(value) => formik.setFieldValue("ngayTao", value)}
-                error={formik.touched.ngayTao && Boolean(formik.errors.ngayTao)}
-                format="dd/MM/yyyy"
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </MuiPickersUtilsProvider>
+            <TextField
+              id="ngayTao"
+              label="Ngay Tao"
+              name="ngayTao"
+              variant="outlined"
+              fullWidth
+              value={formik.values.ngayTao}
+              className={classes.inputText}
+              onChange={formik.handleChange}
+              error={formik.touched.ngayTao && Boolean(formik.errors.ngayTao)}
+              helperText={formik.touched.ngayTao && formik.errors.ngayTao}
+            />
             <TextField
               label="Ma Danh Muc"
               id="maDanhMuc"

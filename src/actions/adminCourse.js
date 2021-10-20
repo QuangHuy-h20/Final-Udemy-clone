@@ -17,7 +17,10 @@ import {
     GET_COURSE_SUCCESS,
     GET_COURSE_CATEGORY_FAILURE,
     GET_COURSE_CATEGORY_REQUEST,
-    GET_COURSE_CATEGORY_SUCCESS
+    GET_COURSE_CATEGORY_SUCCESS,
+    GET_ONE_CATEGORY_SUCCESS,
+    GET_ONE_CATEGORY_REQUEST,
+    GET_ONE_CATEGORY_FAILURE
 } from '../constants/adminCourse';
 
 export function getCourseList() {
@@ -66,7 +69,7 @@ export function addNewCourse(values) {
             for (let key in values) {
                 form_data.append(key, values[key]);
             }
-            const {data} = await adminAPI.addCourse(values);
+            const {data} = await adminAPI.addCourse(form_data);
             dispatch({
                 type:ADD_COURSE_SUCCESS,
                 payload: {data},
