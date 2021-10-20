@@ -106,7 +106,7 @@ export default function Register() {
               {...register("soDT")}
             />
           </div>
-          {errors.hoTen && <Alert>{errors.soDT.message}</Alert>}
+          {errors.soDT && <Alert>{errors.soDT.message}</Alert>}
           <div className="form-field-container disabled">
             <UserOutlined />
             <input type="text" value="GP08" {...register("maNhom")} />
