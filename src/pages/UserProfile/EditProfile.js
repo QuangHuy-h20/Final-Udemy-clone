@@ -115,6 +115,7 @@ export default function EditProfile() {
                 type="text"
                 disabled
                 placeholder="Username"
+                defaultValue={item.taiKhoan}
                 {...register("taiKhoan")}
               />
             </div>
@@ -129,7 +130,7 @@ export default function EditProfile() {
               <Controller
                 name="matKhau"
                 control={control}
-                defaultValue=""
+                defaultValue={item.matKhau}
                 rules={{
                   required: { value: true, message: "Password is required" },
                   minLength: {
@@ -155,6 +156,7 @@ export default function EditProfile() {
               <input
                 type="text"
                 placeholder="Full name"
+                defaultValue={item.hoTen}
                 {...register("hoTen")}
               />
             </div>
@@ -164,6 +166,7 @@ export default function EditProfile() {
               <input
                 type="text"
                 placeholder="Phone number"
+                defaultValue={item.soDT}
                 {...register("soDT")}
               />
             </div>
@@ -188,7 +191,7 @@ export default function EditProfile() {
 
             <div className="form-group">
               <label>Email</label>
-              <input type="text" placeholder="Email" {...register("email")} />
+              <input type="text" defaultValue={item.email} placeholder="Email" {...register("email")} />
             </div>
             {errors.email && <Alert>{errors.email.message}</Alert>}
             {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
