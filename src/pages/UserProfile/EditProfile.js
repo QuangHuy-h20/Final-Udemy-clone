@@ -1,8 +1,28 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAccountInfo } from "src/actions/user";
-import { ButtonRed } from "src/styles";
+import { ButtonRed, Alert } from "src/styles";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
+
+//create schema validation
+const schema = yup.object().shape({
+  taiKhoan: yup
+    .string()
+    .required("Username is required")
+    .min(5, "Username must have 5 to 20 characters")
+    .max(20, "Username must have 5 to 20 characters"),
+  matKhau: yup
+    .string()
+    .required("Password is required")
+    .min(5, "Password must have 5 to 20 characters")
+    .max(20, "Password must have 5 to 20 characters"),
+  soDt: yup.string().notRequired(),
+  hoTen: yup.string().required("Full name is required"),
+  email: yup.string().email().required("Email is required"),
+});
 
 const UserForm = styled.form`
   .form-wrapper {
@@ -30,17 +50,17 @@ const UserForm = styled.form`
         box-shadow: none;
         transition: border-color ease-in-out 0.08s, box-shadow ease-in-out 0.08s;
       }
-      input:disabled{
+      input:disabled {
         background: #8a92a3;
       }
     }
     label {
       padding: 1rem 0;
     }
-    @media screen and (max-width:1200px){
+    @media screen and (max-width: 1200px) {
       padding: 2rem 5rem;
     }
-    @media screen and (max-width:800px){
+    @media screen and (max-width: 800px) {
       padding: 2rem;
     }
   }
@@ -57,9 +77,18 @@ const UserForm = styled.form`
 
 export default function EditProfile() {
   const dispatch = useDispatch();
-  const { account } = useSelector((state) => state.user);
+  const { account, error } = useSelector((state) => state.user);
 
   const [userUpdate, setUserUpdate] = useState(account);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   let handleUpdate = (e) => {
     e.preventDefault();
@@ -76,47 +105,69 @@ export default function EditProfile() {
   let result = [userUpdate].flat();
 
   return (
-    <UserForm onSubmit={handleUpdate}>
+    <UserForm onSubmit={handleSubmit(handleUpdate)}>
       <div className="form-wrapper">
         {result.map((item) => (
           <div key={item.taiKhoan}>
             <div className="form-group">
               <label>Account</label>
               <input
-                name="taiKhoan"
                 type="text"
-                defaultValue={item.taiKhoan}
                 disabled
+                placeholder="Username"
+                {...register("taiKhoan")}
               />
             </div>
+            {errors.taiKhoan && (
+              <Alert style={{ color: "#ec5252" }}>
+                {errors.taiKhoan.message}
+              </Alert>
+            )}
+
             <div className="form-group">
               <label>Password</label>
-              <input
+              <Controller
                 name="matKhau"
-                type="password"
-                autoComplete="on"
-                defaultValue={item.matKhau}
-                onChange={handleChange}
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: { value: true, message: "Password is required" },
+                  minLength: {
+                    value: 5,
+                    message: "Password must have 5 to 20 characters",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "Password must have 5 to 20 characters",
+                  },
+                }}
+                render={({ field }) => {
+                  return (
+                    <input type="password" placeholder="Password" {...field} />
+                  );
+                }}
               />
             </div>
+            {errors.matKhau && <Alert>{errors.matKhau.message}</Alert>}
+
             <div className="form-group">
               <label>Full name</label>
               <input
-                name="hoTen"
                 type="text"
-                defaultValue={item.hoTen}
-                onChange={handleChange}
+                placeholder="Full name"
+                {...register("hoTen")}
               />
             </div>
+            {errors.hoTen && <Alert>{errors.hoTen.message}</Alert>}
             <div className="form-group">
               <label>Phone number</label>
               <input
-                name="soDT"
                 type="text"
-                defaultValue={item.soDT}
-                onChange={handleChange}
+                placeholder="Phone number"
+                {...register("soDT")}
               />
             </div>
+            {errors.soDT && <Alert>{errors.soDT.message}</Alert>}
             <div className="form-group disabled">
               <input
                 name="maLoaiNguoiDung"
@@ -137,13 +188,10 @@ export default function EditProfile() {
 
             <div className="form-group">
               <label>Email</label>
-              <input
-                name="email"
-                type="text"
-                defaultValue={item.email}
-                onChange={handleChange}
-              />
+              <input type="text" placeholder="Email" {...register("email")} />
             </div>
+            {errors.email && <Alert>{errors.email.message}</Alert>}
+            {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
           </div>
         ))}
       </div>
