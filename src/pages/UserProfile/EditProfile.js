@@ -165,16 +165,20 @@ export default function EditProfile() {
 
             <div className="form-group">
               <label>Email</label>
-              <input type="text" defaultValue={item.email} placeholder="Email" {...register("email")} />
+              <input
+                type="text"
+                defaultValue={item.email}
+                placeholder="Email"
+                {...register("email")}
+              />
             </div>
             {errors.email && <Alert>{errors.email.message}</Alert>}
             {error && <Alert style={{ color: "#ec5252" }}>{error}</Alert>}
           </div>
         ))}
       </div>
-      <div className="action-form">
-        <ButtonRed type="submit">Save</ButtonRed>
-      </div>
+
+      <ButtonRed type="submit">Save</ButtonRed>
     </UserForm>
   );
 }
