@@ -85,8 +85,7 @@ export default function EditProfile() {
     resolver: yupResolver(schema),
   });
 
-  let handleUpdate = (e) => {
-    e.preventDefault();
+  let handleUpdate = () => {
     dispatch(updateAccountInfo(userUpdate));
     alert("Update successfully!");
   };
