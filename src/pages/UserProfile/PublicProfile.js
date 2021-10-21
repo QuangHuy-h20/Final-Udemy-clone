@@ -14,7 +14,7 @@ export default function PublicProfile() {
       // console.log(account);
       dispatch(getAccountInfo(account));
     }
-  }, []);
+  }, [account]);
 
   let result = [account].flat();
   return (
