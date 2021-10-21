@@ -90,12 +90,12 @@ export default function EditProfile() {
     dispatch(updateAccountInfo(userUpdate));
     alert("Update successfully!");
   };
-  let handleChange = (e) => {
-    const { value, name } = e.target;
-    // console.log(name, value);
-    setUserUpdate((userUpdate) => ({ ...userUpdate, [name]: value }));
-    // console.log(userUpdate);
-  };
+  // let handleChange = (e) => {
+  //   const { value, name } = e.target;
+  //   // console.log(name, value);
+  //   setUserUpdate((userUpdate) => ({ ...userUpdate, [name]: value }));
+  //   // console.log(userUpdate);
+  // };
 
   let result = [userUpdate].flat();
 
@@ -171,7 +171,6 @@ export default function EditProfile() {
                 name="maLoaiNguoiDung"
                 type="text"
                 defaultValue={item.maLoaiNguoiDung}
-                onChange={handleChange}
               />
             </div>
             <div className="form-group">
