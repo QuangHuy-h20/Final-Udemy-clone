@@ -9,11 +9,6 @@ import styled from "styled-components";
 
 //create schema validation
 const schema = yup.object().shape({
-  taiKhoan: yup
-    .string()
-    .required("Username is required")
-    .min(5, "Username must have 5 to 20 characters")
-    .max(20, "Username must have 5 to 20 characters"),
   matKhau: yup
     .string()
     .required("Password is required")
