@@ -150,6 +150,7 @@ export default function EditProfile() {
               <input
                 name="maLoaiNguoiDung"
                 type="text"
+                {...register("maLoaiNguoiDung")}
                 defaultValue={item.maLoaiNguoiDung}
               />
             </div>
@@ -158,6 +159,7 @@ export default function EditProfile() {
               <input
                 name="maNhom"
                 type="text"
+                {...register("maNhom")}
                 defaultValue={item.maNhom}
                 disabled
               />
