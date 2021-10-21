@@ -87,14 +87,9 @@ export default function EditProfile() {
 
   let handleUpdate = () => {
     dispatch(updateAccountInfo(userUpdate));
+    setUserUpdate((userUpdate) => ({ ...userUpdate, [name]: value }));
     alert("Update successfully!");
   };
-  // let handleChange = (e) => {
-  //   const { value, name } = e.target;
-  //   // console.log(name, value);
-  //   setUserUpdate((userUpdate) => ({ ...userUpdate, [name]: value }));
-  //   // console.log(userUpdate);
-  // };
 
   let result = [userUpdate].flat();
 
@@ -121,26 +116,12 @@ export default function EditProfile() {
 
             <div className="form-group">
               <label>Password</label>
-              <Controller
-                name="matKhau"
-                control={control}
+              <input
+                type="text"
+                disabled
+                placeholder="Password"
                 defaultValue={item.matKhau}
-                rules={{
-                  required: { value: true, message: "Password is required" },
-                  minLength: {
-                    value: 5,
-                    message: "Password must have 5 to 20 characters",
-                  },
-                  maxLength: {
-                    value: 20,
-                    message: "Password must have 5 to 20 characters",
-                  },
-                }}
-                render={({ field }) => {
-                  return (
-                    <input type="password" placeholder="Password" {...field} />
-                  );
-                }}
+                {...register("matKhau")}
               />
             </div>
             {errors.matKhau && <Alert>{errors.matKhau.message}</Alert>}
